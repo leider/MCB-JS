@@ -30,7 +30,7 @@ import { State } from "vuex-class";
 import { Adresse, filterMap } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
-import { postAndReceiveJSON, postAndReceivePDF } from "@/remoteCalls";
+import { postAndReceiveJSON } from "@/remoteCalls";
 
 @Component({
   components: { TreffenList, TreffenDetail }
@@ -74,16 +74,12 @@ export default class TreffenView extends Vue {
 
   createPDFs() {
     const receiverIds = this.addresses.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
-    this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs in neuem Fenster...` };
-    postAndReceivePDF("createEinladungen", { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() }, (data: BlobPart) => {
-      const content = URL.createObjectURL(
-        new Blob([data], {
-          type: "application/pdf"
-        })
-      );
-      this.transferStatus = null;
-      window.open(content, "einladungen");
-    });
+    this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs zum Download...` };
+    window.open(
+      `createEinladungen?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(
+        JSON.stringify(receiverIds)
+      )}`
+    );
   }
 }
 </script>

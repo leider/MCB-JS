@@ -13,14 +13,14 @@ async function renderInBrowser(options, html) {
 }
 
 module.exports = {
-  generatePdf: function generatePdf(options, res, next) {
+  generatePdf: function generatePdf(options, filename, res, next) {
     return (err, html) => {
       if (err) {
         return next(err);
       }
       (async () => {
         const pdf = await renderInBrowser(options, html);
-        res.set("Content-Type", "application/pdf");
+        res.attachment(filename);
         res.send(pdf);
       })();
     };

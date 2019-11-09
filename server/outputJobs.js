@@ -46,19 +46,19 @@ app.post("/sendEmails", (req, res) => {
   });
 });
 
-app.get("/preview?:treffen", (req, res) => {
+app.get("/preview", (req, res) => {
   const aktuellesTreffen = JSON.parse(req.query.treffen);
   const datum = displayDate(aktuellesTreffen);
   res.render("einladungPreview", { background, mcblogo, aktuellesTreffen, datum });
 });
 
-app.post("/createEmptyEinladung", (req, res, next) => {
-  const { aktuellesTreffen } = req.body;
+app.get("/createEmptyEinladung", (req, res, next) => {
+  const aktuellesTreffen = JSON.parse(req.query.treffen);
   const datum = displayDate(aktuellesTreffen);
-  app.render("einladung", { background, mcblogo, aktuellesTreffen, datum }, puppeteerPrinter.generatePdf(printoptions, res, next));
+  app.render("einladung", { background, mcblogo, aktuellesTreffen, datum }, puppeteerPrinter.generatePdf(printoptions, "einladung.pdf", res, next));
 });
 
-app.post("/createEinladungen", (req, res, next) => {
+app.get("/createEinladungen", (req, res, next) => {
   const laender = {
     D: "Deutschland",
     F: "Frankreich",
@@ -84,7 +84,8 @@ app.post("/createEinladungen", (req, res, next) => {
     S: "Schweden"
   };
 
-  const { receiverIds, aktuellesTreffen } = req.body;
+  const aktuellesTreffen = JSON.parse(req.query.treffen);
+  const receiverIds = JSON.parse(req.query.receiverIds);
   addressesWithIds(receiverIds, (err, addresses) => {
     if (err) {
       return res.status(500).send(err);
@@ -94,7 +95,7 @@ app.post("/createEinladungen", (req, res, next) => {
     app.render(
       "einladung",
       { background, mcblogo, addresses, laender, aktuellesTreffen, datum },
-      puppeteerPrinter.generatePdf(printoptions, res, next)
+      puppeteerPrinter.generatePdf(printoptions, "einladungen.pdf", res, next)
     );
   });
 });

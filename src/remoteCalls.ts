@@ -28,10 +28,6 @@ export function postAndReceiveJSON(url: string, data: any, callback: any) {
   postAndReceive((res: Response) => res.json(), url, data, callback);
 }
 
-export function postAndReceivePDF(url: string, data: any, callback: any) {
-  postAndReceive((res: Response) => res.arrayBuffer(), url, data, callback);
-}
-
 export function getJson(url: string, callback: any) {
   fetch(url)
     .then(response => {

@@ -38,7 +38,6 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
 import { Action, State } from "vuex-class";
-import { postAndReceivePDF } from "@/remoteCalls";
 import { StatusMeldungJSON } from "@/types/common";
 
 @Component
@@ -103,16 +102,8 @@ export default class TreffenDetail extends Vue {
   }
 
   createEmptyPDF() {
-    this.transferStatus = { severity: "info", message: `Erzeuge PDF für neues Fenster...` };
-    postAndReceivePDF("createEmptyEinladung", { aktuellesTreffen: this.treffen.toJSON() }, (data: BlobPart) => {
-      const content = URL.createObjectURL(
-        new Blob([data], {
-          type: "application/pdf"
-        })
-      );
-      this.transferStatus = null;
-      window.open(content, "einladung");
-    });
+    this.transferStatus = { severity: "info", message: `Erzeuge PDF zum Download...` };
+    window.open("createEmptyEinladung" + "?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)));
   }
 }
 </script>
