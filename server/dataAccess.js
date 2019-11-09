@@ -30,13 +30,18 @@ function updateOrInsertData(allData, data, path, callback) {
         .pop() + 1;
   }
 
-  const index = allData.indexOf(findDataWithId(allData, data.id));
+  const existingData = findDataWithId(allData, data.id);
+  const index = allData.indexOf(existingData);
   allData.splice(index === -1 ? allData.length : index, 1, data);
 
   const json = JSON.stringify(allData);
-  // eslint-disable-next-line no-sync
-  fs.renameSync(path, path + Date.now());
-  fs.writeFile(path, json, err1 => callback(err1, json));
+  const diffJson = JSON.stringify([{ old: existingData }, { new: data }]);
+  fs.writeFile(`${path.replace(".json", "")}.id=${existingData.id}-${new Date().toISOString()}.json`, diffJson, err => {
+    if (err) {
+      callback(err);
+    }
+    fs.writeFile(path, json, err1 => callback(err1, json));
+  });
 }
 
 function deleteData(allData, dataId, path, callback) {
