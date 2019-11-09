@@ -1,6 +1,6 @@
 <template lang="pug">
   #treffen-detail
-    alert-box(v-model="transferStatus", :seconds=1)
+    alert-box(v-model="transferStatus", :seconds=10)
     b-form()
       .row
         .col-12
@@ -38,12 +38,10 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
 import { Action, State } from "vuex-class";
-import FormButtons from "@/widgets/FormButtons.vue";
 import { postAndReceivePDF } from "@/remoteCalls";
 import { StatusMeldungJSON } from "@/types/common";
-import McbCurrency from "@/widgets/McbCurrency.vue";
 
-@Component({ components: { McbCurrency, FormButtons } })
+@Component
 export default class TreffenDetail extends Vue {
   @State selectedTreffen!: Treffen;
   @State aktuellesTreffen!: Treffen;
@@ -112,7 +110,7 @@ export default class TreffenDetail extends Vue {
           type: "application/pdf"
         })
       );
-      this.transferStatus = { severity: "info", message: `Erledigt.` };
+      this.transferStatus = null;
       window.open(content, "einladung");
     });
   }

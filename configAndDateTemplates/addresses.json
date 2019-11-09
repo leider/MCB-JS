@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "NAME",
+    "vorname": "FIRST NAME",
+    "email": "AN EMAIL",
+    "fehlergrund": "Empty",
+    "gespann": false,
+    "solo": false,
+    "land": "D",
+    "mitglied": false,
+    "ort": "TOWN",
+    "plz": "ZIP",
+    "strasse": "STREET",
+    "besuche": []
+  }
+]

@@ -1,5 +1,6 @@
 <template lang="pug">
   #address-detail
+    alert-box(v-model="transferStatus")
     b-form(novalidate)
       .row
         .col-12
@@ -60,6 +61,10 @@
                 .col-12
                   mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
                   mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
+                  b-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail")
+                    font-awesome-icon(:icon="['far', 'paper-plane']")
+                    | #{' '} Einladung direkt...
+
           b-card(no-body, border-variant="light")
             h4.card-header Fahrzeuge
             .p-1
@@ -80,6 +85,8 @@ import { Adresse } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { Action, State } from "vuex-class";
 import FormButtons from "@/widgets/FormButtons.vue";
+import { postAndReceiveJSON } from "@/remoteCalls";
+import { StatusMeldungJSON } from "@/types/common";
 
 @Component({ components: { FormButtons } })
 export default class AddressDetail extends Vue {
@@ -89,6 +96,7 @@ export default class AddressDetail extends Vue {
   @Action saveAddress: any;
   @Action reselectAddress: any;
   @Action deleteAddress: any;
+  private transferStatus: StatusMeldungJSON | null = null;
 
   @Watch("selectedAddress")
   initModel() {
@@ -139,6 +147,28 @@ export default class AddressDetail extends Vue {
 
   meldungModalOpened() {
     this.address.meldung = true;
+  }
+
+  sendEmail() {
+    const receiverIds = [this.address.id];
+    this.$bvModal
+      .msgBoxConfirm(`Willst Du wirklich eine Einladung an ${this.address.vorname} verschicken?`, {
+        okVariant: "danger",
+        cancelTitle: "Nein",
+        okTitle: "Ja",
+        centered: true
+      })
+      .then(yesNo => {
+        if (yesNo) {
+          postAndReceiveJSON(
+            "sendEmails",
+            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
+            (status: StatusMeldungJSON) => {
+              this.transferStatus = status;
+            }
+          );
+        }
+      });
   }
 }
 </script>

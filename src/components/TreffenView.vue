@@ -51,22 +51,37 @@ export default class TreffenView extends Vue {
 
   sendEmails() {
     const receiverIds = this.addresses.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
-    this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
-    postAndReceiveJSON("sendEmails", { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() }, (status: StatusMeldungJSON) => {
-      this.transferStatus = status;
-    });
+    this.$bvModal
+      .msgBoxConfirm(`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`, {
+        okVariant: "danger",
+        cancelTitle: "Nein",
+        okTitle: "Ja",
+        centered: true
+      })
+      .then(yesNo => {
+        if (yesNo) {
+          this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
+          postAndReceiveJSON(
+            "sendEmails",
+            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
+            (status: StatusMeldungJSON) => {
+              this.transferStatus = status;
+            }
+          );
+        }
+      });
   }
 
   createPDFs() {
     const receiverIds = this.addresses.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
-    this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs für neues Fenster...` };
+    this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs in neuem Fenster...` };
     postAndReceivePDF("createEinladungen", { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() }, (data: BlobPart) => {
       const content = URL.createObjectURL(
         new Blob([data], {
           type: "application/pdf"
         })
       );
-      this.transferStatus = { severity: "info", message: `Erledigt.` };
+      this.transferStatus = null;
       window.open(content, "einladungen");
     });
   }

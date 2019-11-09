@@ -1,0 +1,14 @@
+{
+  "transport": "SMTP",
+  "transport-options": {
+    "host": "smtp.me.com",
+    "port": 587,
+    "auth": {
+      "user": "YOUR USERNAME",
+      "pass": "YOUR PASSWORD"
+    },
+    "pool": true
+  },
+  "sender-name": "Some human readable name",
+  "sender-address": "some reasonable address"
+}
