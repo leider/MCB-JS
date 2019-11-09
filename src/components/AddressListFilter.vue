@@ -24,7 +24,7 @@ export default class AddressListFilter extends Vue {
 
   @Watch("suchtext")
   suchtextChanged() {
-    this.activeFilter = this.suchtext ? "Suche" : "Alle";
+    this.activeFilter = this.suchtext ? "Suche" : this.activeFilter === "Suche" ? "Alle" : this.activeFilter;
     this.activeFilterChanged();
   }
 
