@@ -1,0 +1,12 @@
+[
+  {
+    "beschreibung": "OUR BIKERS PARTY",
+    "ersterTag": "2018-10-10T22:00:00.000Z",
+    "id": 1,
+    "letzterTag": "2018-10-12T22:00:00.000Z",
+    "name": "A SHORT NAME",
+    "preisFruehstueck": 10,
+    "preisMeldung": 10,
+    "gespann": false
+  }
+]
