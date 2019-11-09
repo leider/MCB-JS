@@ -1,0 +1,21 @@
+.DS_Store
+node_modules
+config
+dist
+data
+originalData
+/server/views/mixins.pug
+
+# local env files
+.env.local
+.env.*.local
+workspace.xml
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+adressen.json
+treffen.json
+

@@ -1,0 +1,165 @@
+// rename to mixins and fill as wanted
+
+mixin mainContent(datum, aktuellesTreffen)
+  hr
+  h1 Persönliche Einladung
+  h4 zum #{aktuellesTreffen.beschreibung}
+  table
+    tr
+      th Wann
+      td #{datum}
+    tr
+      th Wo
+      td INSERT REASONABLE STUFF HERE
+    tr
+      th GPS
+      td INSERT REASONABLE STUFF HERE
+    tr
+      th Google-Maps
+      td
+        a(href="INSERT REASONABLE STUFF HERE") INSERT REASONABLE STUFF HERE
+    tr
+      th Ausrüstung
+      td Alles, was zum Zelten benötigt wird, und der Umwelt zuliebe: Trinkgefäß, Geschirr und Besteck.
+    tr
+      th Programm
+      td Es brennt bei gemütlicher Atmosphäre ein Lagerfeuer, Musikanten können natürlich ihre Instrumente mitbringen und nach Herzenslust musizieren. Bei schlechtem Wetter steht uns „Partytreibhaus“ mit Tischen und Stühlen zur Verfügung.
+    tr
+      th Nennung
+      td #{aktuellesTreffen.preisMeldung.toFixed(2).replace(".", ",")} € pro Person und Nacht (Kinder frei)
+    tr
+      th Frühstück
+      td #{aktuellesTreffen.preisFruehstueck.toFixed(2).replace(".", ",")} € pro Frühstück (Kinder frei)
+  h4 &nbsp;
+  h4 Dies ist kein Selbstversorger Treffen!
+  p Speisen und Getränke bieten wir auch weiterhin zu fairen Preisen an.
+  table
+    tr
+      th(width="20%") Kontakt
+      td(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
+      td(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
+    tr
+      th E-Mail
+      td INSERT REASONABLE STUFF HERE
+  p.
+    Einladung bitte nicht kopieren und weitergeben, denn der familiäre Charakter des Treffens soll erhalten bleiben.
+    Für Personen- und Sachschäden vor, während und nach der Veranstaltung übernimmt der MCB keine Haftung. Trotzdem versuchen wir, diesmal nachts aufmerksam zu sein.
+
+  p Bitte hilf uns, Porto zu sparen und schick Deine Emailadresse an mcbtouring@me.com
+
+mixin styles(background, mcblogo)
+  style(type="text/css").
+    .emailfont {
+    font-size:14px;
+    font-family:sans-serif;
+    }
+    .a4 {
+    font-size:14px;
+    font-family:sans-serif;
+    width: 21cm;
+    height:29.5cm;
+    page-break-before: always;
+    }
+    .bg-image {
+    z-index: -1;
+    position: relative;
+    top: 8cm;
+    left: 4cm;
+    content: url(#{background});
+    width: 500px;
+    }
+    .address-fenster {
+    position: relative;
+    top: -13.3cm;
+    left: 2.3cm;
+    width: 12cm;
+    }
+    .small {
+    font-size: 70%;
+    }
+    .logo {
+    position: relative;
+    top: -20cm;
+    left: 16.5cm;
+    width: 4cm;
+    }
+    img.mcblogo {
+    content: url(#{mcblogo});
+    }
+    .main-content {
+    position: relative;
+    top: -17.5cm;
+    left: 1.5cm;
+    width: 17cm;
+    }
+    th {
+    width: 3cm;
+    text-align: left;
+    padding-bottom: 0.7em;
+    vertical-align: top;
+    }
+    td {
+    text-align: left;
+    padding-bottom: 0.7em;
+    vertical-align: top;
+    }
+    h1 {
+    font-size: 300%;
+    margin: 0;
+    }
+    h2 {
+    font-size: 250%;
+    margin: 0;
+    }
+    h3 {
+    font-size: 200%;
+    margin: 0;
+    }
+    h4 {
+    font-size: 150%;
+    margin: 0;
+    }
+    h6 {
+    font-size: 120%;
+    margin: 0;
+    }
+    .no-borders {
+    margin: 0;
+    }
+
+
+mixin pdfPage(address, datum, aktuellesTreffen, laender)
+  .a4
+    .bg-image
+    .address-fenster
+      if address
+        p.small Motorrad Club Bruhrain Touring e.V.
+        p.no-borders  #{address.vorname} #{address.name}
+        p.no-borders  #{address.strasse}
+        p.no-borders  #{address.plz} #{address.ort}
+        if address.land !== "D"
+          h6 #{laender[address.land]}
+        else
+          h6 #{''}
+      else
+        p &nbsp; <br>
+          | &nbsp; <br>
+          | &nbsp;
+        h6 #{''}
+    .logo
+      img.mcblogo
+      p.no-borders INSERT REASONABLE STUFF HERE
+      p.no-borders INSERT REASONABLE STUFF HERE
+      p.no-borders INSERT REASONABLE STUFF HERE
+    .main-content
+      +mainContent(datum, aktuellesTreffen)
+
+mixin mailPage(name, datum, aktuellesTreffen)
+  .emailfont
+    p Hallo #{name},
+    p.
+      anbei die aktuelle Einladung zum nächsten MCB-Motorradtreffen vom #{datum} in unserem gewohnten Clubhaus.
+      Als Anhang findest Du noch eine druckfreundliche Version.
+    p Viele Grüße,
+    p INSERT REASONABLE STUFF HERE
+    +mainContent(datum, aktuellesTreffen)
