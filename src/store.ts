@@ -5,7 +5,7 @@ import { Treffen, TreffenJSON } from "./types/Treffen";
 import { Adresse, AdresseJSON } from "./types/Adresse";
 
 import { getJson, postAndReceiveJSON } from "./remoteCalls";
-import { AktuelleZahlenJSON, StatusMeldungJSON } from "@/types/common";
+import { AktuelleZahlenJSON } from "@/types/common";
 
 Vue.use(Vuex);
 
@@ -14,19 +14,20 @@ export default new Vuex.Store({
   state: {
     addresses: <Adresse[]>[],
     selectedAddress: Adresse.emptyAddress(),
+    addressDirty: false,
     treffen: <Treffen[]>[],
     selectedTreffen: Treffen.emptyTreffen(),
     aktuellesTreffen: Treffen.emptyTreffen(),
-    aktuelleZahlen: <AktuelleZahlenJSON>{},
-    mailSendStatus: <StatusMeldungJSON>{}
+    aktuelleZahlen: <AktuelleZahlenJSON>{}
   },
 
   mutations: {
-    mailSendStatus(state, status: StatusMeldungJSON) {
-      state.mailSendStatus = status;
+    addressDirty(state, dirty) {
+      state.addressDirty = dirty;
     },
 
     setAddresses(state, addresses: AdresseJSON[]) {
+      state.addressDirty = false;
       function sortiere(addr: Adresse[]) {
         return addr.sort((a, b) => (a.name < b.name ? -1 : 1));
       }
@@ -73,6 +74,10 @@ export default new Vuex.Store({
   actions: {
     selectAddress({ commit }, address: Adresse) {
       commit("selectAddress", address);
+    },
+
+    addressDirty({ commit }, dirty) {
+      commit("addressDirty", dirty);
     },
 
     reselectAddress({ state, dispatch }, address: Adresse) {

@@ -96,6 +96,7 @@ export default class AddressDetail extends Vue {
   @Action saveAddress: any;
   @Action reselectAddress: any;
   @Action deleteAddress: any;
+  @Action addressDirty: any;
   private transferStatus: StatusMeldungJSON | null = null;
 
   @Watch("selectedAddress")
@@ -106,7 +107,8 @@ export default class AddressDetail extends Vue {
 
   @Watch("address", { deep: true })
   somethingChanged() {
-    this.$emit("changed", JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON()));
+    const dirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
+    this.addressDirty(dirty);
     this.$emit("valid", this.address.isValid());
   }
 
@@ -153,7 +155,7 @@ export default class AddressDetail extends Vue {
     const receiverIds = [this.address.id];
     this.$bvModal
       .msgBoxConfirm(`Willst Du wirklich eine Einladung an ${this.address.vorname} verschicken?`, {
-        okVariant: "danger",
+        okVariant: "success",
         cancelTitle: "Nein",
         okTitle: "Ja",
         centered: true
