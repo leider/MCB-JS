@@ -1,14 +1,17 @@
 const pug = require("pug");
 const path = require("path");
-const config = require("../config/config");
 
 const dateUtil = require("./dateUtil");
-const senderName = config["sender-name"];
-const senderAddress = config["sender-address"];
-const transportOptions = config["transport-options"];
 const { mcblogo, background } = require("./images");
 const puppeteerPrinter = require("./puppeteerPrinter");
 const async = require("async");
+
+const workingdir = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + "/MCB/config/";
+
+const config = require(workingdir + "config");
+const senderName = config["sender-name"];
+const senderAddress = config["sender-address"];
+const transportOptions = config["transport-options"];
 
 const mailer = require("nodemailer").createTransport(transportOptions);
 
