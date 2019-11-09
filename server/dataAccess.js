@@ -1,6 +1,7 @@
 const fs = require("fs");
 
-const workingdir = __dirname + "/../data";
+// const workingdir = __dirname + "/../data";
+const workingdir = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + "/MCB-DATA";
 const addressesPath = workingdir + "/addresses.json";
 const treffenPath = workingdir + "/treffen.json";
 

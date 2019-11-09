@@ -9,10 +9,12 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "async": "3.1.0",
     "body-parser": "latest",
     "compression": "1.7.4",
     "core-js": "3.4.0",
     "cross-fetch": "3.0.4",
+    "electron": "7.1.1",
     "express": "4.17.1",
     "fecha": "3.0.3",
     "nodemailer": "6.3.1",
@@ -36,7 +38,6 @@
     "@vue/eslint-config-prettier": "5.0.0",
     "@vue/eslint-config-typescript": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
-    "async": "3.1.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.3",
     "babel-jest": "24.9.0",

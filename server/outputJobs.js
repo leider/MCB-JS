@@ -1,12 +1,9 @@
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
 const sendEinladungen = require("./mailer");
 const dateUtil = require("./dateUtil");
+const dataAccess = require("./dataAccess");
 const puppeteerPrinter = require("./puppeteerPrinter");
-
-const workingdir = __dirname + "/../data";
-const addressesPath = workingdir + "/addresses.json";
 
 const { mcblogo, background } = require("./images");
 
@@ -25,13 +22,11 @@ const printoptions = {
 };
 
 function addressesWithIds(receiverIds, callback) {
-  fs.readFile(addressesPath, (err, data) => {
+  dataAccess.allAddresses((err, addr) => {
     if (err) {
       return callback(err);
     }
-    const addresses = JSON.parse(data)
-      .filter(a => receiverIds.includes(a.id))
-      .sort((a, b) => (a.name < b.name ? -1 : 1));
+    const addresses = addr.filter(a => receiverIds.includes(a.id)).sort((a, b) => (a.name < b.name ? -1 : 1));
     callback(null, addresses);
   });
 }

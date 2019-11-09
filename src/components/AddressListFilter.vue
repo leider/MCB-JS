@@ -9,10 +9,10 @@
 </template>
 
 <script lang="ts">
-  import { filterMap } from "@/types/Adresse";
-  import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { filterMap } from "@/types/Adresse";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-  @Component
+@Component
 export default class AddressListFilter extends Vue {
   @Prop({ type: Number }) anzahl!: number;
   private suchtext: string = "";

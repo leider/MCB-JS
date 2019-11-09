@@ -34,7 +34,7 @@ function sendEmail(address, aktuellesTreffen, callback) {
     }
     const transportObject = {
       from: `"${senderName}" <${senderAddress}>`,
-      to: "derleider@web.de",
+      to: address.email,
       bcc: senderAddress,
       replyTo: senderAddress,
       subject: `Einladung zum ${aktuellesTreffen.beschreibung}`,
