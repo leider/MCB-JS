@@ -4,50 +4,26 @@
       b-navbar-brand MCB Bruhrain e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav
-          b-nav-item(@click="selectAddresses", :active="isAdressen") Adressen
-          b-nav-item(@click="selectTreffen", :active="!isAdressen") Treffen
+          b-nav-item(to="/addressesView", active-class="active") Adressen
+          b-nav-item(to="/treffenView", active-class="active") Treffen
     .container-fluid
       .row
         .col-12
-          Addresses(v-if="isAdressen").mt-2
-          treffen-view(v-if="!isAdressen").mt-2
+          router-view.mt-2
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
 
-import Addresses from "@/components/Addresses.vue";
-import TreffenView from "@/components/TreffenView.vue";
-
-@Component({
-  components: { Addresses, TreffenView }
-})
+@Component
 export default class App extends Vue {
-  private selectedView: string = "adressen";
-
   @Action getAllTreffen: any;
   @Action getAllAddresses: any;
-
-  get isAdressen() {
-    return this.selectedView === "adressen";
-  }
 
   created() {
     this.getAllTreffen();
     this.getAllAddresses();
-  }
-
-  selectAddresses() {
-    this.selectView("adressen");
-  }
-
-  selectTreffen() {
-    this.selectView("treffen");
-  }
-
-  selectView(viewName: string) {
-    this.selectedView = viewName;
   }
 }
 </script>
