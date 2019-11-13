@@ -6,6 +6,7 @@ To have it run locally, create two folders `MCB/config` and `MCB/data` inside yo
 Copy `config.json` from `configAndDataTemplates` to `config`.
 Copy `addresses.json` and `treffen.json` from `configAndDataTemplates` to `data`.
 
+In `server/views` rename `mixins-example.pug` to `mixins.pug` and update the content as you like to. 
 Adapt the files' contents.
 
 
