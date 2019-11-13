@@ -9,25 +9,70 @@
 
     .row
       .col-md-4
-        AddressList(@save="delegate('onSave')()", @cancel="delegate('onReset')()")
+        AddressList
       .col-md-8
         AddressDetail(ref="detail", @valid="addressValid")
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 import AddressList from "@/components/AddressList.vue";
 import AddressDetail from "@/components/AddressDetail.vue";
-import FormButtons from "@/widgets/FormButtons.vue";
-import { State } from "vuex-class";
+import { Action, State } from "vuex-class";
 import { AktuelleZahlenJSON } from "@/types/common";
+import { Adresse } from "@/types/Adresse";
 
-@Component({ components: { AddressDetail, AddressList, FormButtons } })
+@Component({ components: { AddressDetail, AddressList } })
 export default class Addresses extends Vue {
   valid: boolean = false;
   @State aktuelleZahlen!: AktuelleZahlenJSON;
+  @State selectedAddress!: Adresse;
+  @State addresses!: Adresse[];
   @State addressDirty!: boolean;
+  @Action selectAddress: any;
+
+  created() {
+    this.selectAddressIfNotDirty();
+  }
+
+  @Watch("$route")
+  routeChanged() {
+    this.selectAddressIfNotDirty();
+  }
+
+  @Watch("addresses")
+  @Watch("selectedAddress")
+  selectionChanged() {
+    if (this.selectedAddress.id === parseInt(this.$route.params.id, 10)) {
+      return;
+    }
+    this.$router.push(`/adressen/${this.selectedAddress.id}`);
+  }
+
+  selectAddressIfNotDirty() {
+    const address = this.addresses.find(a => a.id === parseInt(this.$route.params.id, 10));
+    if (!address) {
+      return;
+    }
+    if (this.addressDirty) {
+      return this.$bvModal
+        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
+          okVariant: "success",
+          okTitle: "Speichern",
+          cancelTitle: "Abbrechen",
+          centered: true
+        })
+        .then(yesNo => {
+          if (yesNo) {
+            this.delegate("onSave")();
+          } else {
+            this.delegate("onReset")();
+          }
+        });
+    }
+    this.selectAddress(address);
+  }
 
   delegate(name: string) {
     return () => (this.$refs.detail as any)[name]();

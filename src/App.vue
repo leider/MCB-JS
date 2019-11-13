@@ -4,8 +4,8 @@
       b-navbar-brand MCB Bruhrain e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav
-          b-nav-item(to="/addressesView", active-class="active") Adressen
-          b-nav-item(to="/treffenView", active-class="active") Treffen
+          b-nav-item(to="/adressen", active-class="active") Adressen
+          b-nav-item(to="/treffen", active-class="active") Treffen
     .container-fluid
       .row
         .col-12

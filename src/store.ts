@@ -92,15 +92,16 @@ export default new Vuex.Store({
     getAllAddresses({ state, commit }) {
       getJson("addresses.json", (addresses: AdresseJSON[]) => {
         commit("setAddresses", addresses);
-        commit("selectAddress", state.addresses[0]);
+        if (this.state.selectedAddress.id === 0) {
+          commit("selectAddress", state.addresses[0]);
+        }
       });
     },
 
     saveAddress({ state, commit }, address: Adresse) {
-      const id = address.id;
-      postAndReceiveJSON("saveAddress", address.toJSON(), (addresses: AdresseJSON[]) => {
-        commit("setAddresses", addresses);
-        const updatedAddress = state.addresses.find(a => a.id === id) || state.addresses[0];
+      postAndReceiveJSON("saveAddress", address.toJSON(), (res: any) => {
+        commit("setAddresses", res.data);
+        const updatedAddress = state.addresses.find(a => a.id === res.id) || state.addresses[0];
         commit("selectAddress", updatedAddress);
       });
     },
@@ -133,10 +134,9 @@ export default new Vuex.Store({
     },
 
     saveTreffen({ state, commit }, treffen: Treffen) {
-      const id = treffen.id;
-      postAndReceiveJSON("saveTreffen", treffen.toJSON(), (treffen: TreffenJSON[]) => {
-        commit("setTreffen", treffen);
-        const updatedTreffen = state.treffen.find(t => t.id === id) || state.treffen[0];
+      postAndReceiveJSON("saveTreffen", treffen.toJSON(), (res: any) => {
+        commit("setTreffen", res.data);
+        const updatedTreffen = state.treffen.find(t => t.id === res.id) || state.treffen[0];
         commit("selectTreffen", updatedTreffen);
       });
     },

@@ -7,8 +7,9 @@ Vue.use(VueRouter);
 
 export default new VueRouter({
   routes: [
-    { path: "/", redirect: "/addressesView" },
-    { path: "/addressesView", component: Addresses },
-    { path: "/treffenView", component: TreffenView }
+    { path: "/", redirect: "/adressen" },
+    { path: "/adressen", redirect: "/adressen/0" },
+    { path: "/adressen/:id", component: Addresses },
+    { path: "/treffen", component: TreffenView }
   ]
 });
