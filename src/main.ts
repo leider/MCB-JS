@@ -7,7 +7,7 @@ import BootstrapVue from "bootstrap-vue";
 
 import McbWidgets from "@/widgets/McbWidgets";
 
-import router from "./routing";
+import routing from "./routing";
 
 Vue.use(BootstrapVue);
 Vue.use(McbWidgets);
@@ -15,7 +15,7 @@ Vue.use(McbWidgets);
 // Vue.config.productionTip = false;
 
 new Vue({
-  router,
+  router: routing,
   store,
   el: "#app",
   render: h => h(App)

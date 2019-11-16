@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-alert( :show="dismissCountDown", dismissible, :variant="alertVariant", @dismissed="dismissCountDown = 0", @dismiss-count-down="countDownChanged" )
+  b-alert( :show="value", dismissible, :variant="alertVariant" )
     p {{alertMessage}}
 </template>
 
@@ -11,7 +11,6 @@ import { StatusMeldungJSON } from "@/types/common";
 export default class AlertBox extends Vue {
   @Prop({ type: Object }) value?: StatusMeldungJSON | null;
   @Prop({ type: Number }) seconds?: number;
-  private dismissCountDown: number = 0;
 
   get alertVariant() {
     const translate = { info: "success", warning: "warning", error: "danger" };
@@ -26,19 +25,13 @@ export default class AlertBox extends Vue {
     return this.seconds || 10;
   }
 
-  countDownChanged(dismissCountDown: number) {
-    this.dismissCountDown = dismissCountDown;
-    if (this.dismissCountDown === 0) {
-      this.$emit("input", null);
-    }
-  }
-
   @Watch("value")
-  meldungChanged() {
-    if (this.value) {
-      return this.countDownChanged(this.secondsToShow);
+  meldungChanged(val: StatusMeldungJSON | null) {
+    if (val) {
+      setTimeout(() => {
+        this.$emit("input", null);
+      }, this.secondsToShow * 1000);
     }
-    this.countDownChanged(0);
   }
 }
 </script>

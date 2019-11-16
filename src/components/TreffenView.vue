@@ -8,12 +8,8 @@
             form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="changed", valid=true)
           b-button-toolbar.float-right
             b-button-group(size="sm")
-              b-button(@click="sendEmails")
-                font-awesome-icon(:icon="['far', 'paper-plane']")
-                | #{' '} Einladungen
-              b-button(@click="createPDFs")
-                font-awesome-icon(:icon="['fas', 'envelope-open-text']")
-                | #{' '} Einladungen
+              mcb-button(@click="sendEmails", text="Briefe...", :icon="['far', 'paper-plane']")
+              mcb-button(@click="createPDFs", text="E-Mails...", :icon="['fas', 'envelope-open-text']")
     .row
       .col-md-4
         TreffenList

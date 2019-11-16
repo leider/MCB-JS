@@ -7,11 +7,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
-import McbLabel from "@/widgets/McbLabel.vue";
 
-@Component({
-  components: { McbLabel }
-})
+@Component
 export default class McbInput extends Vue {
   @Prop({ type: String, default: "" }) value!: string;
   @Prop({ type: String, default: "" }) readonly name!: string;

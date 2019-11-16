@@ -12,11 +12,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import McbLabel from "@/widgets/McbLabel.vue";
 
-@Component({
-  components: { McbLabel }
-})
+@Component
 export default class McbCurrency extends Vue {
   @Prop({ type: Number, default: 0 }) value!: number;
   @Prop({ type: String, default: "" }) readonly name!: string;

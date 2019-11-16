@@ -9,10 +9,9 @@ import VuejsDatepicker from "vuejs-datepicker";
 import { de } from "vuejs-datepicker/dist/locale";
 
 import { Component, Vue, Prop } from "vue-property-decorator";
-import McbLabel from "@/widgets/McbLabel.vue";
 
 @Component({
-  components: { McbLabel, "vuejs-datepicker": VuejsDatepicker }
+  components: { VuejsDatepicker }
 })
 export default class McbDatum extends Vue {
   @Prop({ type: Date }) value!: Date;

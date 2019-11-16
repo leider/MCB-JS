@@ -27,9 +27,7 @@
               .row
                 .col-12
                   h2 E-Mail Vorschau
-                    b-button.float-right(@click="createEmptyPDF")
-                      font-awesome-icon(:icon="['far', 'file-pdf']")
-                      | #{' '} PDF Vorschau
+                    mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
                   hr
                   div.bg-light(v-html="preview")
 </template>

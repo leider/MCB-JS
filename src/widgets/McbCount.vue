@@ -3,22 +3,17 @@
     mcb-label(:name="name", :label="label")
     b-input-group
       b-input-group-prepend
-        b-button(variant="secondary", @click="decrease")
-          font-awesome-icon(:icon="['fas', 'minus']")
+        mcb-button(variant="secondary", @click="decrease", :icon="['fas', 'minus']")
       b-form-input.text-right.font-weight-bold(:id="name", v-model="valueString",
         :placeholder="placeholder", :required="required", :name="name", disabled=true, type="text")
       b-input-group-append
-        b-button(variant="secondary", @click="increase")
-          font-awesome-icon(:icon="['fas', 'plus']")
+        mcb-button(variant="secondary", @click="increase", :icon="['fas', 'plus']")
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import McbLabel from "@/widgets/McbLabel.vue";
 
-@Component({
-  components: { McbLabel }
-})
+@Component
 export default class McbCount extends Vue {
   @Prop({ type: Number, default: 0 }) value!: number;
   @Prop({ type: String, default: "" }) readonly name!: string;

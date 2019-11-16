@@ -1,21 +1,10 @@
 <template lang="pug">
   .btn-group.float-right
-    b-button(v-if="speichern" @click="speichern", variant="primary", :disabled="!changed || !valid")
-      font-awesome-icon(:icon="['fas', 'save']", size="lg")
-      | #{' '} Speichern
-    b-button(v-if="neu" @click="neu", variant="success", :disabled="changed")
-      font-awesome-icon(:icon="['fas', 'file']", size="lg")
-      | #{' '} Neu
-    b-button(v-if="kopieren" @click="kopieren", variant="warning", :disabled="changed")
-      font-awesome-icon(:icon="['far', 'copy']", size="lg")
-      | #{' '} Kopieren
-    b-button(v-if="reset" @click="reset", variant="secondary", :disabled="!changed")
-      font-awesome-icon(:icon="['fas', 'undo']", size="lg")
-      | #{' '} Abbrechen
-    b-button(v-if="loeschen" @click="loeschen", variant="danger", :disabled="changed")
-      font-awesome-icon(:icon="['fas', 'trash-alt']", size="lg")
-      | #{' '} Löschen
-
+    mcb-button(v-if="speichern" @click="speichern", variant="standard", size="lg", :icon="['fas', 'save']", text="Speichern", :disabled="!changed || !valid")
+    mcb-button(v-if="neu" @click="neu", variant="info", size="lg", :icon="['fas', 'file']", text="Neu", :disabled="changed")
+    mcb-button(v-if="kopieren" @click="kopieren", variant="warning", size="lg", :icon="['far', 'copy']", text="Kopieren", :disabled="changed")
+    mcb-button(v-if="reset" @click="reset", variant="light", size="lg", :icon="['fas', 'undo']", text="Abbrechen", :disabled="!changed")
+    mcb-button(v-if="loeschen" @click="loeschen", variant="error", size="lg", :icon="['fas', 'trash-alt']", text="Löschen", :disabled="changed")
 </template>
 
 <script lang="ts">

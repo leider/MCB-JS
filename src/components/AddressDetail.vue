@@ -13,8 +13,8 @@
                 .col-4.align-self-end
                   h5.m-0(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
                 .col-4
-                  b-button.btn-lg.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal) Ist gemeldet ...
-                  b-button.btn-lg.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal) Meldung ...
+                  mcb-button.btn-lg.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...")
+                  mcb-button.btn-lg.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...")
                   b-modal#meldung-modal(@ok="handleMeldungOk", @show="meldungModalOpened", button-size="lg", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Speichern")
                     template(v-slot:modal-header)
                       h1 Meldung
@@ -61,9 +61,7 @@
                 .col-12
                   mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
                   mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
-                  b-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail")
-                    font-awesome-icon(:icon="['far', 'paper-plane']")
-                    | #{' '} Einladung direkt...
+                  mcb-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", :icon="['far', 'paper-plane']")
 
           b-card(no-body, border-variant="light")
             h4.card-header Fahrzeuge
