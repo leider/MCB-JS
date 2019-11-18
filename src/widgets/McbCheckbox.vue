@@ -1,7 +1,5 @@
 <template lang="pug">
-  b-form-group#mcb-checkbox(:class="{'custom-check': !this.inline}")
-    b-form-checkbox(:id="name", :name="name", :checked="value", @input="$emit('input', $event)")
-      b {{ label }}
+  v-checkbox(:id="name", :name="name", :value="value" :label="label", @change="$emit('input', $event)", color="success")
 </template>
 
 <script lang="ts">

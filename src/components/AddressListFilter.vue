@@ -1,20 +1,22 @@
 <template lang="pug">
-  .row
-    .col-5
+  v-row
+    v-col(md="5")
       mcb-input(name="suche", v-model="suchtext", placeholder="Suche nach ...")
-    .col-5
+    v-col(md="5")
       mcb-select(name="suche", v-model="activeFilter", :options="alleFilter")
-    .col-2
-      b.form-text.text-right {{anzahl}}
+    v-col(md="2")
+      mcb-input(v-model="anzahl", readonly)
 </template>
 
 <script lang="ts">
 import { filterMap } from "@/types/Adresse";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
-@Component
+import McbInput from "@/widgets/McbInput.vue";
+@Component({
+  components: { McbInput }
+})
 export default class AddressListFilter extends Vue {
-  @Prop({ type: Number }) anzahl!: number;
+  @Prop({ type: String }) anzahl!: string;
   private suchtext: string = "";
   private activeFilter: string = "Alle";
 

@@ -1,6 +1,6 @@
 // webpack.config.js -> module.rules
-module: {
-  rules: [
+{
+  [
     {
       test: /\.pug$/,
       loader: "pug-plain-loader"

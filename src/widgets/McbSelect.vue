@@ -1,7 +1,5 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="name", :label="label")
-    b-form-select(:options="options", :id="name", :name="name", v-model="selected")
+  v-select(:name="name", :label="label", :items="options", v-model="selected")
 </template>
 
 <script lang="ts">

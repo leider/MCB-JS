@@ -1,6 +1,5 @@
 <template lang="pug">
-  b-alert( :show="value", dismissible, :variant="alertVariant" )
-    p {{alertMessage}}
+  v-alert( v-if="value", dismissible, :type="alertVariant" ) {{alertMessage}}
 </template>
 
 <script lang="ts">
@@ -13,7 +12,7 @@ export default class AlertBox extends Vue {
   @Prop({ type: Number }) seconds?: number;
 
   get alertVariant() {
-    const translate = { info: "success", warning: "warning", error: "danger" };
+    const translate = { info: "success", warning: "warning", error: "error" };
     return this.value && (translate as any)[this.value.severity];
   }
 

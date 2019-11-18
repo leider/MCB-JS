@@ -1,13 +1,9 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="name", :label="label")
-    b-input-group
-      b-form-input.text-right(:id="name", v-model="valueString",
-        :placeholder="placeholder", :required="required",
-        :name="name", :disabled="disabled", @blur="focusLost",
-        step=0.01, :state="valid", type="text")
-      b-input-group-append: b-input-group-text €
-      .invalid-feedback Bitte eine deutsche Zahl eingeben
+  v-text-field(:id="name", v-model="valueString", :placeholder="placeholder",
+    :required="required", :disabled="disabled", @blur="focusLost",
+    :label="label", :name="name", :rules="[validate]", type="text",
+    append-icon="fa-euro-sign")
+
 </template>
 
 <script lang="ts">
@@ -21,8 +17,7 @@ export default class McbCurrency extends Vue {
   @Prop({ type: Boolean, default: false }) readonly required!: boolean;
   @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
   @Prop({ type: String, default: "" }) readonly placeholder!: string;
-  valid: boolean | null = null;
-  valueString: string = "";
+  private valueString: string = "";
 
   @Watch("value")
   valueChanged() {
@@ -33,14 +28,12 @@ export default class McbCurrency extends Vue {
     }).format(this.value || 0);
   }
 
-  @Watch("valueString")
   validate() {
     const floatNum = parseFloat(this.valueString.replace(",", "."));
     if (isNaN(floatNum)) {
-      this.valid = false;
-    } else {
-      this.valid = null;
+      return "Bitte eine deutsche Zahl eingeben";
     }
+    return true;
   }
 
   focusLost() {

@@ -1,7 +1,7 @@
 <template lang="pug">
-  b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled")
-    font-awesome-icon(v-if="icon", :icon="icon", :size="size || 'sm'")
-    | #{' '} {{text}}
+  v-btn(v-on="$listeners", :color="variantClass", :disabled="disabled", tile)
+    v-icon(v-if="icon", left) {{icon[0]}} fa-{{icon[1]}}
+    | &nbsp; {{text}}
 
 </template>
 
@@ -22,7 +22,7 @@ export default class McbButton extends Vue {
       light: "secondary",
       info: "success",
       warning: "warning",
-      error: "danger"
+      error: "error"
     };
     return (translate as any)[this.variant || "standard"];
   }

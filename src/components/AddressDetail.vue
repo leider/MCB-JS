@@ -1,80 +1,79 @@
 <template lang="pug">
   #address-detail
     alert-box(v-model="transferStatus")
-    b-form(novalidate)
-      .row
-        .col-12
-          b-card(no-body, border-variant="light").mb-3
-            h5.card-header Aktuelles Treffen
-            .p-1
-              .row.mt-2
-                .col-4.align-self-end
-                  h3.m-0.form-text(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
-                .col-4.align-self-end
-                  h5.m-0(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
-                .col-4
-                  mcb-button.btn-lg.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...")
-                  mcb-button.btn-lg.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...")
-                  b-modal#meldung-modal(@ok="handleMeldungOk", @show="meldungModalOpened", button-size="lg", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Speichern")
-                    template(v-slot:modal-header)
-                      h1 Meldung
-                      h2.float-right.align-self-end Summe: {{ address.gesamtPreis }} €
-                    .row
-                      .col-4
-                      .col-8
-                        h3 Frühstück
-                    .row
-                      .col-4
-                        mcb-count(label="Anzahl", name="anzahlMeldung", :disabled="!address.meldung", v-model="address.anzahlMeldung")
-                      .col-4
-                        mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", :disabled="!address.meldung", v-model="address.samstag")
-                      .col-4
-                        mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", :disabled="!address.meldung", v-model="address.sonntag")
-      .row
-        .col-12
-          b-card.mb-2(no-body, border-variant="light")
-            h4.card-header.p-2 Allgemein
-            .p-1
-              .row
-                .col-6
-                  mcb-input(label="Vorname", name="vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
-                .col-6
-                  mcb-input(label="Name", name="name", v-model="address.name", placeholder="Name des Besuchers", required)
-              .row
-                .col-8
-                  mcb-input(label="Straße", name="strasse", v-model="address.strasse")
-                .col-4
-                  mcb-checkbox(label="ist Mitglied", name="mitglied", v-model="address.mitglied")
-              .row
-                .col-2
-                  mcb-select(label="Land", name="land", v-model="address.land", :options="address.laender")
-                .col-2
-                  mcb-input(label="Postleitzahl", name="plz", v-model="address.plz")
-                .col-8
-                  mcb-input(label="Ort", name="ort", v-model="address.ort")
-      .row
-        .col-6
-          b-card.mb-2(no-body, :class="{'text-danger border-danger': address.hatEmailFehler()}")
-            h4.card-header.p-2 E-Mail
-            .p-1
-              .row
-                .col-12
-                  mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
-                  mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
-                  mcb-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", :icon="['far', 'paper-plane']")
 
-          b-card(no-body, border-variant="light")
-            h4.card-header Fahrzeuge
-            .p-1
-              .row
-                .col-12
-                  mcb-checkbox(label="fährt Solo", name="solo", v-model="address.solo", inline)
-                  mcb-checkbox(label="fährt Gespann", name="gespann", v-model="address.gespann", inline)
-        .col-6
-          b-card(no-body, border-variant="light")
-            h5.card-header Besuchte Treffen
-            b-list-group
-              b-list-group-item.pt-1.pb-1(v-for="t in address.besuche", :key="t.name") {{ t.name }}
+    v-row
+      v-col
+        b-card(no-body, border-variant="light").mb-3
+          h2 Aktuelles Treffen
+          v-row.mt-2
+            v-col(md="4").align-self-end
+              h3(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
+            v-col(md="4").align-self-end
+              h4(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
+            v-col(md="4")
+              mcb-button(v-if="address.meldung", @click.stop="openMeldungDialog", variant="info", text="Ist gemeldet...")
+              mcb-button(v-if="!address.meldung", @click.stop="openMeldungDialog", variant="error", text="Meldung...")
+              v-dialog(v-model="meldungDialogVisible", persistent, max-width="600px")
+                v-card
+                  v-card-title
+                    span(class="headline") Meldung
+                  v-card-text
+                    v-container
+                      v-row
+                        v-col
+                          h1.float-right Summe: {{ address.gesamtPreis }} €
+                      v-row
+                        v-col(md="4")
+                          mcb-count(label="Anzahl Meldung", name="anzahlMeldung", :disabled="!address.meldung", v-model="address.anzahlMeldung")
+                        v-col(md="4")
+                          mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", :disabled="!address.meldung", v-model="address.samstag")
+                        v-col(md="4")
+                          mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", :disabled="!address.meldung", v-model="address.sonntag")
+                  v-card-actions
+                    v-spacer
+                    mcb-button(text="Zurück", @click="meldungDialogVisible = false")
+                    mcb-button(text="Speichern", @click="handleMeldungOk")
+    v-row
+      v-col
+        h4.card-header.p-2 Allgemein
+        v-row
+          v-col(md="6")
+            mcb-input(label="Vorname", name="vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
+          v-col(md="6")
+            mcb-input(label="Name", name="name", v-model="address.name", placeholder="Name des Besuchers", required)
+        v-row
+          v-col(md="8")
+            mcb-input(label="Straße", name="strasse", v-model="address.strasse")
+          v-col(md="4")
+            mcb-checkbox(label="ist Mitglied", name="mitglied", v-model="address.mitglied")
+        v-row
+          v-col(md="2")
+            mcb-select(label="Land", name="land", v-model="address.land", :options="address.laender")
+          v-col(md="2")
+            mcb-input(label="Postleitzahl", name="plz", v-model="address.plz")
+          v-col(md="8")
+            mcb-input(label="Ort", name="ort", v-model="address.ort")
+    v-row
+      v-col(md="6")
+        h4.card-header.p-2 E-Mail
+        v-row
+          v-col
+            mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
+            mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
+            question-dialog-with-button.float-right(v-if="!address.hatEmailFehler()", buttonText="Einladung direkt...", okText="Abschicken",
+              :icon="['far', 'paper-plane']", :callback="sendEmail", dialogTitle="E-Mail Senden?",
+              :dialogText="`Willst Du wirklich eine Einladung an ${address ? address.vorname : ''} verschicken?`")
+
+        h4.card-header Fahrzeuge
+        v-row
+          v-col
+            mcb-checkbox(label="fährt Solo", name="solo", v-model="address.solo", inline)
+            mcb-checkbox(label="fährt Gespann", name="gespann", v-model="address.gespann", inline)
+      v-col(md="6")
+        h4.card-header Besuchte Treffen
+        v-list(dense, style="max-height:calc(100vh - 43rem);overflow-y: scroll")
+          v-list-item(v-for="t in address.besuche", :key="t.name") {{ t.name }}
 </template>
 
 <script lang="ts">
@@ -96,6 +95,8 @@ export default class AddressDetail extends Vue {
   @Action deleteAddress: any;
   @Action addressDirty: any;
   private transferStatus: StatusMeldungJSON | null = null;
+  private meldungDialogVisible = false;
+  private emailDialogVisible = false;
 
   @Watch("selectedAddress")
   initModel() {
@@ -123,18 +124,7 @@ export default class AddressDetail extends Vue {
   }
 
   onDelete() {
-    this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich den Eintrag von "${this.address.vorname} ${this.address.name}" löschen?`, {
-        okVariant: "danger",
-        cancelTitle: "Nein",
-        okTitle: "Ja",
-        centered: true
-      })
-      .then(yesNo => {
-        if (yesNo) {
-          this.deleteAddress(this.address);
-        }
-      });
+    this.deleteAddress(this.address);
   }
 
   onNew() {
@@ -142,33 +132,27 @@ export default class AddressDetail extends Vue {
   }
 
   handleMeldungOk() {
+    this.meldungDialogVisible = false;
     this.saveAddress(this.address);
   }
 
-  meldungModalOpened() {
+  openMeldungDialog() {
+    this.meldungDialogVisible = true;
     this.address.meldung = true;
   }
 
+  openEmailDialog() {
+    this.emailDialogVisible = true;
+  }
+
   sendEmail() {
-    const receiverIds = [this.address.id];
-    this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich eine Einladung an ${this.address.vorname} verschicken?`, {
-        okVariant: "success",
-        cancelTitle: "Nein",
-        okTitle: "Ja",
-        centered: true
-      })
-      .then(yesNo => {
-        if (yesNo) {
-          postAndReceiveJSON(
-            "sendEmails",
-            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
-            (status: StatusMeldungJSON) => {
-              this.transferStatus = status;
-            }
-          );
-        }
-      });
+    postAndReceiveJSON(
+      "sendEmails",
+      { receiverIds: [this.address.id], aktuellesTreffen: this.aktuellesTreffen.toJSON() },
+      (status: StatusMeldungJSON) => {
+        this.transferStatus = status;
+      }
+    );
   }
 }
 </script>

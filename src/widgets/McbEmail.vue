@@ -1,13 +1,11 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="name", :label="label")
-    b-form-input( :id="name", :value="value",
-      :placeholder="placeholder", @input="$emit('input', $event)",
-      :name="name", :state="valid", type="email", ref="widget" )
+  v-text-field(:id="name", :value="value", :placeholder="placeholder",
+    @input="$emit('input', $event)", :label="label", :name="name",
+    :rules="[validate]", type="email", ref="widget" )
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbEmail extends Vue {
@@ -15,11 +13,12 @@ export default class McbEmail extends Vue {
   @Prop({ type: String, default: "" }) readonly name!: string;
   @Prop({ type: String, default: "" }) readonly label!: string;
   @Prop({ type: String, default: "" }) readonly placeholder!: string;
-  valid: boolean | null = null;
 
-  @Watch("value")
-  validate() {
-    this.valid = !(this.$refs.widget as any).checkValidity() ? false : null;
+  validate(text: string | null) {
+    if (text && !text.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+      return "E-Mail nicht gültig";
+    }
+    return true;
   }
 }
 </script>

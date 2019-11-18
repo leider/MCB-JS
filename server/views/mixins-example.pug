@@ -2,45 +2,45 @@
 
 mixin mainContent(datum, aktuellesTreffen)
   hr
-  h1 Persönliche Einladung
-  h4 zum #{aktuellesTreffen.beschreibung}
+  h1.mcb Persönliche Einladung
+  h4.mcb zum #{aktuellesTreffen.beschreibung}
   table
     tr
-      th Wann
-      td #{datum}
+      th.mcb Wann
+      td.mcb #{datum}
     tr
-      th Wo
-      td INSERT REASONABLE STUFF HERE
+      th.mcb Wo
+      td.mcb INSERT REASONABLE STUFF HERE
     tr
-      th GPS
-      td INSERT REASONABLE STUFF HERE
+      th.mcb GPS
+      td.mcb INSERT REASONABLE STUFF HERE
     tr
-      th Google-Maps
-      td
+      th.mcb Google-Maps
+      td.mcb
         a(href="INSERT REASONABLE STUFF HERE") INSERT REASONABLE STUFF HERE
     tr
-      th Ausrüstung
-      td Alles, was zum Zelten benötigt wird, und der Umwelt zuliebe: Trinkgefäß, Geschirr und Besteck.
+      th.mcb Ausrüstung
+      td.mcb Alles, was zum Zelten benötigt wird, und der Umwelt zuliebe: Trinkgefäß, Geschirr und Besteck.
     tr
-      th Programm
-      td Es brennt bei gemütlicher Atmosphäre ein Lagerfeuer, Musikanten können natürlich ihre Instrumente mitbringen und nach Herzenslust musizieren. Bei schlechtem Wetter steht uns „Partytreibhaus“ mit Tischen und Stühlen zur Verfügung.
+      th.mcb Programm
+      td.mcb Es brennt bei gemütlicher Atmosphäre ein Lagerfeuer, Musikanten können natürlich ihre Instrumente mitbringen und nach Herzenslust musizieren. Bei schlechtem Wetter steht uns „Partytreibhaus“ mit Tischen und Stühlen zur Verfügung.
     tr
-      th Nennung
-      td #{aktuellesTreffen.preisMeldung.toFixed(2).replace(".", ",")} € pro Person und Nacht (Kinder frei)
+      th.mcb Nennung
+      td.mcb #{aktuellesTreffen.preisMeldung.toFixed(2).replace(".", ",")} € pro Person und Nacht (Kinder frei)
     tr
-      th Frühstück
-      td #{aktuellesTreffen.preisFruehstueck.toFixed(2).replace(".", ",")} € pro Frühstück (Kinder frei)
-  h4 &nbsp;
-  h4 Dies ist kein Selbstversorger Treffen!
+      th.mcb Frühstück
+      td.mcb #{aktuellesTreffen.preisFruehstueck.toFixed(2).replace(".", ",")} € pro Frühstück (Kinder frei)
+  h4.mcb &nbsp;
+  h4.mcb Dies ist kein Selbstversorger Treffen!
   p Speisen und Getränke bieten wir auch weiterhin zu fairen Preisen an.
   table
     tr
-      th(width="20%") Kontakt
-      td(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
-      td(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
+      th.mcb(width="20%") Kontakt
+      td.mcb(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
+      td.mcb(width="40%") INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE<br>INSERT REASONABLE STUFF HERE
     tr
-      th E-Mail
-      td INSERT REASONABLE STUFF HERE
+      th.mcb E-Mail
+      td.mcb INSERT REASONABLE STUFF HERE
   p.
     Einladung bitte nicht kopieren und weitergeben, denn der familiäre Charakter des Treffens soll erhalten bleiben.
     Für Personen- und Sachschäden vor, während und nach der Veranstaltung übernimmt der MCB keine Haftung. Trotzdem versuchen wir, diesmal nachts aufmerksam zu sein.
@@ -92,34 +92,34 @@ mixin styles(background, mcblogo)
     left: 1.5cm;
     width: 17cm;
     }
-    th {
+    th.mcb {
     width: 3cm;
     text-align: left;
     padding-bottom: 0.7em;
     vertical-align: top;
     }
-    td {
+    td.mcb {
     text-align: left;
     padding-bottom: 0.7em;
     vertical-align: top;
     }
-    h1 {
+    h1.mcb {
     font-size: 300%;
     margin: 0;
     }
-    h2 {
+    h2.mcb {
     font-size: 250%;
     margin: 0;
     }
-    h3 {
+    h3.mcb {
     font-size: 200%;
     margin: 0;
     }
-    h4 {
+    h4.mcb {
     font-size: 150%;
     margin: 0;
     }
-    h6 {
+    h6.mcb {
     font-size: 120%;
     margin: 0;
     }
@@ -138,14 +138,14 @@ mixin pdfPage(address, datum, aktuellesTreffen, laender)
         p.no-borders  #{address.strasse}
         p.no-borders  #{address.plz} #{address.ort}
         if address.land !== "D"
-          h6 #{laender[address.land]}
+          h6.mcb #{laender[address.land]}
         else
-          h6 #{''}
+          h6.mcb #{''}
       else
         p &nbsp; <br>
           | &nbsp; <br>
           | &nbsp;
-        h6 #{''}
+        h6.mcb #{''}
     .logo
       img.mcblogo
       p.no-borders INSERT REASONABLE STUFF HERE

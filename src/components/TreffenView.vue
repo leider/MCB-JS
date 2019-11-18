@@ -1,19 +1,20 @@
 <template lang="pug">
   div
     alert-box(v-model="transferStatus")
-    .row
-      .col-12
-        .page-header
-          h2 Treffen
-            form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="changed", valid=true)
-          b-button-toolbar.float-right
-            b-button-group(size="sm")
-              mcb-button(@click="sendEmails", text="Briefe...", :icon="['far', 'paper-plane']")
-              mcb-button(@click="createPDFs", text="E-Mails...", :icon="['fas', 'envelope-open-text']")
-    .row
-      .col-md-4
+    v-row
+      v-col
+        h2.d-flex.justify-space-between Treffen
+          form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :deleteQuestion="deleteTreffenQuestion", :changed="changed", valid=true)
+        v-item-group.justify-end.d-flex
+
+          question-dialog-with-button.float-right(buttonText="E-Mails...", okText="Abschicken",
+            :icon="['far', 'paper-plane']", :callback="sendEmails", dialogTitle="E-Mails Senden?",
+            :dialogText="`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`")
+          mcb-button(@click="createPDFs", text="Briefe...", :icon="['fas', 'envelope-open-text']")
+    v-row
+      v-col(md="4")
         TreffenList
-      .col-md-8
+      v-col(md="8")
         TreffenDetail(ref="detail", @changed="treffenChanged")
 </template>
 
@@ -34,6 +35,7 @@ import { postAndReceiveJSON } from "@/remoteCalls";
 export default class TreffenView extends Vue {
   @State addresses!: Adresse[];
   @State aktuellesTreffen!: Treffen;
+  @State selectedTreffen!: Treffen;
   private transferStatus: StatusMeldungJSON | null = null;
   changed: boolean = false;
 
@@ -45,27 +47,23 @@ export default class TreffenView extends Vue {
     this.changed = e;
   }
 
+  deleteTreffenQuestion() {
+    return `Willst Du wirklich das Treffen "${this.selectedTreffen.beschreibung} löschen?`;
+  }
+
+  get receiverIds() {
+    return this.addresses.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
+  }
+
   sendEmails() {
-    const receiverIds = this.addresses.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
-    this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`, {
-        okVariant: "danger",
-        cancelTitle: "Nein",
-        okTitle: "Ja",
-        centered: true
-      })
-      .then(yesNo => {
-        if (yesNo) {
-          this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
-          postAndReceiveJSON(
-            "sendEmails",
-            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
-            (status: StatusMeldungJSON) => {
-              this.transferStatus = status;
-            }
-          );
-        }
-      });
+    this.transferStatus = { severity: "info", message: `Verschicke ${this.receiverIds.length} E-Mails...` };
+    postAndReceiveJSON(
+      "sendEmails",
+      { receiverIds: this.receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
+      (status: StatusMeldungJSON) => {
+        this.transferStatus = status;
+      }
+    );
   }
 
   createPDFs() {

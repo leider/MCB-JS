@@ -9,8 +9,9 @@ import McbCurrency from "@/widgets/McbCurrency.vue";
 import McbDatum from "@/widgets/McbDatum.vue";
 import McbEmail from "@/widgets/McbEmail.vue";
 import McbInput from "@/widgets/McbInput.vue";
-import McbLabel from "@/widgets/McbLabel.vue";
 import McbSelect from "@/widgets/McbSelect.vue";
+import QuestionDialog from "@/widgets/QuestionDialog.vue";
+import QuestionDialogWithButton from "@/widgets/QuestionDialogWithButton.vue";
 
 class McbWidgets implements PluginObject<any> {
   install(vm: typeof Vue) {
@@ -23,8 +24,9 @@ class McbWidgets implements PluginObject<any> {
     vm.component("McbDatum", McbDatum);
     vm.component("McbEmail", McbEmail);
     vm.component("McbInput", McbInput);
-    vm.component("McbLabel", McbLabel);
     vm.component("McbSelect", McbSelect);
+    vm.component("QuestionDialog", QuestionDialog);
+    vm.component("QuestionDialogWithButton", QuestionDialogWithButton);
   }
 }
 

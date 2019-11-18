@@ -1,15 +1,16 @@
 <template lang="pug">
-  #app
-    b-navbar(variant="dark", type="dark", sticky)
-      b-navbar-brand MCB Bruhrain e.V.
-      b-collapse#nav-collapse(is-nav)
-        b-navbar-nav
-          b-nav-item(to="/adressen", active-class="active") Adressen
-          b-nav-item(to="/treffen", active-class="active") Treffen
-    .container-fluid
-      .row
-        .col-12
-          router-view.mt-2
+  v-app
+    v-app-bar(color="deep-purple accent-4", fixed, dark)
+      v-toolbar-title MCB Bruhrain e.V.
+      v-spacer
+      v-toolbar-items
+        v-btn(to="/adressen", active-class="active", text) Adressen
+        v-btn(to="/treffen", active-class="active") Treffen
+    v-content(style="padding-top: 32px;")
+      v-container(fluid)
+        v-row
+          v-col
+            router-view.mt-2
 </template>
 
 <script lang="ts">
@@ -48,13 +49,8 @@ $label-margin-bottom: 0rem;
 $input-disabled-bg: #f8f9fa !default;
 $input-color: #212529 !default;
 
-@import "~bootstrap/scss/bootstrap.scss";
-@import "~bootstrap-vue/src/index.scss";
+@import "~vuetify/dist/vuetify.css";
 .custom-check {
   padding-top: $font-size-base * 2;
-}
-
-label {
-  font-weight: $font-weight-bold;
 }
 </style>

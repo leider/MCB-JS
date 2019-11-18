@@ -1,16 +1,16 @@
 <template lang="pug">
   div
-    .row
-      .col-12
-        .page-header
-          h2 Adressen
-            form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="addressDirty", :valid="valid")
-          h4.float-right(v-if="aktuelleZahlen.anzahl") {{aktuelleZahlen.anzahl}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Samstag, {{aktuelleZahlen.So}} Sonntag
-
-    .row
-      .col-md-4
+    question-dialog(v-model="showDialog", dialogTitle="Ungespeicherte Änderungen", dialogText="Du musst die aktuelle Adresse erst Speichern oder Abbrechen!",
+      :callback="delegate('onSave')", okText="Speichern")
+    v-row
+      v-col
+        h1.d-flex.justify-space-between Adressen
+          form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :deleteQuestion="deleteAddressQuestion", :changed="addressDirty", :valid="valid")
+        h4.float-right(v-if="aktuelleZahlen.anzahl") {{aktuelleZahlen.anzahl}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Samstag, {{aktuelleZahlen.So}} Sonntag
+    v-row
+      v-col(md="4")
         AddressList
-      .col-md-8
+      v-col(md="8")
         AddressDetail(ref="detail", @valid="addressValid")
 </template>
 
@@ -25,12 +25,13 @@ import { Adresse } from "@/types/Adresse";
 
 @Component({ components: { AddressDetail, AddressList } })
 export default class Addresses extends Vue {
-  valid: boolean = false;
+  private valid: boolean = false;
   @State aktuelleZahlen!: AktuelleZahlenJSON;
   @State selectedAddress!: Adresse;
   @State addresses!: Adresse[];
   @State addressDirty!: boolean;
   @Action selectAddress: any;
+  private showDialog = false;
 
   created() {
     this.selectAddressIfNotDirty();
@@ -56,20 +57,7 @@ export default class Addresses extends Vue {
       return;
     }
     if (this.addressDirty) {
-      return this.$bvModal
-        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
-          okVariant: "success",
-          okTitle: "Speichern",
-          cancelTitle: "Abbrechen",
-          centered: true
-        })
-        .then(yesNo => {
-          if (yesNo) {
-            this.delegate("onSave")();
-          } else {
-            this.delegate("onReset")();
-          }
-        });
+      return this.showDialog = true;
     }
     this.selectAddress(address);
   }
@@ -80,6 +68,10 @@ export default class Addresses extends Vue {
 
   addressValid(e: boolean) {
     this.valid = e;
+  }
+
+  deleteAddressQuestion() {
+    return `Willst Du wirklich den Eintrag von "${this.selectedAddress.vorname} ${this.selectedAddress.name}" löschen?`;
   }
 }
 </script>
