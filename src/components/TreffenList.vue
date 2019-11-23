@@ -24,7 +24,9 @@ export default class TreffenList extends Vue {
   }
 
   set selection(sel) {
-    this.selectTreffen(sel);
+    if (sel) {
+      this.selectTreffen(sel);
+    }
   }
 
   alsDatum(unixTimestamp: number) {

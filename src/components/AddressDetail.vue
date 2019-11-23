@@ -47,18 +47,18 @@
           v-col(md="4")
             mcb-checkbox(label="ist Mitglied", name="mitglied", v-model="address.mitglied")
         v-row
-          v-col(md="2")
+          v-col(md="3")
             mcb-select(label="Land", name="land", v-model="address.land", :options="address.laender")
           v-col(md="2")
             mcb-input(label="Postleitzahl", name="plz", v-model="address.plz")
-          v-col(md="8")
+          v-col(md="7")
             mcb-input(label="Ort", name="ort", v-model="address.ort")
     v-row
       v-col(md="6")
         h4.card-header.p-2 E-Mail
         v-row
           v-col
-            mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
+            mcb-email(label="E-Mail Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
             mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
             question-dialog-with-button.float-right(v-if="!address.hatEmailFehler()", buttonText="Einladung direkt...", okText="Abschicken",
               :icon="['far', 'paper-plane']", :callback="sendEmail", dialogTitle="E-Mail Senden?",

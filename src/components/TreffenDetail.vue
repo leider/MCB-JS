@@ -2,35 +2,27 @@
   #treffen-detail
     alert-box(v-model="transferStatus", :seconds=10)
     v-row
+      v-col(md="8")
+        v-row
+          v-col(md="4")
+            mcb-input(label="Name", name="name", v-model="treffen.name", required)
+          v-col(md="8")
+            mcb-input(label="Beschreibung", name="beschreibung", v-model="treffen.beschreibung")
+        v-row
+          v-col(md="4")
+            mcb-checkbox(label="ist Gespann", name="gespann", v-model="treffen.gespann")
+          v-col(md="4")
+            mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
+          v-col(md="4")
+            mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
+      v-col(md="4")
+        mcb-von-bis(label="Datum", name="datum", v-model="vonBis")
+    v-row
       v-col
-        h4.card-header.p-2 Allgemein
-        .p1
-          v-row
-            v-col(md="3")
-              mcb-input(label="Name", name="name", v-model="treffen.name", required)
-            v-col(md="6")
-              mcb-input(label="Beschreibung", name="beschreibung", v-model="treffen.beschreibung")
-            v-col(md="3")
-              mcb-checkbox(label="ist Gespann", name="gespann", v-model="treffen.gespann")
-
-          v-row
-            v-col(md="3")
-              mcb-datum(label="Erster Tag", name="ersterTag", v-model="treffen.start")
-            v-col(md="3")
-              mcb-datum(label="Letzter Tag", name="letzterTag", v-model="treffen.ende")
-            v-col(md="3")
-              mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
-            v-col(md="3")
-              mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
-          v-row
-            v-col(md="6")
-              mcb-von-bis(label="Datum", name="datum", v-model="vonBis")
-          v-row
-            v-col
-              h2 E-Mail Vorschau
-                mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
-              hr
-              div(v-html="preview")
+        h2 E-Mail Vorschau
+          mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
+        hr
+        div(v-html="preview")
 </template>
 
 <script lang="ts">
