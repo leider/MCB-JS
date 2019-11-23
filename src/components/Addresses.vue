@@ -57,7 +57,7 @@ export default class Addresses extends Vue {
       return;
     }
     if (this.addressDirty) {
-      return this.showDialog = true;
+      return (this.showDialog = true);
     }
     this.selectAddress(address);
   }

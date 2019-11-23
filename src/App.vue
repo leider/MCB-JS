@@ -30,27 +30,8 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
-$theme-colors: (
-  "primary": #337ab7,
-  "warning": #ebb847
-);
-
-$font-family-sans-serif: "Montserrat", Helvetica, Arial, sans-serif;
-$font-family-icon: "Font Awesome 5 Free";
-
-$font-size-base: 1rem;
-$headings-font-weight: bold;
-$small-font-size: 60%;
-
-$grid-gutter-width: $font-size-base * 0.7;
-
-$label-margin-bottom: 0rem;
-
-$input-disabled-bg: #f8f9fa !default;
-$input-color: #212529 !default;
-
-@import "~vuetify/dist/vuetify.css";
-.custom-check {
-  padding-top: $font-size-base * 2;
+@import "~vuetify/src/styles/main.sass";
+.v-list-item__icon {
+  margin: 12px 0 !important;
 }
 </style>

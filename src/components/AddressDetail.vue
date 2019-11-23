@@ -4,36 +4,35 @@
 
     v-row
       v-col
-        b-card(no-body, border-variant="light").mb-3
-          h2 Aktuelles Treffen
-          v-row.mt-2
-            v-col(md="4").align-self-end
-              h3(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
-            v-col(md="4").align-self-end
-              h4(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
-            v-col(md="4")
-              mcb-button(v-if="address.meldung", @click.stop="openMeldungDialog", variant="info", text="Ist gemeldet...")
-              mcb-button(v-if="!address.meldung", @click.stop="openMeldungDialog", variant="error", text="Meldung...")
-              v-dialog(v-model="meldungDialogVisible", persistent, max-width="600px")
-                v-card
-                  v-card-title
-                    span(class="headline") Meldung
-                  v-card-text
-                    v-container
-                      v-row
-                        v-col
-                          h1.float-right Summe: {{ address.gesamtPreis }} €
-                      v-row
-                        v-col(md="4")
-                          mcb-count(label="Anzahl Meldung", name="anzahlMeldung", :disabled="!address.meldung", v-model="address.anzahlMeldung")
-                        v-col(md="4")
-                          mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", :disabled="!address.meldung", v-model="address.samstag")
-                        v-col(md="4")
-                          mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", :disabled="!address.meldung", v-model="address.sonntag")
-                  v-card-actions
-                    v-spacer
-                    mcb-button(text="Zurück", @click="meldungDialogVisible = false")
-                    mcb-button(text="Speichern", @click="handleMeldungOk")
+        h2 Aktuelles Treffen
+        v-row.mt-2
+          v-col(md="4").align-self-end
+            h3(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
+          v-col(md="4").align-self-end
+            h4(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
+          v-col(md="4")
+            mcb-button(v-if="address.meldung", @click.stop="openMeldungDialog", variant="info", text="Ist gemeldet...")
+            mcb-button(v-if="!address.meldung", @click.stop="openMeldungDialog", variant="error", text="Meldung...")
+            v-dialog(v-model="meldungDialogVisible", persistent, max-width="600px")
+              v-card
+                v-card-title
+                  span(class="headline") Meldung
+                v-card-text
+                  v-container
+                    v-row
+                      v-col
+                        h1.float-right Summe: {{ address.gesamtPreis }} €
+                    v-row
+                      v-col(md="4")
+                        mcb-count(label="Anzahl Meldung", name="anzahlMeldung", :disabled="!address.meldung", v-model="address.anzahlMeldung")
+                      v-col(md="4")
+                        mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", :disabled="!address.meldung", v-model="address.samstag")
+                      v-col(md="4")
+                        mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", :disabled="!address.meldung", v-model="address.sonntag")
+                v-card-actions
+                  v-spacer
+                  mcb-button(text="Zurück", @click="meldungDialogVisible = false")
+                  mcb-button(text="Speichern", @click="handleMeldungOk")
     v-row
       v-col
         h4.card-header.p-2 Allgemein
