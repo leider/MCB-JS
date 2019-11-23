@@ -10,11 +10,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbButton extends Vue {
-  @Prop({ type: String, default: "" }) readonly text!: string;
-  @Prop({ type: Array }) readonly icon!: string[];
-  @Prop({ type: String, default: "" }) readonly size!: string;
-  @Prop({ type: String, default: "" }) readonly variant!: string;
-  @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
+  @Prop() readonly text!: string;
+  @Prop() readonly icon!: string[];
+  @Prop() readonly size!: string;
+  @Prop() readonly variant!: string;
+  @Prop() readonly disabled!: boolean;
 
   get variantClass() {
     const translate = {

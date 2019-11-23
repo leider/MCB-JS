@@ -8,9 +8,9 @@
           h4.float-right(v-if="aktuelleZahlen.anzahl") {{aktuelleZahlen.anzahl}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Samstag, {{aktuelleZahlen.So}} Sonntag
 
     .row
-      .col-md-4
+      .col-md-3
         AddressList
-      .col-md-8
+      .col-md-9
         AddressDetail(ref="detail", @valid="addressValid")
 </template>
 

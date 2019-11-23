@@ -12,13 +12,13 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class FormButtons extends Vue {
-  @Prop({ type: Function }) speichern?: () => void;
-  @Prop({ type: Function }) neu?: () => void;
-  @Prop({ type: Function }) kopieren?: () => void;
-  @Prop({ type: Function }) reset?: () => void;
-  @Prop({ type: Function }) loeschen?: () => void;
-  @Prop({ type: Boolean }) changed?: boolean;
-  @Prop({ type: Boolean }) valid?: boolean;
+  @Prop() speichern?: () => void;
+  @Prop() neu?: () => void;
+  @Prop() kopieren?: () => void;
+  @Prop() reset?: () => void;
+  @Prop() loeschen?: () => void;
+  @Prop() changed?: boolean;
+  @Prop() valid?: boolean;
 }
 </script>
 

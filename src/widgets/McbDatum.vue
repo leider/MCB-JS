@@ -1,7 +1,7 @@
 <template lang="pug">
   b-form-group
     mcb-label(:name="name", :label="label")
-    vuejs-datepicker(v-model="date", :id="name", :name="name", :language="de", format="d. MMM. yyyy", monday-first, bootstrap-styling)
+    vuejs-datepicker(v-model="date", :id="name", :language="de", format="d. MMM. yyyy", monday-first, bootstrap-styling)
 </template>
 
 <script lang="ts">
@@ -14,10 +14,9 @@ import { Component, Vue, Prop } from "vue-property-decorator";
   components: { VuejsDatepicker }
 })
 export default class McbDatum extends Vue {
-  @Prop({ type: Date }) value!: Date;
-  @Prop({ type: String, default: "" }) readonly name!: string;
-  @Prop({ type: String, default: "" }) readonly label!: string;
-  @Prop({ type: Boolean, default: false }) readonly required!: boolean;
+  @Prop() value!: Date;
+  @Prop() readonly name!: string;
+  @Prop() readonly label!: string;
 
   de: any = de;
 

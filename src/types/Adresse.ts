@@ -287,7 +287,7 @@ export class Adresse {
   aktBesuch() {
     return (
       this.besuche.find(b => b.name === this.aktuellesTreffen.name) ||
-      new Besuch(0, 0, this.aktuellesTreffen.beschreibung, this.aktuellesTreffen.start.toISOString(), this.aktuellesTreffen.name, 0)
+      new Besuch(0, 0, this.aktuellesTreffen.beschreibung, this.aktuellesTreffen.ersterTag, this.aktuellesTreffen.name, 0)
     );
   }
 

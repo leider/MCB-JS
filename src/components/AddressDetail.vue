@@ -15,21 +15,21 @@
                 .col-4
                   mcb-button.btn-lg.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...")
                   mcb-button.btn-lg.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...")
-                  b-modal#meldung-modal(@ok="handleMeldungOk", @show="meldungModalOpened", button-size="lg", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Speichern")
+                  b-modal#meldung-modal(@ok="handleMeldungOk", @show="meldungModalOpened", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Speichern")
                     template(v-slot:modal-header)
-                      h1 Meldung
-                      h2.float-right.align-self-end Summe: {{ address.gesamtPreis }} €
+                      h3 Meldung
+                      h3.align-self-end Summe: {{ address.gesamtPreis }} €
+                    .row
+                      .col-6
+                      .col-6
+                        h5 Frühstück
                     .row
                       .col-4
-                      .col-8
-                        h3 Frühstück
-                    .row
+                        mcb-count(:label="aktuellesTreffen.meldungLabel", name="anzahlMeldung", v-model="address.anzahlMeldung")
                       .col-4
-                        mcb-count(label="Anzahl", name="anzahlMeldung", :disabled="!address.meldung", v-model="address.anzahlMeldung")
+                        mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", v-model="address.samstag")
                       .col-4
-                        mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", :disabled="!address.meldung", v-model="address.samstag")
-                      .col-4
-                        mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", :disabled="!address.meldung", v-model="address.sonntag")
+                        mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", v-model="address.sonntag")
       .row
         .col-12
           b-card.mb-2(no-body, border-variant="light")

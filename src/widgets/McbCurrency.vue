@@ -4,7 +4,7 @@
     b-input-group
       b-form-input.text-right(:id="name", v-model="valueString",
         :placeholder="placeholder", :required="required",
-        :name="name", :disabled="disabled", @blur="focusLost",
+        :disabled="disabled", @blur="focusLost",
         step=0.01, :state="valid", type="text")
       b-input-group-append: b-input-group-text €
       .invalid-feedback Bitte eine deutsche Zahl eingeben
@@ -15,12 +15,12 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class McbCurrency extends Vue {
-  @Prop({ type: Number, default: 0 }) value!: number;
-  @Prop({ type: String, default: "" }) readonly name!: string;
-  @Prop({ type: String, default: "" }) readonly label!: string;
-  @Prop({ type: Boolean, default: false }) readonly required!: boolean;
-  @Prop({ type: Boolean, default: false }) readonly disabled!: boolean;
-  @Prop({ type: String, default: "" }) readonly placeholder!: string;
+  @Prop() value!: number;
+  @Prop() readonly name!: string;
+  @Prop() readonly label!: string;
+  @Prop() readonly required!: boolean;
+  @Prop() readonly disabled!: boolean;
+  @Prop() readonly placeholder!: string;
   valid: boolean | null = null;
   valueString: string = "";
 

@@ -48,7 +48,7 @@ export class Treffen {
   }
 
   set start(date: Date) {
-    this.ersterTag = date.toISOString();
+    this.ersterTag = date.toISOString().substr(0, 10);
   }
 
   get ende() {
@@ -56,11 +56,11 @@ export class Treffen {
   }
 
   set ende(date: Date) {
-    this.letzterTag = date.toISOString();
+    this.letzterTag = date.toISOString().substr(0, 10);
   }
 
   get meldungLabel() {
-    return "Meldung (" + this.preisMeldung + " €)";
+    return "Anzahl (" + this.preisMeldung + " €)";
   }
   get samstagLabel() {
     return "Samstag (" + this.preisFruehstueck + " €)";
@@ -78,6 +78,7 @@ export class Treffen {
   }
 
   static emptyTreffen() {
-    return new Treffen("", new Date().toISOString(), 0, new Date().toISOString(), "", 0, 0, false);
+    const heute = new Date().toISOString().substr(0, 10);
+    return new Treffen("", heute, 0, heute, "", 0, 0, false);
   }
 }

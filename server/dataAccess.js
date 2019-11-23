@@ -34,12 +34,12 @@ function updateOrInsertData(allData, data, path, callback) {
   allData.splice(index === -1 ? allData.length : index, 1, data);
 
   const json = JSON.stringify(allData);
-  const diffJson = JSON.stringify([{ old: existingData }, { new: data }]);
+  const diffJson = JSON.stringify({ old: existingData, new: data });
   fs.writeFile(`${path.replace(".json", "")}.id=${data.id}-${new Date().toISOString()}.json`, diffJson, err => {
     if (err) {
       callback(err);
     }
-    const resultJSON = JSON.stringify({data: allData, id: data.id})
+    const resultJSON = JSON.stringify({ data: allData, id: data.id });
     fs.writeFile(path, json, err1 => callback(err1, resultJSON));
   });
 }

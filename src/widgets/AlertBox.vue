@@ -9,8 +9,8 @@ import { StatusMeldungJSON } from "@/types/common";
 
 @Component
 export default class AlertBox extends Vue {
-  @Prop({ type: Object }) value?: StatusMeldungJSON | null;
-  @Prop({ type: Number }) seconds?: number;
+  @Prop() value?: StatusMeldungJSON | null;
+  @Prop() seconds?: number;
 
   get alertVariant() {
     const translate = { info: "success", warning: "warning", error: "danger" };

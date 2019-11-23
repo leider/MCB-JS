@@ -7,8 +7,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbLabel extends Vue {
-  @Prop({ type: String, default: "" }) readonly name!: string;
-  @Prop({ type: String, default: "" }) readonly label!: string;
+  @Prop() readonly name!: string;
+  @Prop() readonly label?: string;
 }
 </script>
 
