@@ -19,8 +19,8 @@ export default class McbInput extends Vue {
 
   @Watch("value")
   validate() {
-    if (this.required) {
-      if (!this.value) {
+    if (this.required !== undefined) {
+      if (!this.value.trim()) {
         this.valid = false;
       } else {
         this.valid = null;

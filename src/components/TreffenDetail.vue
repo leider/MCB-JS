@@ -1,35 +1,34 @@
 <template lang="pug">
-  #treffen-detail
+  #treffen-detail(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
     alert-box(v-model="transferStatus", :seconds=10)
-    b-form()
-      .row
-        .col-12
-          b-card.mb-2(no-body, border-variant="light")
-            h4.card-header.p-2 Allgemein
-            .p1
-              .row
-                .col-3
-                  mcb-input(label="Name", name="name", v-model="treffen.name")
-                .col-6
-                  mcb-input(label="Beschreibung", name="beschreibung", v-model="treffen.beschreibung")
-                .col-3
-                  mcb-checkbox(label="ist Gespann", name="gespann", v-model="treffen.gespann")
+    .row
+      .col-12
+        b-card.mb-2(no-body, border-variant="light")
+          h4.card-header.p-2 Allgemein
+          .p1
+            .row
+              .col-3
+                mcb-input(label="Name", name="name", v-model="treffen.name", required)
+              .col-6
+                mcb-input(label="Beschreibung", name="beschreibung", v-model="treffen.beschreibung", required)
+              .col-3
+                mcb-checkbox(label="ist Gespann", name="gespann", v-model="treffen.gespann")
 
-              .row
-                .col-3
-                  mcb-datum(label="Erster Tag", name="ersterTag", v-model="treffen.start")
-                .col-3
-                  mcb-datum(label="Letzter Tag", name="letzterTag", v-model="treffen.ende")
-                .col-3
-                  mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
-                .col-3
-                  mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
-              .row
-                .col-12
-                  h2 E-Mail Vorschau
-                    mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
-                  hr
-                  div.bg-light(v-html="preview")
+            .row
+              .col-3
+                mcb-datum(label="Erster Tag", name="ersterTag", v-model="treffen.start")
+              .col-3
+                mcb-datum(label="Letzter Tag", name="letzterTag", v-model="treffen.ende")
+              .col-3
+                mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
+              .col-3
+                mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
+            .row
+              .col-12
+                h2 E-Mail Vorschau
+                  mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
+                hr
+                div.bg-light(v-html="preview")
 </template>
 
 <script lang="ts">

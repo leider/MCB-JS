@@ -8,9 +8,9 @@
           h4.float-right(v-if="aktuelleZahlen.anzahl") {{aktuelleZahlen.anzahl}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Samstag, {{aktuelleZahlen.So}} Sonntag
 
     .row
-      .col-md-3
+      nav.col-md-3
         AddressList
-      .col-md-9
+      main.col-md-9
         AddressDetail(ref="detail", @valid="addressValid")
 </template>
 
@@ -24,7 +24,7 @@ import { AktuelleZahlenJSON } from "@/types/common";
 import { Adresse } from "@/types/Adresse";
 
 @Component({ components: { AddressDetail, AddressList } })
-export default class Addresses extends Vue {
+export default class AddressesView extends Vue {
   valid: boolean = false;
   @State aktuelleZahlen!: AktuelleZahlenJSON;
   @State selectedAddress!: Adresse;

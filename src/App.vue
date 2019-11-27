@@ -1,15 +1,15 @@
 <template lang="pug">
   #app
-    b-navbar(variant="dark", type="dark", sticky)
-      b-navbar-brand MCB Bruhrain e.V.
+    b-navbar(variant="dark", type="dark", fixed="top").p-0.flex-md-nowrap
+      b-navbar-brand.col-md-3 MCB Bruhrain e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav
           b-nav-item(to="/adressen", active-class="active") Adressen
           b-nav-item(to="/treffen", active-class="active") Treffen
     .container-fluid
       .row
-        .col-12
-          router-view.mt-2
+        .col-12(style="padding-top: 48px")
+          router-view
 </template>
 
 <script lang="ts">
