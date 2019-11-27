@@ -7,13 +7,13 @@
           h2 Treffen
             form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="changed", :valid="true")
           b-button-toolbar.float-right
-            b-button-group(size="sm")
-              mcb-button(@click="sendEmails", text="Briefe...", :icon="['far', 'paper-plane']")
-              mcb-button(@click="createPDFs", text="E-Mails...", :icon="['fas', 'envelope-open-text']")
+            .btn-group.btn-group-sm
+              mcb-button(@click="sendEmails", text="Briefe...", icon="far fa-paper-plane")
+              mcb-button(@click="createPDFs", text="E-Mails...", icon="fas fa-envelope-open-text")
     .row
-      .col-md-3
+      nav.col-md-3
         TreffenList
-      .col-md-9
+      main.col-md-9
         TreffenDetail(ref="detail", @changed="treffenChanged")
 </template>
 

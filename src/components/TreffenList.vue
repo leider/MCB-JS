@@ -1,9 +1,8 @@
 <template lang="pug">
-  #treffen-list
-    b-list-group(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
-      b-list-group-item.pt-1.pb-1(v-for="treff in treffen", :key="treff.id", @click="selectTreffen(treff)", :active="treff.id === selectedTreffen.id")
-        b {{ treff.name }}
-        |#{" "} ({{ alsDatum(treff.ersterTag) }} - {{ alsDatum(treff.letzterTag) }})
+  ul.list-group(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
+    li.list-group-item.pt-1.pb-1(v-for="treff in treffen", :key="treff.id", @click="selectTreffen(treff)", :class="{active: treff.id === selectedTreffen.id}")
+      b {{ treff.name }}
+      |#{" "} ({{ alsDatum(treff.ersterTag) }} - {{ alsDatum(treff.letzterTag) }})
 </template>
 
 <script lang="ts">

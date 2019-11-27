@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    b-navbar(variant="dark", type="dark", fixed="top").p-0.flex-md-nowrap
+    b-navbar(variant="primary", type="dark", fixed="top").p-0
       b-navbar-brand.col-md-3 MCB Bruhrain e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav

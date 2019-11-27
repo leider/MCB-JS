@@ -3,14 +3,14 @@
     alert-box(v-model="transferStatus")
     .row
       .col-12
-        b-card(no-body, border-variant="light").mb-3
-          h5.card-header Aktuelles Treffen
-          .p-1
-            .row.mt-2
+        .card.mb-3
+          h4.card-header Aktuelles Treffen
+          .card-body.py-1
+            .row
               .col-4.align-self-end
-                h3.m-0.form-text(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
+                h5.form-text(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
               .col-4.align-self-end
-                h5.m-0(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
+                h5(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
               .col-4
                 mcb-button.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...")
                 mcb-button.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...")
@@ -31,9 +31,9 @@
                       mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", v-model="address.sonntag")
     .row
       .col-12
-        b-card.mb-2(no-body)
-          h4.card-header.p-2 Allgemein
-          .p-1
+        .card.mb-3
+          h4.card-header Allgemein
+          .card-body.pb-0
             .row
               .col-6
                 mcb-input(label="Vorname", name="vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
@@ -53,28 +53,28 @@
                 mcb-input(label="Ort", name="ort", v-model="address.ort")
     .row
       .col-6
-        b-card.mb-2(no-body, :class="{'text-danger border-danger': address.hatEmailFehler()}")
-          h4.card-header.p-2 E-Mail
-          .p-1
+        .card(:class="{'text-danger border-danger': address.hatEmailFehler()}")
+          h4.card-header E-Mail
+          .card-body.pb-1
             .row
               .col-12
                 mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
                 mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
-                mcb-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", :icon="['far', 'paper-plane']")
+                mcb-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", icon="far fa-paper-plane")
 
-        b-card(no-body)
-          h4.card-header.p-2 Fahrzeuge
-          .p-1
+        .card
+          h4.card-header Fahrzeuge
+          .card-body.pb-0
             .row
               .col-6
                 mcb-checkbox(label="fährt Solo", name="solo", v-model="address.solo", inline="true")
               .col-6
                 mcb-checkbox(label="fährt Gespann", name="gespann", v-model="address.gespann", inline="true")
       .col-6
-        b-card(no-body, border-variant="light")
-          h4.card-header.p-2 Besuchte Treffen
-          b-list-group
-            b-list-group-item.pt-1.pb-1(v-for="t in address.besuche", :key="t.name") {{ t.name }}
+        .card
+          h4.card-header Besuchte Treffen
+          .list-group.list-group-flush
+            .list-group-item.pt-1.pb-1(v-for="t in address.besuche", :key="t.name") {{ t.name }}
 </template>
 
 <script lang="ts">

@@ -3,10 +3,10 @@
     mcb-label(:name="name", :label="label")
     b-input-group
       b-input-group-prepend
-        mcb-button(@click="decrease", :icon="['fas', 'minus']")
+        mcb-button(@click="decrease", icon="fas fa-minus")
       b-form-input.text-right(:id="name", v-model="valueString", disabled, type="text")
       b-input-group-append
-        mcb-button(@click="increase", :icon="['fas', 'plus']")
+        mcb-button(@click="increase", icon="fas fa-plus")
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template lang="pug">
   b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled")
-    font-awesome-icon(v-if="icon", :icon="icon", :size="size || 'sm'")
+    i(v-if="icon", :class="icon")
     | #{' '} {{text}}
 
 </template>

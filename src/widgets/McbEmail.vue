@@ -6,9 +6,9 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-  @Component
+@Component
 export default class McbEmail extends Vue {
   @Prop() value!: string;
   @Prop() readonly name!: string;

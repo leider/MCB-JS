@@ -3,9 +3,9 @@
     alert-box(v-model="transferStatus", :seconds=10)
     .row
       .col-12
-        b-card.mb-2(no-body, border-variant="light")
-          h4.card-header.p-2 Allgemein
-          .p1
+        .card.mb-2
+          h4.card-header Allgemein
+          .card-body
             .row
               .col-3
                 mcb-input(label="Name", name="name", v-model="treffen.name", required)
@@ -23,12 +23,12 @@
                 mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
               .col-3
                 mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
+          h4.card-header E-Mail Vorschau
+            mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", icon="far fa-file-pdf")
+          .card-body
             .row
               .col-12
-                h2 E-Mail Vorschau
-                  mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", :icon="['far', 'file-pdf']")
-                hr
-                div.bg-light(v-html="preview")
+                div(v-html="preview")
 </template>
 
 <script lang="ts">
