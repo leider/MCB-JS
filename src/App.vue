@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    b-navbar(variant="primary", type="dark", fixed="top").p-0
+    b-navbar(variant="primary", type="dark", fixed="top")
       b-navbar-brand.col-md-3 MCB Bruhrain e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav
@@ -8,7 +8,7 @@
           b-nav-item(to="/treffen", active-class="active") Treffen
     .container-fluid
       .row
-        .col-12(style="padding-top: 48px")
+        .col-12(style="padding-top: 64px")
           router-view
 </template>
 
@@ -50,6 +50,8 @@ $input-color: #212529 !default;
 
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
+
+@import "~@fortawesome/fontawesome-free/css/all.css";
 .custom-check {
   padding-top: $font-size-base * 2;
 }

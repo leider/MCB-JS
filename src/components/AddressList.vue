@@ -2,10 +2,9 @@
   #address-list
     AddressListFilter(v-model="filter", :anzahl="anzahl")
     b-list-group(style="max-height:calc(100vh - 13rem);overflow-y: scroll")
-      b-list-group-item.pt-1.pb-1( v-for="address in filteredAddresses", :key="address.id", :to="`/adressen/${address.id}`", active-class="active", :id="`item-address${address.id}`")
-        i.text-danger.fas.fa-envelope(v-if="address.hatEmailFehler()")
-        i.text-success.far.fa-envelope(v-if="!address.hatEmailFehler() && address.email")
-        i.text-warning.far.fa-envelope(v-if="!address.hatEmailFehler() && !address.email")
+      b-list-group-item.pt-1.pb-1( v-for="address in filteredAddresses", :key="address.id", :to="`/adressen/${address.id}`",
+        :class="{active: address.id === selectedAddress.id}", :id="`item-address${address.id}`")
+        i.fa-envelope(:class="envelopeClass(address)")
         | #{" "}
         span(:class="{'text-danger': address.hatEmailFehler()}")
           |{{ address.listText }}
@@ -44,6 +43,16 @@ export default class AddressList extends Vue {
         elementById.scrollIntoView(false);
       }
     });
+  }
+
+  envelopeClass(address: Adresse) {
+    if (address.hatEmailFehler()) {
+      return "fas text-danger";
+    }
+    if (address.email) {
+      return "far text-success";
+    }
+    return "far text-warning";
   }
 }
 </script>

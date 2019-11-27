@@ -55,12 +55,12 @@
       .col-6
         .card(:class="{'text-danger border-danger': address.hatEmailFehler()}")
           h4.card-header E-Mail
+            mcb-button.btn-sm.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", icon="far fa-paper-plane")
           .card-body.pb-1
             .row
               .col-12
                 mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
                 mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
-                mcb-button.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", icon="far fa-paper-plane")
 
         .card
           h4.card-header Fahrzeuge

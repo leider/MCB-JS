@@ -36,7 +36,7 @@ export class Treffen {
     this.name = name;
     this.preisFruehstueck = preisFruehstueck;
     this.preisMeldung = preisMeldung;
-    this.gespann = gespann;
+    this.gespann = !!gespann;
   }
 
   static fromJSON(t: TreffenJSON) {

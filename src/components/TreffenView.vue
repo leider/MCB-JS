@@ -18,11 +18,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 import TreffenList from "@/components/TreffenList.vue";
 import TreffenDetail from "@/components/TreffenDetail.vue";
-import { State } from "vuex-class";
+import { Action, State } from "vuex-class";
 import { Adresse, filterMap } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
@@ -32,13 +32,54 @@ import { postAndReceiveJSON } from "@/remoteCalls";
   components: { TreffenList, TreffenDetail }
 })
 export default class TreffenView extends Vue {
+  @State treffen!: Treffen[];
   @State addresses!: Adresse[];
   @State aktuellesTreffen!: Treffen;
+  @State selectedTreffen!: Treffen;
+  @Action selectTreffen: any;
   private transferStatus: StatusMeldungJSON | null = null;
   changed: boolean = false;
 
+  @Watch("$route")
+  routeChanged() {
+    this.selectTreffenIfNotDirty();
+  }
+
+  @Watch("treffen")
+  @Watch("selectedtreffen")
+  selectionChanged() {
+    if (this.selectedTreffen.id === parseInt(this.$route.params.id, 10)) {
+      return;
+    }
+    this.$router.push(`/treffen/${this.selectedTreffen.id}`);
+  }
+
   delegate(name: string) {
     return () => (this.$refs.detail as any)[name]();
+  }
+
+  selectTreffenIfNotDirty() {
+    const treff = this.treffen.find(t => t.id === parseInt(this.$route.params.id, 10));
+    if (!treff) {
+      return;
+    }
+    if (this.changed) {
+      return this.$bvModal
+        .msgBoxConfirm("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
+          okVariant: "success",
+          okTitle: "Speichern",
+          cancelTitle: "Abbrechen",
+          centered: true
+        })
+        .then(yesNo => {
+          if (yesNo) {
+            this.delegate("onSave")();
+          } else {
+            this.delegate("onReset")();
+          }
+        });
+    }
+    this.selectTreffen(treff);
   }
 
   treffenChanged(e: boolean) {

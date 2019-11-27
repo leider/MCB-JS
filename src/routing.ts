@@ -10,6 +10,7 @@ export default new VueRouter({
     { path: "/", redirect: "/adressen" },
     { path: "/adressen", redirect: "/adressen/0" },
     { path: "/adressen/:id", component: AddressesView },
-    { path: "/treffen", component: TreffenView }
+    { path: "/treffen", redirect: "/treffen/0" },
+    { path: "/treffen/:id", component: TreffenView }
   ]
 });

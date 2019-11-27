@@ -8,8 +8,6 @@ import McbWidgets from "@/widgets/McbWidgets";
 
 import routing from "./routing";
 
-import "@fortawesome/fontawesome-free/js/all";
-
 Vue.use(BootstrapVue);
 Vue.use(McbWidgets);
 

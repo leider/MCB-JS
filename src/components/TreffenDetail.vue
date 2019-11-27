@@ -24,7 +24,7 @@
               .col-3
                 mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
           h4.card-header E-Mail Vorschau
-            mcb-button.float-right(@click="createEmptyPDF", text="PDF Vorschau", icon="far fa-file-pdf")
+            mcb-button.btn-sm.float-right(@click="createEmptyPDF", text="PDF Vorschau", icon="far fa-file-pdf")
           .card-body
             .row
               .col-12
