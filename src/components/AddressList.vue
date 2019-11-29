@@ -1,6 +1,6 @@
 <template lang="pug">
   #address-list
-    AddressListFilter(v-model="filter", :anzahl="anzahl")
+    AddressListFilter()
     b-list-group(style="max-height:calc(100vh - 13rem);overflow-y: scroll")
       b-list-group-item.pt-1.pb-1( v-for="address in filteredAddresses", :key="address.id", :to="`/adressen/${address.id}`",
         :active="address.id === selectedAddress.id", :id="`item-address${address.id}`")
@@ -25,18 +25,11 @@ import AddressListFilter from "@/components/AddressListFilter.vue";
 export default class AddressList extends Vue {
   @addresses.State addresses!: Adresse[];
   @addresses.State selectedAddress!: Adresse;
-
-  private filter: () => (a: Adresse) => boolean = () => () => true;
-
-  get anzahl() {
-    return this.filteredAddresses.length;
-  }
-
-  get filteredAddresses() {
-    return this.addresses.filter(this.filter());
-  }
+  @addresses.State filter!: () => (a: Adresse) => boolean;
+  @addresses.Getter filteredAddresses!: Adresse[];
 
   @Watch("filteredAddresses")
+  @Watch("selectedAddress")
   filterChanged() {
     this.$nextTick(() => {
       const elementById = document.getElementById(`item-address${this.selectedAddress.id}`);

@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { Adresse } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
@@ -87,86 +87,13 @@ import { Action } from "vuex-class";
 
 @Component
 export default class AddressDetail extends Vue {
-  @addresses.State selectedAddress!: Adresse;
-  @addresses.State addressDirty!: boolean;
+  @Prop() address!: Adresse;
   @treffen.State aktuellesTreffen!: Treffen;
 
   @addresses.Action saveAddress: any;
-  @addresses.Action reselectAddress: any;
-  @addresses.Action deleteAddress: any;
-  @addresses.Action setAddressDirty: any;
   @Action sendEmails: any;
 
-  address: Adresse = Adresse.emptyAddress();
-
   private transferStatus: StatusMeldungJSON | null = null;
-
-  @Watch("selectedAddress")
-  selectedAddressChanged() {
-    this.selectAddressIfNotDirty();
-  }
-
-  initModel() {
-    this.setAddressDirty(false);
-    this.address = this.selectedAddress.copy();
-  }
-
-  selectAddressIfNotDirty() {
-    if (this.addressDirty) {
-      return this.$bvModal
-        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
-          okVariant: "success",
-          okTitle: "Speichern",
-          cancelTitle: "Abbrechen",
-          centered: true
-        })
-        .then(yesNo => {
-          if (yesNo) {
-            this.onSave();
-          }
-          this.initModel();
-        });
-    }
-    this.initModel();
-  }
-
-  @Watch("address", { deep: true })
-  somethingChanged() {
-    const dirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
-    this.setAddressDirty(dirty);
-    this.$emit("valid", this.address.isValid());
-  }
-
-  mounted() {
-    this.initModel();
-  }
-
-  onSave() {
-    this.saveAddress(this.address);
-  }
-
-  onReset() {
-    this.initModel();
-  }
-
-  onDelete() {
-    this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich den Eintrag von "${this.address.vorname} ${this.address.name}" löschen?`, {
-        okVariant: "danger",
-        cancelTitle: "Nein",
-        okTitle: "Ja",
-        centered: true
-      })
-      .then(yesNo => {
-        if (yesNo) {
-          this.deleteAddress(this.address);
-        }
-      });
-  }
-
-  onNew() {
-    this.address = Adresse.emptyAddress();
-  }
 
   handleMeldungOk() {
     this.saveAddress(this.address);
@@ -187,12 +114,8 @@ export default class AddressDetail extends Vue {
       })
       .then(yesNo => {
         if (yesNo) {
-          this.sendEmails({
-            receiverIds,
-            callback: (status: StatusMeldungJSON) => {
-              this.transferStatus = status;
-            }
-          });
+          const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
+          this.sendEmails({ receiverIds, callback });
         }
       });
   }

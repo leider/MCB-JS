@@ -13,16 +13,12 @@ export default <Module<any, any>>{
   state: {
     addresses: <Adresse[]>[],
     selectedAddress: Adresse.emptyAddress(),
-    addressDirty: false,
-    aktuelleZahlen: <AktuelleZahlenJSON>{}
+    aktuelleZahlen: <AktuelleZahlenJSON>{},
+    filter: () => () => true
   },
 
   mutations: {
-    addressDirty(state, dirty) {
-      state.addressDirty = dirty;
-    },
     setAddresses(state, { addresses, aktuellesTreffen }: { addresses: AdresseJSON[]; aktuellesTreffen: Treffen }) {
-      state.addressDirty = false;
       function sortiere(addr: Adresse[]) {
         return addr.sort((a, b) => (a.name < b.name ? -1 : 1));
       }
@@ -49,16 +45,16 @@ export default <Module<any, any>>{
 
     selectAddress(state, address: Adresse) {
       state.selectedAddress = address;
+    },
+
+    setFilter(state, filter) {
+      state.filter = filter;
     }
   },
 
   actions: {
     selectAddress({ commit }, address: Adresse) {
       commit("selectAddress", address);
-    },
-
-    setAddressDirty({ commit }, dirty) {
-      commit("addressDirty", dirty);
     },
 
     reselectAddress({ state, dispatch }, address: Adresse) {
@@ -84,7 +80,9 @@ export default <Module<any, any>>{
         rootState.aktuellesTreffen;
         commit("setAddresses", { addresses: res.data, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
         const updatedAddress = (state.addresses as Adresse[]).find(a => a.id === res.id) || state.addresses[0];
-        commit("selectAddress", updatedAddress);
+        if (updatedAddress.id !== state.selectedAddress.id) {
+          commit("selectAddress", updatedAddress);
+        }
       });
     },
 
@@ -96,13 +94,22 @@ export default <Module<any, any>>{
     },
 
     routeChanged({ state, commit }, route: Route) {
-      console.log("Path: " + route.path);
       const id = parseInt(route.params.id, 10);
       if (state.selectedAddress.id === id) {
         return;
       }
       const address = (state.addresses as Adresse[]).find(a => a.id === id);
       commit("selectAddress", address);
+    },
+
+    setFilter({ commit }, filter) {
+      commit("setFilter", filter);
+    }
+  },
+
+  getters: {
+    filteredAddresses(state) {
+      return state.addresses.filter(state.filter());
     }
   }
 };

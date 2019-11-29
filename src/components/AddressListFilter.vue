@@ -5,16 +5,18 @@
     .col-5
       mcb-select(name="suche", v-model="activeFilter", :options="alleFilter")
     .col-2
-      b.form-text.text-right {{anzahl}}
+      b.form-text.text-right {{this.filteredAddresses.length}}
 </template>
 
 <script lang="ts">
-import { filterMap } from "@/types/Adresse";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+  import { Adresse, filterMap } from "@/types/Adresse";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { addresses } from "@/store/store";
 
 @Component
 export default class AddressListFilter extends Vue {
-  @Prop({ type: Number }) anzahl!: number;
+  @addresses.Action setFilter!: any;
+  @addresses.Getter filteredAddresses!: Adresse[];
   private suchtext: string = "";
   private activeFilter: string = "Alle";
 
@@ -32,10 +34,10 @@ export default class AddressListFilter extends Vue {
   activeFilterChanged() {
     const filterFunc = filterMap[this.activeFilter];
     if (this.activeFilter === "Suche") {
-      this.$emit("input", filterFunc(this.suchtext));
+      this.setFilter(filterFunc(this.suchtext));
     } else {
       this.suchtext = "";
-      this.$emit("input", filterFunc);
+      this.setFilter(filterFunc);
     }
   }
 }
