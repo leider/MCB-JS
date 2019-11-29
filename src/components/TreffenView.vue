@@ -14,7 +14,7 @@
       nav.col-md-3
         TreffenList
       main.col-md-9
-        TreffenDetail(ref="detail", @changed="treffenChanged")
+        TreffenDetail(ref="detail")
 </template>
 
 <script lang="ts">
@@ -36,10 +36,10 @@ export default class TreffenView extends Vue {
   @addresses.State addresses!: Adresse[];
   @treffen.State aktuellesTreffen!: Treffen;
   @treffen.State selectedTreffen!: Treffen;
+  @treffen.State treffenDirty!: boolean;
   @treffen.Action selectTreffen: any;
   @Action sendEmails: any;
   private transferStatus: StatusMeldungJSON | null = null;
-  changed: boolean = false;
 
   @Watch("$route")
   routeChanged() {
@@ -64,7 +64,7 @@ export default class TreffenView extends Vue {
     if (!treff) {
       return;
     }
-    if (this.changed) {
+    if (this.treffenDirty) {
       return this.$bvModal
         .msgBoxConfirm("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
           okVariant: "success",
@@ -81,10 +81,6 @@ export default class TreffenView extends Vue {
         });
     }
     this.selectTreffen(treff);
-  }
-
-  treffenChanged(e: boolean) {
-    this.changed = e;
   }
 
   prepareSendEmails() {

@@ -95,6 +95,7 @@ export default class AddressDetail extends Vue {
   @addresses.Action deleteAddress: any;
   @addresses.Action addressDirty: any;
   @Action sendEmails: any;
+
   private transferStatus: StatusMeldungJSON | null = null;
 
   @Watch("selectedAddress")

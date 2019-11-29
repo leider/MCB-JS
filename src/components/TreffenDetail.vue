@@ -46,6 +46,7 @@ export default class TreffenDetail extends Vue {
   @treffen.Action saveTreffen: any;
   @treffen.Action reselectTreffen: any;
   @treffen.Action deleteTreffen: any;
+  @treffen.Action treffenDirty: any;
   preview: string = "";
   private transferStatus: StatusMeldungJSON | null = null;
 
@@ -56,7 +57,8 @@ export default class TreffenDetail extends Vue {
 
   @Watch("treffen", { deep: true })
   somethingChanged() {
-    this.$emit("changed", JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treffen.toJSON()));
+    const dirty = JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treffen.toJSON());
+    this.treffenDirty(dirty);
     fetch("preview?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)))
       .then(response => response.text())
       .then(text => (this.preview = text));

@@ -10,11 +10,16 @@ export default <Module<any, any>>{
   state: {
     treffen: <Treffen[]>[],
     selectedTreffen: Treffen.emptyTreffen(),
+    treffenDirty: false,
     aktuellesTreffen: Treffen.emptyTreffen()
   },
 
   mutations: {
+    treffenDirty(state, dirty) {
+      state.treffenDirty = dirty;
+    },
     setTreffen(state, treffen: TreffenJSON[]) {
+      state.treffenDirty = false;
       function sortiere(treff: Treffen[]) {
         return treff.sort((a, b) => (a.ersterTag > b.ersterTag ? -1 : 1));
       }
@@ -30,6 +35,13 @@ export default <Module<any, any>>{
   },
 
   actions: {
+    selectTreffen({ commit }, treffen: Treffen) {
+      commit("selectTreffen", treffen);
+    },
+
+    treffenDirty({ commit }, dirty) {
+      commit("treffenDirty", dirty);
+    },
     reselectTreffen({ state, dispatch }, treffen: Treffen) {
       if (treffen.id) {
         const oldTreffen = (state.treffen as Treffen[]).find(t => t.id === treffen.id);
@@ -38,11 +50,6 @@ export default <Module<any, any>>{
         dispatch("selectTreffen", state.aktuellesTreffen);
       }
     },
-
-    selectTreffen({ commit }, treffen: Treffen) {
-      commit("selectTreffen", treffen);
-    },
-
     getAllTreffen({ state, commit }) {
       getJson("treffen.json", (treffen: TreffenJSON[]) => {
         commit("setTreffen", treffen);
