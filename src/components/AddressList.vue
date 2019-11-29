@@ -3,7 +3,7 @@
     AddressListFilter(v-model="filter", :anzahl="anzahl")
     b-list-group(style="max-height:calc(100vh - 13rem);overflow-y: scroll")
       b-list-group-item.pt-1.pb-1( v-for="address in filteredAddresses", :key="address.id", :to="`/adressen/${address.id}`",
-        :class="{active: address.id === selectedAddress.id}", :id="`item-address${address.id}`")
+        :active="address.id === selectedAddress.id", :id="`item-address${address.id}`")
         i.fa-envelope(:class="envelopeClass(address)")
         | #{" "}
         span(:class="{'text-danger': address.hatEmailFehler()}")

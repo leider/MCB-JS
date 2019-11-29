@@ -17,9 +17,11 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action } from "vuex-class";
 import { Route } from "vue-router";
 import { addresses, treffen } from "@/store/store";
+import { Adresse } from "@/types/Adresse";
 
 @Component
 export default class App extends Vue {
+  @addresses.State addresses!: Adresse[];
   @treffen.Action getAllTreffen: any;
   @addresses.Action getAllAddresses: any;
   @Action routeChanged: any;
@@ -27,6 +29,11 @@ export default class App extends Vue {
   created() {
     this.getAllTreffen();
     this.getAllAddresses();
+  }
+
+  @Watch("addresses")
+  addressesLoaded() {
+    this.routeChanged(this.$route);
   }
 
   @Watch("$route")

@@ -5,6 +5,7 @@ import { Adresse, AdresseJSON } from "@/types/Adresse";
 import { AktuelleZahlenJSON } from "@/types/common";
 
 import { getJson, postAndReceiveJSON } from "@/remoteCalls";
+import { Route } from "vue-router";
 
 export default <Module<any, any>>{
   namespaced: true,
@@ -56,7 +57,7 @@ export default <Module<any, any>>{
       commit("selectAddress", address);
     },
 
-    addressDirty({ commit }, dirty) {
+    setAddressDirty({ commit }, dirty) {
       commit("addressDirty", dirty);
     },
 
@@ -92,6 +93,16 @@ export default <Module<any, any>>{
         commit("setAddresses", { addresses, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
         commit("selectAddress", state.addresses[0]);
       });
+    },
+
+    routeChanged({ state, commit }, route: Route) {
+      console.log("Path: " + route.path);
+      const id = parseInt(route.params.id, 10);
+      if (state.selectedAddress.id === id) {
+        return;
+      }
+      const address = (state.addresses as Adresse[]).find(a => a.id === id);
+      commit("selectAddress", address);
     }
   }
 };

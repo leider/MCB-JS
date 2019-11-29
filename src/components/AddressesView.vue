@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { addresses } from "@/store/store";
 
 import AddressList from "@/components/AddressList.vue";
@@ -31,48 +31,6 @@ export default class AddressesView extends Vue {
   @addresses.State addresses!: Adresse[];
   @addresses.State addressDirty!: boolean;
   @addresses.Action selectAddress: any;
-
-  created() {
-    this.selectAddressIfNotDirty();
-  }
-
-  @Watch("$route")
-  routeChanged() {
-    this.selectAddressIfNotDirty();
-  }
-
-  @Watch("addresses")
-  @Watch("selectedAddress")
-  selectionChanged() {
-    if (this.selectedAddress.id === parseInt(this.$route.params.id, 10)) {
-      return;
-    }
-    this.$router.push(`/adressen/${this.selectedAddress.id}`);
-  }
-
-  selectAddressIfNotDirty() {
-    const address = this.addresses.find(a => a.id === parseInt(this.$route.params.id, 10));
-    if (!address) {
-      return;
-    }
-    if (this.addressDirty) {
-      return this.$bvModal
-        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
-          okVariant: "success",
-          okTitle: "Speichern",
-          cancelTitle: "Abbrechen",
-          centered: true
-        })
-        .then(yesNo => {
-          if (yesNo) {
-            this.delegate("onSave")();
-          } else {
-            this.delegate("onReset")();
-          }
-        });
-    }
-    this.selectAddress(address);
-  }
 
   delegate(name: string) {
     return () => (this.$refs.detail as any)[name]();

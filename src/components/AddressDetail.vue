@@ -88,25 +88,52 @@ import { Action } from "vuex-class";
 @Component
 export default class AddressDetail extends Vue {
   @addresses.State selectedAddress!: Adresse;
-  address: Adresse = Adresse.emptyAddress();
+  @addresses.State addressDirty!: boolean;
   @treffen.State aktuellesTreffen!: Treffen;
+
   @addresses.Action saveAddress: any;
   @addresses.Action reselectAddress: any;
   @addresses.Action deleteAddress: any;
-  @addresses.Action addressDirty: any;
+  @addresses.Action setAddressDirty: any;
   @Action sendEmails: any;
+
+  address: Adresse = Adresse.emptyAddress();
 
   private transferStatus: StatusMeldungJSON | null = null;
 
   @Watch("selectedAddress")
+  selectedAddressChanged() {
+    this.selectAddressIfNotDirty();
+  }
+
   initModel() {
+    this.setAddressDirty(false);
     this.address = this.selectedAddress.copy();
+  }
+
+  selectAddressIfNotDirty() {
+    if (this.addressDirty) {
+      return this.$bvModal
+        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
+          okVariant: "success",
+          okTitle: "Speichern",
+          cancelTitle: "Abbrechen",
+          centered: true
+        })
+        .then(yesNo => {
+          if (yesNo) {
+            this.onSave();
+          }
+          this.initModel();
+        });
+    }
+    this.initModel();
   }
 
   @Watch("address", { deep: true })
   somethingChanged() {
     const dirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
-    this.addressDirty(dirty);
+    this.setAddressDirty(dirty);
     this.$emit("valid", this.address.isValid());
   }
 

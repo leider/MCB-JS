@@ -20,11 +20,14 @@ export default new Vuex.Store({
   mutations: {},
 
   actions: {
-    sendEmails({ rootState: state }, { receiverIds, callback }) {
+    sendEmails({ state }, { receiverIds, callback }) {
       postAndReceiveJSON("sendEmails", { receiverIds, aktuellesTreffen: state.treffen.aktuellesTreffen.toJSON() }, callback);
     },
 
-    routeChanged({}, route: Route) {
+    routeChanged({ dispatch }, route: Route) {
+      if (route.path.startsWith("/adressen")) {
+        return dispatch("addresses/routeChanged", route);
+      }
       console.log("Path: " + route.path);
     }
   }

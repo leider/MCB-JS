@@ -5,7 +5,7 @@
       .col-12
         .page-header
           h2 Treffen
-            form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="changed", :valid="true")
+            form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="treffenDirty", :valid="true")
           b-button-toolbar.float-right
             .btn-group.btn-group-sm
               mcb-button(@click="prepareSendEmails", text="E-Mails...", icon="far fa-paper-plane")
