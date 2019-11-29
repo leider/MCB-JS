@@ -15,15 +15,16 @@
 <script lang="ts">
 import { Adresse } from "@/types/Adresse.ts";
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { State } from "vuex-class";
+import { addresses } from "@/store/store";
+
 import AddressListFilter from "@/components/AddressListFilter.vue";
 
 @Component({
   components: { AddressListFilter }
 })
 export default class AddressList extends Vue {
-  @State addresses!: Adresse[];
-  @State selectedAddress!: Adresse;
+  @addresses.State addresses!: Adresse[];
+  @addresses.State selectedAddress!: Adresse;
 
   private filter: () => (a: Adresse) => boolean = () => () => true;
 

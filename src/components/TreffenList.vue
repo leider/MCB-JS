@@ -9,12 +9,12 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
-import { State } from "vuex-class";
+import { treffen } from "@/store/store";
 
 @Component
 export default class TreffenList extends Vue {
-  @State treffen!: Treffen[];
-  @State selectedTreffen!: Treffen;
+  @treffen.State treffen!: Treffen[];
+  @treffen.State selectedTreffen!: Treffen;
 
   alsDatum(unixTimestamp: number) {
     return new Date(unixTimestamp).toLocaleDateString();

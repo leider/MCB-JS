@@ -277,7 +277,9 @@ export class Adresse {
   }
 
   copy() {
-    return Adresse.fromJSON(this.toJSON());
+    const result = Adresse.fromJSON(this.toJSON());
+    result.aktuellesTreffenFetcher = this.aktuellesTreffenFetcher;
+    return result;
   }
 
   toJSON(): AdresseJSON {

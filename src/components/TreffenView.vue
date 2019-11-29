@@ -8,8 +8,8 @@
             form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="changed", :valid="true")
           b-button-toolbar.float-right
             .btn-group.btn-group-sm
-              mcb-button(@click="sendEmails", text="Briefe...", icon="far fa-paper-plane")
-              mcb-button(@click="createPDFs", text="E-Mails...", icon="fas fa-envelope-open-text")
+              mcb-button(@click="prepareSendEmails", text="E-Mails...", icon="far fa-paper-plane")
+              mcb-button(@click="createPDFs", text="Briefe...", icon="fas fa-envelope-open-text")
     .row
       nav.col-md-3
         TreffenList
@@ -22,21 +22,22 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 
 import TreffenList from "@/components/TreffenList.vue";
 import TreffenDetail from "@/components/TreffenDetail.vue";
-import { Action, State } from "vuex-class";
 import { Adresse, filterMap } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
-import { postAndReceiveJSON } from "@/remoteCalls";
+import { addresses, treffen } from "@/store/store";
+import { Action } from "vuex-class";
 
 @Component({
   components: { TreffenList, TreffenDetail }
 })
 export default class TreffenView extends Vue {
-  @State treffen!: Treffen[];
-  @State addresses!: Adresse[];
-  @State aktuellesTreffen!: Treffen;
-  @State selectedTreffen!: Treffen;
-  @Action selectTreffen: any;
+  @treffen.State treffen!: Treffen[];
+  @addresses.State addresses!: Adresse[];
+  @treffen.State aktuellesTreffen!: Treffen;
+  @treffen.State selectedTreffen!: Treffen;
+  @treffen.Action selectTreffen: any;
+  @Action sendEmails: any;
   private transferStatus: StatusMeldungJSON | null = null;
   changed: boolean = false;
 
@@ -86,7 +87,7 @@ export default class TreffenView extends Vue {
     this.changed = e;
   }
 
-  sendEmails() {
+  prepareSendEmails() {
     const receiverIds = this.addresses.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
     this.$bvModal
       .msgBoxConfirm(`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`, {
@@ -98,13 +99,12 @@ export default class TreffenView extends Vue {
       .then(yesNo => {
         if (yesNo) {
           this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
-          postAndReceiveJSON(
-            "sendEmails",
-            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
-            (status: StatusMeldungJSON) => {
+          this.sendEmails({
+            receiverIds,
+            callback: (status: StatusMeldungJSON) => {
               this.transferStatus = status;
             }
-          );
+          });
         }
       });
   }

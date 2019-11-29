@@ -13,17 +13,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action } from "vuex-class";
+import { Route } from "vue-router";
+import { addresses, treffen } from "@/store/store";
 
 @Component
 export default class App extends Vue {
-  @Action getAllTreffen: any;
-  @Action getAllAddresses: any;
+  @treffen.Action getAllTreffen: any;
+  @addresses.Action getAllAddresses: any;
+  @Action routeChanged: any;
 
   created() {
     this.getAllTreffen();
     this.getAllAddresses();
+  }
+
+  @Watch("$route")
+  routeChange(route: Route) {
+    this.routeChanged(route);
   }
 }
 </script>

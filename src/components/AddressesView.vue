@@ -16,21 +16,21 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
+import { addresses } from "@/store/store";
 
 import AddressList from "@/components/AddressList.vue";
 import AddressDetail from "@/components/AddressDetail.vue";
-import { Action, State } from "vuex-class";
 import { AktuelleZahlenJSON } from "@/types/common";
 import { Adresse } from "@/types/Adresse";
 
 @Component({ components: { AddressDetail, AddressList } })
 export default class AddressesView extends Vue {
   valid: boolean = false;
-  @State aktuelleZahlen!: AktuelleZahlenJSON;
-  @State selectedAddress!: Adresse;
-  @State addresses!: Adresse[];
-  @State addressDirty!: boolean;
-  @Action selectAddress: any;
+  @addresses.State aktuelleZahlen!: AktuelleZahlenJSON;
+  @addresses.State selectedAddress!: Adresse;
+  @addresses.State addresses!: Adresse[];
+  @addresses.State addressDirty!: boolean;
+  @addresses.Action selectAddress: any;
 
   created() {
     this.selectAddressIfNotDirty();

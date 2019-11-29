@@ -34,18 +34,18 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
-import { Action, State } from "vuex-class";
 import { StatusMeldungJSON } from "@/types/common";
+import { treffen } from "@/store/store";
 
 @Component
 export default class TreffenDetail extends Vue {
-  @State selectedTreffen!: Treffen;
-  @State aktuellesTreffen!: Treffen;
+  @treffen.State selectedTreffen!: Treffen;
+  @treffen.State aktuellesTreffen!: Treffen;
 
   treffen: Treffen = Treffen.emptyTreffen();
-  @Action saveTreffen: any;
-  @Action reselectTreffen: any;
-  @Action deleteTreffen: any;
+  @treffen.Action saveTreffen: any;
+  @treffen.Action reselectTreffen: any;
+  @treffen.Action deleteTreffen: any;
   preview: string = "";
   private transferStatus: StatusMeldungJSON | null = null;
 

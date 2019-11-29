@@ -81,26 +81,25 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Adresse } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
-import { Action, State } from "vuex-class";
-import FormButtons from "@/widgets/FormButtons.vue";
-import { postAndReceiveJSON } from "@/remoteCalls";
 import { StatusMeldungJSON } from "@/types/common";
+import { addresses, treffen } from "@/store/store";
+import { Action } from "vuex-class";
 
-@Component({ components: { FormButtons } })
+@Component
 export default class AddressDetail extends Vue {
-  @State selectedAddress!: Adresse;
+  @addresses.State selectedAddress!: Adresse;
   address: Adresse = Adresse.emptyAddress();
-  @State aktuellesTreffen!: Treffen;
-  @Action saveAddress: any;
-  @Action reselectAddress: any;
-  @Action deleteAddress: any;
-  @Action addressDirty: any;
+  @treffen.State aktuellesTreffen!: Treffen;
+  @addresses.Action saveAddress: any;
+  @addresses.Action reselectAddress: any;
+  @addresses.Action deleteAddress: any;
+  @addresses.Action addressDirty: any;
+  @Action sendEmails: any;
   private transferStatus: StatusMeldungJSON | null = null;
 
   @Watch("selectedAddress")
   initModel() {
     this.address = this.selectedAddress.copy();
-    this.address.aktuellesTreffenFetcher = () => this.aktuellesTreffen;
   }
 
   @Watch("address", { deep: true })
@@ -160,13 +159,12 @@ export default class AddressDetail extends Vue {
       })
       .then(yesNo => {
         if (yesNo) {
-          postAndReceiveJSON(
-            "sendEmails",
-            { receiverIds, aktuellesTreffen: this.aktuellesTreffen.toJSON() },
-            (status: StatusMeldungJSON) => {
+          this.sendEmails({
+            receiverIds,
+            callback: (status: StatusMeldungJSON) => {
               this.transferStatus = status;
             }
-          );
+          });
         }
       });
   }
