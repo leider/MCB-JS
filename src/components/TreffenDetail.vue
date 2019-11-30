@@ -32,72 +32,22 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
-import { treffen } from "@/store/store";
 
 @Component
 export default class TreffenDetail extends Vue {
-  @treffen.State selectedTreffen!: Treffen;
-  @treffen.State aktuellesTreffen!: Treffen;
+  @Prop() treffen!: Treffen;
 
-  treffen: Treffen = Treffen.emptyTreffen();
-  @treffen.Action saveTreffen: any;
-  @treffen.Action reselectTreffen: any;
-  @treffen.Action deleteTreffen: any;
-  @treffen.Action treffenDirty: any;
   preview: string = "";
   private transferStatus: StatusMeldungJSON | null = null;
 
-  @Watch("selectedTreffen")
-  initModel() {
-    this.treffen = this.selectedTreffen.copy();
-  }
-
   @Watch("treffen", { deep: true })
   somethingChanged() {
-    const dirty = JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treffen.toJSON());
-    this.treffenDirty(dirty);
     fetch("preview?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)))
       .then(response => response.text())
       .then(text => (this.preview = text));
-  }
-
-  mounted() {
-    this.initModel();
-  }
-
-  onSave() {
-    this.saveTreffen(this.treffen);
-  }
-
-  onReset() {
-    this.initModel();
-  }
-
-  onDelete() {
-    this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich das Treffen "${this.treffen.beschreibung} löschen?`, {
-        okVariant: "danger",
-        cancelTitle: "Nein",
-        okTitle: "Ja",
-        centered: true
-      })
-      .then(yesNo => {
-        if (yesNo) {
-          this.deleteTreffen(this.treffen);
-        }
-      });
-  }
-
-  onNew() {
-    this.treffen = Treffen.emptyTreffen();
-  }
-
-  onCopy() {
-    this.initModel();
-    this.treffen.id = 0;
   }
 
   createEmptyPDF() {

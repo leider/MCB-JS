@@ -16,8 +16,8 @@ export default class TreffenList extends Vue {
   @treffen.State treffen!: Treffen[];
   @treffen.State selectedTreffen!: Treffen;
 
-  alsDatum(unixTimestamp: number) {
-    return new Date(unixTimestamp).toLocaleDateString();
+  alsDatum(isoString: string) {
+    return new Date(isoString).toLocaleDateString();
   }
 }
 </script>

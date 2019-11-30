@@ -69,7 +69,7 @@ export default <Module<any, any>>{
     getAllAddresses({ state, commit, rootState }) {
       getJson("addresses.json", (addresses: AdresseJSON[]) => {
         commit("setAddresses", { addresses, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
-        if (this.state.selectedAddress.id === 0) {
+        if (state.selectedAddress.id === 0) {
           commit("selectAddress", state.addresses[0]);
         }
       });
@@ -99,7 +99,9 @@ export default <Module<any, any>>{
         return;
       }
       const address = (state.addresses as Adresse[]).find(a => a.id === id);
-      commit("selectAddress", address);
+      if (address) {
+        return commit("selectAddress", address);
+      }
     },
 
     setFilter({ commit }, filter) {

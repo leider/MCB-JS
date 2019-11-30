@@ -3,6 +3,7 @@ import { Module } from "vuex";
 import { Treffen, TreffenJSON } from "@/types/Treffen";
 
 import { getJson, postAndReceiveJSON } from "@/remoteCalls";
+import { Route } from "vue-router";
 
 export default <Module<any, any>>{
   namespaced: true,
@@ -70,6 +71,17 @@ export default <Module<any, any>>{
         commit("setTreffen", treffen);
         commit("selectTreffen", state.treffen[0]);
       });
+    },
+
+    routeChanged({ state, commit }, route: Route) {
+      const id = parseInt(route.params.id, 10);
+      if (state.selectedTreffen.id === id) {
+        return;
+      }
+      const treffen = (state.treffen as Treffen[]).find(t => t.id === id);
+      if (treffen) {
+        commit("selectTreffen", treffen);
+      }
     }
   }
 };

@@ -5,7 +5,7 @@
       .col-12
         .page-header
           h2 Treffen
-            form-buttons(:neu="delegate('onNew')", :speichern="delegate('onSave')", :kopieren="delegate('onCopy')" :loeschen="delegate('onDelete')", :reset="delegate('onReset')", :changed="treffenDirty", :valid="true")
+            form-buttons(:neu="onNew", :speichern="onSave", :kopieren="onCopy" :loeschen="onDelete", :reset="onReset", :changed="treffenDirty", :valid="true")
           b-button-toolbar.float-right
             .btn-group.btn-group-sm
               mcb-button(@click="prepareSendEmails", text="E-Mails...", icon="far fa-paper-plane")
@@ -14,7 +14,7 @@
       nav.col-md-3
         TreffenList
       main.col-md-9
-        TreffenDetail(ref="detail")
+        TreffenDetail(ref="detail", :treffen="treff")
 </template>
 
 <script lang="ts">
@@ -32,38 +32,37 @@ import { Action } from "vuex-class";
   components: { TreffenList, TreffenDetail }
 })
 export default class TreffenView extends Vue {
-  @treffen.State treffen!: Treffen[];
   @addresses.State addresses!: Adresse[];
+  @treffen.State treffen!: Treffen[];
   @treffen.State aktuellesTreffen!: Treffen;
   @treffen.State selectedTreffen!: Treffen;
-  @treffen.State treffenDirty!: boolean;
-  @treffen.Action selectTreffen: any;
-  @Action sendEmails: any;
-  private transferStatus: StatusMeldungJSON | null = null;
 
-  @Watch("$route")
-  routeChanged() {
+  @treffen.Action selectTreffen: any;
+  @treffen.Action saveTreffen: any;
+  @treffen.Action reselectTreffen: any;
+  @treffen.Action deleteTreffen: any;
+
+  @Action sendEmails: any;
+
+  private treffenDirty = false;
+  private transferStatus: StatusMeldungJSON | null = null;
+  private treff = Treffen.emptyTreffen();
+
+  @Watch("selectedTreffen")
+  selectedTreffenChanged() {
     this.selectTreffenIfNotDirty();
   }
 
-  @Watch("treffen")
-  @Watch("selectedtreffen")
-  selectionChanged() {
-    if (this.selectedTreffen.id === parseInt(this.$route.params.id, 10)) {
-      return;
-    }
-    this.$router.push(`/treffen/${this.selectedTreffen.id}`);
+  @Watch("treff", { deep: true })
+  somethingChanged() {
+    this.treffenDirty = JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treff.toJSON());
   }
 
-  delegate(name: string) {
-    return () => (this.$refs.detail as any)[name]();
+  initModel() {
+    this.treff = this.selectedTreffen.copy();
   }
 
   selectTreffenIfNotDirty() {
-    const treff = this.treffen.find(t => t.id === parseInt(this.$route.params.id, 10));
-    if (!treff) {
-      return;
-    }
     if (this.treffenDirty) {
       return this.$bvModal
         .msgBoxConfirm("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
@@ -74,13 +73,44 @@ export default class TreffenView extends Vue {
         })
         .then(yesNo => {
           if (yesNo) {
-            this.delegate("onSave")();
-          } else {
-            this.delegate("onReset")();
+            this.onSave();
           }
+          this.initModel();
         });
     }
-    this.selectTreffen(treff);
+    this.initModel();
+  }
+
+  onSave() {
+    this.saveTreffen(this.treff);
+  }
+
+  onReset() {
+    this.initModel();
+  }
+
+  onDelete() {
+    this.$bvModal
+      .msgBoxConfirm(`Willst Du wirklich das Treffen "${this.treff.beschreibung} löschen?`, {
+        okVariant: "danger",
+        cancelTitle: "Nein",
+        okTitle: "Ja",
+        centered: true
+      })
+      .then(yesNo => {
+        if (yesNo) {
+          this.deleteTreffen(this.treff);
+        }
+      });
+  }
+
+  onNew() {
+    this.treff = Treffen.emptyTreffen();
+  }
+
+  onCopy() {
+    this.initModel();
+    this.treff.id = 0;
   }
 
   prepareSendEmails() {
@@ -95,12 +125,8 @@ export default class TreffenView extends Vue {
       .then(yesNo => {
         if (yesNo) {
           this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
-          this.sendEmails({
-            receiverIds,
-            callback: (status: StatusMeldungJSON) => {
-              this.transferStatus = status;
-            }
-          });
+          const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
+          this.sendEmails({ receiverIds, callback: callback });
         }
       });
   }

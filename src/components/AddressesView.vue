@@ -33,7 +33,7 @@ export default class AddressesView extends Vue {
   @addresses.Action saveAddress: any;
   @addresses.Action deleteAddress: any;
 
-  private address: Adresse = Adresse.emptyAddress();
+  private address = Adresse.emptyAddress();
   private addressDirty: boolean = false;
 
   @Watch("selectedAddress")
@@ -43,8 +43,7 @@ export default class AddressesView extends Vue {
 
   @Watch("address", { deep: true })
   somethingChanged() {
-    const dirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
-    this.addressDirty = dirty;
+    this.addressDirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
   }
 
   initModel() {

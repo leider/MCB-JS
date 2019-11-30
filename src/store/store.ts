@@ -28,7 +28,9 @@ export default new Vuex.Store({
       if (route.path.startsWith("/adressen")) {
         return dispatch("addresses/routeChanged", route);
       }
-      console.log("Path: " + route.path);
+      if (route.path.startsWith("/treffen")) {
+        return dispatch("treffen/routeChanged", route);
+      }
     }
   }
 });

@@ -5,11 +5,11 @@
     .col-5
       mcb-select(name="suche", v-model="activeFilter", :options="alleFilter")
     .col-2
-      b.form-text.text-right {{this.filteredAddresses.length}}
+      b.form-text.text-right {{filteredAddresses.length}}
 </template>
 
 <script lang="ts">
-  import { Adresse, filterMap } from "@/types/Adresse";
+import { Adresse, filterMap } from "@/types/Adresse";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { addresses } from "@/store/store";
 
