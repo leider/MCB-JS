@@ -61,7 +61,15 @@ export default class AddressesView extends Vue {
     next();
   }
 
-  beforeRouteUpdate(to: Route, from: Route, next: any) {
+  beforeRouteLeave(to: Route, from: Route, next: Function) {
+    return this.checkRouteChange(next);
+  }
+
+  beforeRouteUpdate(to: Route, from: Route, next: Function) {
+    return this.checkRouteChange(next);
+  }
+
+  private checkRouteChange(next: Function) {
     if (this.addressDirty) {
       return this.$bvModal.msgBoxOk("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
         okVariant: "success",

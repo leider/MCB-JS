@@ -40,7 +40,6 @@ export default class TreffenView extends Vue {
 
   @treffen.Action selectTreffen: any;
   @treffen.Action saveTreffen: any;
-  @treffen.Action reselectTreffen: any;
   @treffen.Action deleteTreffen: any;
 
   @Action sendEmails: any;
@@ -72,8 +71,15 @@ export default class TreffenView extends Vue {
     }
     next();
   }
+  beforeRouteLeave(to: Route, from: Route, next: Function) {
+    return this.checkRouteChange(next);
+  }
 
-  beforeRouteUpdate(to: Route, from: Route, next: any) {
+  beforeRouteUpdate(to: Route, from: Route, next: Function) {
+    return this.checkRouteChange(next);
+  }
+
+  checkRouteChange(next: Function) {
     if (this.treffenDirty) {
       return this.$bvModal.msgBoxOk("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
         okVariant: "success",

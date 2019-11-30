@@ -26,10 +26,10 @@ export default new Vuex.Store({
 
     routeChanged({ dispatch }, route: Route) {
       if (route.path.startsWith("/adressen")) {
-        return dispatch("addresses/routeChanged", route);
+        return dispatch("addresses/routeChanged", route.params.id);
       }
       if (route.path.startsWith("/treffen")) {
-        return dispatch("treffen/routeChanged", route);
+        return dispatch("treffen/routeChanged", route.params.id);
       }
     }
   }

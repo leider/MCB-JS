@@ -5,7 +5,10 @@ import { Adresse, AdresseJSON } from "@/types/Adresse";
 import { AktuelleZahlenJSON } from "@/types/common";
 
 import { getJson, postAndReceiveJSON } from "@/remoteCalls";
-import { Route } from "vue-router";
+
+function findForId(addresses: Adresse[], id: number, defaultReturn?: Adresse) {
+  return addresses.find(a => a.id === id) || defaultReturn;
+}
 
 export default <Module<any, any>>{
   namespaced: true,
@@ -57,15 +60,6 @@ export default <Module<any, any>>{
       commit("selectAddress", address);
     },
 
-    reselectAddress({ state, dispatch }, address: Adresse) {
-      if (address.id) {
-        const oldAddress = (state.addresses as Adresse[]).find(a => a.id === address.id);
-        dispatch("selectAddress", oldAddress);
-      } else {
-        dispatch("selectAddress", state.addresses[0]);
-      }
-    },
-
     getAllAddresses({ state, commit, rootState }) {
       getJson("addresses.json", (addresses: AdresseJSON[]) => {
         commit("setAddresses", { addresses, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
@@ -79,10 +73,8 @@ export default <Module<any, any>>{
       postAndReceiveJSON("saveAddress", address.toJSON(), (res: any) => {
         rootState.aktuellesTreffen;
         commit("setAddresses", { addresses: res.data, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
-        const updatedAddress = (state.addresses as Adresse[]).find(a => a.id === res.id) || state.addresses[0];
-        if (updatedAddress.id !== state.selectedAddress.id) {
-          commit("selectAddress", updatedAddress);
-        }
+        const updatedAddress = findForId(state.addresses, res.id, state.addresses[0]);
+        commit("selectAddress", updatedAddress);
       });
     },
 
@@ -93,12 +85,12 @@ export default <Module<any, any>>{
       });
     },
 
-    routeChanged({ state, commit }, route: Route) {
-      const id = parseInt(route.params.id, 10);
+    routeChanged({ state, commit }, idString: string) {
+      const id = parseInt(idString, 10);
       if (state.selectedAddress.id === id) {
         return;
       }
-      const address = (state.addresses as Adresse[]).find(a => a.id === id);
+      const address = findForId(state.addresses, id);
       if (address) {
         return commit("selectAddress", address);
       }
