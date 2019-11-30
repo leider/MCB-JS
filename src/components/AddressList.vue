@@ -28,14 +28,17 @@ export default class AddressList extends Vue {
   @addresses.Getter filteredAddresses!: Adresse[];
 
   @Watch("filteredAddresses")
-  @Watch("selectedAddress")
   filterChanged() {
     this.$nextTick(() => {
       const elementById = document.getElementById(`item-address${this.selectedAddress.id}`);
       if (elementById) {
-        elementById.scrollIntoView(false);
+        elementById.scrollIntoView({ block: "start" });
       }
     });
+  }
+
+  mounted() {
+    this.filterChanged();
   }
 
   envelopeClass(address: Adresse) {

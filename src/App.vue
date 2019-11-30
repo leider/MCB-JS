@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     b-navbar(variant="primary", type="dark", fixed="top")
-      b-navbar-brand.col-md-3 MCB Bruhrain e.V.
+      b-navbar-brand.col-md-3 MCB Touring e.V.
       b-collapse#nav-collapse(is-nav)
         b-navbar-nav
           b-nav-item(to="/adressen", active-class="active") Adressen
@@ -18,6 +18,7 @@ import { Action } from "vuex-class";
 import { Route } from "vue-router";
 import { addresses, treffen } from "@/store/store";
 import { Adresse } from "@/types/Adresse";
+Component.registerHooks(["beforeRouteEnter", "beforeRouteLeave", "beforeRouteUpdate"]);
 
 @Component
 export default class App extends Vue {

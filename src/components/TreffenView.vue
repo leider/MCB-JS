@@ -25,8 +25,9 @@ import TreffenDetail from "@/components/TreffenDetail.vue";
 import { Adresse, filterMap } from "@/types/Adresse";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
-import { addresses, treffen } from "@/store/store";
+import store, { addresses, treffen } from "@/store/store";
 import { Action } from "vuex-class";
+import { Route } from "vue-router";
 
 @Component({
   components: { TreffenList, TreffenDetail }
@@ -49,8 +50,8 @@ export default class TreffenView extends Vue {
   private treff = Treffen.emptyTreffen();
 
   @Watch("selectedTreffen")
-  selectedTreffenChanged() {
-    this.selectTreffenIfNotDirty();
+  initModel() {
+    this.treff = this.selectedTreffen.copy();
   }
 
   @Watch("treff", { deep: true })
@@ -58,31 +59,34 @@ export default class TreffenView extends Vue {
     this.treffenDirty = JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treff.toJSON());
   }
 
-  initModel() {
-    this.treff = this.selectedTreffen.copy();
+  mounted() {
+    this.initModel();
   }
 
-  selectTreffenIfNotDirty() {
-    if (this.treffenDirty) {
-      return this.$bvModal
-        .msgBoxConfirm("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
-          okVariant: "success",
-          okTitle: "Speichern",
-          cancelTitle: "Abbrechen",
-          centered: true
-        })
-        .then(yesNo => {
-          if (yesNo) {
-            this.onSave();
-          }
-          this.initModel();
-        });
+  beforeRouteEnter(to: Route, from: Route, next: any) {
+    if (!from.path.startsWith("/treffen") && to.params.id === "0") {
+      const id = store.state.treffen.selectedTreffen.id.toString();
+      if (id !== "0") {
+        return next(`/treffen/${id}`);
+      }
     }
-    this.initModel();
+    next();
+  }
+
+  beforeRouteUpdate(to: Route, from: Route, next: any) {
+    if (this.treffenDirty) {
+      return this.$bvModal.msgBoxOk("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
+        okVariant: "success",
+        okTitle: "Ach so...",
+        centered: true
+      });
+    }
+    next();
   }
 
   onSave() {
     this.saveTreffen(this.treff);
+    this.treffenDirty = false;
   }
 
   onReset() {
@@ -106,11 +110,13 @@ export default class TreffenView extends Vue {
 
   onNew() {
     this.treff = Treffen.emptyTreffen();
+    this.selectTreffen(this.treff);
   }
 
   onCopy() {
     this.initModel();
     this.treff.id = 0;
+    this.selectTreffen(this.treff);
   }
 
   prepareSendEmails() {

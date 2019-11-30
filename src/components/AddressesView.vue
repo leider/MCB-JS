@@ -16,12 +16,13 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { addresses } from "@/store/store";
+import store, { addresses } from "@/store/store";
 
 import AddressList from "@/components/AddressList.vue";
 import AddressDetail from "@/components/AddressDetail.vue";
 import { AktuelleZahlenJSON } from "@/types/common";
 import { Adresse } from "@/types/Adresse";
+import { Route } from "vue-router";
 
 @Component({ components: { AddressDetail, AddressList } })
 export default class AddressesView extends Vue {
@@ -37,8 +38,8 @@ export default class AddressesView extends Vue {
   private addressDirty: boolean = false;
 
   @Watch("selectedAddress")
-  selectedAddressChanged() {
-    this.selectAddressIfNotDirty();
+  initModel() {
+    this.address = this.selectedAddress.copy();
   }
 
   @Watch("address", { deep: true })
@@ -46,31 +47,34 @@ export default class AddressesView extends Vue {
     this.addressDirty = JSON.stringify(this.selectedAddress.toJSON()) !== JSON.stringify(this.address.toJSON());
   }
 
-  initModel() {
-    this.address = this.selectedAddress.copy();
+  mounted() {
+    this.initModel();
   }
 
-  selectAddressIfNotDirty() {
-    if (this.addressDirty) {
-      return this.$bvModal
-        .msgBoxConfirm("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
-          okVariant: "success",
-          okTitle: "Speichern",
-          cancelTitle: "Abbrechen",
-          centered: true
-        })
-        .then(yesNo => {
-          if (yesNo) {
-            this.onSave();
-          }
-          this.initModel();
-        });
+  beforeRouteEnter(to: Route, from: Route, next: any) {
+    if (!from.path.startsWith("/adressen") && to.params.id === "0") {
+      const id = store.state.addresses.selectedAddress.id.toString();
+      if (id !== "0") {
+        return next(`/adressen/${id}`);
+      }
     }
-    this.initModel();
+    next();
+  }
+
+  beforeRouteUpdate(to: Route, from: Route, next: any) {
+    if (this.addressDirty) {
+      return this.$bvModal.msgBoxOk("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
+        okVariant: "success",
+        okTitle: "Ach so...",
+        centered: true
+      });
+    }
+    next();
   }
 
   onSave() {
     this.saveAddress(this.address);
+    this.addressDirty = false;
   }
 
   onReset() {
@@ -94,6 +98,7 @@ export default class AddressesView extends Vue {
 
   onNew() {
     this.address = Adresse.emptyAddress();
+    this.selectAddress(this.address);
   }
 }
 </script>
