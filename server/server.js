@@ -8,7 +8,7 @@ const configureApp = require("./configureApp");
 const app = express();
 app.use(compress());
 configureApp(app);
-app.use(express.static(path.join(__dirname + "/../dist")));
+app.use(express.static(path.join(__dirname + "/../build")));
 let server;
 
 app.start = function(port, done) {

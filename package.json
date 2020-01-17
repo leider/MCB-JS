@@ -1,6 +1,7 @@
 {
   "name": "MCB-JS",
   "version": "0.1.0",
+  "author": "Andreas Leidig",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,7 +13,6 @@
     "async": "3.1.0",
     "body-parser": "latest",
     "compression": "1.7.4",
-    "electron": "7.1.9",
     "express": "4.17.1",
     "fecha": "3.0.3",
     "nodemailer": "6.4.2",
@@ -39,6 +39,8 @@
     "bootstrap-vue": "2.2.2",
     "core-js": "3.6.4",
     "cross-fetch": "3.0.4",
+    "electron": "7.1.9",
+    "electron-builder": "22.2.0",
     "eslint": "6.8.0",
     "eslint-plugin-prettier": "3.1.2",
     "eslint-plugin-vue": "6.1.2",
