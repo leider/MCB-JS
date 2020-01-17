@@ -21,7 +21,7 @@ export default new Vuex.Store({
 
   actions: {
     sendEmails({ state }, { receiverIds, callback }) {
-      postAndReceiveJSON("sendEmails", { receiverIds, aktuellesTreffen: state.treffen.aktuellesTreffen.toJSON() }, callback);
+      postAndReceiveJSON("/sendEmails", { receiverIds, aktuellesTreffen: state.treffen.aktuellesTreffen.toJSON() }, callback);
     },
 
     routeChanged({ dispatch }, route: Route) {

@@ -45,14 +45,14 @@ export default class TreffenDetail extends Vue {
 
   @Watch("treffen", { deep: true })
   somethingChanged() {
-    fetch("preview?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)))
+    fetch("/preview?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)))
       .then(response => response.text())
       .then(text => (this.preview = text));
   }
 
   createEmptyPDF() {
     this.transferStatus = { severity: "info", message: `Erzeuge PDF zum Download...` };
-    window.open("createEmptyEinladung" + "?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)));
+    window.open("/createEmptyEinladung" + "?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)));
   }
 }
 </script>

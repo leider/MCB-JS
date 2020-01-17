@@ -48,14 +48,14 @@ export default <Module<any, any>>{
     },
 
     getAllTreffen({ state, commit }) {
-      getJson("treffen.json", (treffen: TreffenJSON[]) => {
+      getJson("/treffen.json", (treffen: TreffenJSON[]) => {
         commit("setTreffen", treffen);
         commit("selectTreffen", state.treffen[0]);
       });
     },
 
     saveTreffen({ state, commit }, treffen: Treffen) {
-      postAndReceiveJSON("saveTreffen", treffen.toJSON(), (res: any) => {
+      postAndReceiveJSON("/saveTreffen", treffen.toJSON(), (res: any) => {
         commit("setTreffen", res.data);
         const updatedTreffen = findForId(state.treffen, res.id, state.treffen[0]);
         commit("selectTreffen", updatedTreffen);
@@ -63,7 +63,7 @@ export default <Module<any, any>>{
     },
 
     deleteTreffen({ state, commit }, treffen: Treffen) {
-      postAndReceiveJSON("deleteTreffen", treffen.toJSON(), (treffen: TreffenJSON[]) => {
+      postAndReceiveJSON("/deleteTreffen", treffen.toJSON(), (treffen: TreffenJSON[]) => {
         commit("setTreffen", treffen);
         commit("selectTreffen", state.treffen[0]);
       });

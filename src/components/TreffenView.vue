@@ -147,7 +147,7 @@ export default class TreffenView extends Vue {
     const receiverIds = this.addresses.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
     this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs zum Download...` };
     window.open(
-      `createEinladungen?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(
+      `/createEinladungen?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(
         JSON.stringify(receiverIds)
       )}`
     );

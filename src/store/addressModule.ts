@@ -61,7 +61,7 @@ export default <Module<any, any>>{
     },
 
     getAllAddresses({ state, commit, rootState }) {
-      getJson("addresses.json", (addresses: AdresseJSON[]) => {
+      getJson("/addresses.json", (addresses: AdresseJSON[]) => {
         commit("setAddresses", { addresses, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
         if (state.selectedAddress.id === 0) {
           commit("selectAddress", state.addresses[0]);
@@ -70,7 +70,7 @@ export default <Module<any, any>>{
     },
 
     saveAddress({ state, commit, rootState }, address: Adresse) {
-      postAndReceiveJSON("saveAddress", address.toJSON(), (res: any) => {
+      postAndReceiveJSON("/saveAddress", address.toJSON(), (res: any) => {
         rootState.aktuellesTreffen;
         commit("setAddresses", { addresses: res.data, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
         const updatedAddress = findForId(state.addresses, res.id, state.addresses[0]);
@@ -79,7 +79,7 @@ export default <Module<any, any>>{
     },
 
     deleteAddress({ state, commit, rootState }, address: Adresse) {
-      postAndReceiveJSON("deleteAddress", address.toJSON(), (addresses: AdresseJSON[]) => {
+      postAndReceiveJSON("/deleteAddress", address.toJSON(), (addresses: AdresseJSON[]) => {
         commit("setAddresses", { addresses, aktuellesTreffen: rootState.treffen.aktuellesTreffen });
         commit("selectAddress", state.addresses[0]);
       });
