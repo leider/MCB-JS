@@ -1,7 +1,11 @@
 const puppeteer = require("puppeteer");
 
+function getChromiumExecPath() {
+  return puppeteer.executablePath().replace("app.asar", "app.asar.unpacked");
+}
+
 async function renderInBrowser(options, html) {
-  const browser = await puppeteer.launch({ args: ["--no-sandbox"] });
+  const browser = await puppeteer.launch({ args: ["--no-sandbox", "--disable-extensions"], executablePath: getChromiumExecPath() });
   const page = await browser.newPage();
   await page.emulateMedia("screen");
   await page.goto(`data:text/html,${html}`, {
