@@ -4,10 +4,11 @@ const { app, BrowserWindow } = require("electron");
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let server;
 process.env.NODE_ENV = "production";
 
 function createWindow() {
-  require("./server/start");
+  server = require("./server/start");
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
   mainWindow = new BrowserWindow({
     width: 1440,
@@ -39,6 +40,7 @@ app.on("ready", createWindow);
 app.on("window-all-closed", function() {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
+  server.close();
   app.quit();
 });
 

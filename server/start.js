@@ -6,3 +6,5 @@ const port = process.env.PORT || 8080;
 
 /* eslint no-console: 0 */
 server.listen(port, () => console.log("Server running on port " + port));
+
+module.exports = server;

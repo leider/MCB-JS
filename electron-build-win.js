@@ -10,7 +10,7 @@ builder
       files: ["build", "server", "index.js"],
       win: {
         artifactName: "${productName}.${ext}",
-        target: "zip"
+        target: "portable"
       }
     }
   })
