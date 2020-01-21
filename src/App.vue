@@ -53,7 +53,7 @@ $theme-colors: (
 $font-family-sans-serif: "Montserrat", Helvetica, Arial, sans-serif;
 $font-family-icon: "Font Awesome 5 Free";
 
-$font-size-base: 1rem;
+$font-size-base: 0.8rem;
 $headings-font-weight: bold;
 $small-font-size: 60%;
 
