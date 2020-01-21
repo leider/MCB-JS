@@ -35,7 +35,7 @@ function updateOrInsertData(allData, data, path, callback) {
 
   const json = JSON.stringify(allData);
   const diffJson = JSON.stringify({ old: existingData, new: data });
-  fs.writeFile(`${path.replace(".json", "")}.id=${data.id}-${new Date().toISOString()}.json`, diffJson, err => {
+  fs.writeFile(`${path.replace(".json", "")}.id=${data.id}-${new Date().toISOString().replace(/-|:|\.|Z/g, "")}.json`, diffJson, err => {
     if (err) {
       return callback(err);
     }
