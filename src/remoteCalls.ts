@@ -38,3 +38,11 @@ export function getJson(url: string, callback: any) {
     })
     .then(callback);
 }
+
+export function openOrDownloadPDF(pdfURL: string) {
+  if (navigator.userAgent.indexOf("Electron") >= 0) {
+    window.location.href = pdfURL;
+  } else {
+    window.open(pdfURL);
+  }
+}

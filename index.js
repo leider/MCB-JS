@@ -1,6 +1,5 @@
 // Modules to control application life and create native browser window
 const { app, BrowserWindow } = require("electron");
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -11,8 +10,8 @@ function createWindow() {
   server = require("./server/start");
   process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = true;
   mainWindow = new BrowserWindow({
-    width: 1440,
-    height: 1280,
+    width: 1200,
+    height: 980,
     autoHideMenuBar: true,
     useContentSize: true
   });

@@ -18,18 +18,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+  import { Component, Vue, Watch } from "vue-property-decorator";
 
-import TreffenList from "@/components/TreffenList.vue";
-import TreffenDetail from "@/components/TreffenDetail.vue";
-import { Adresse, filterMap } from "@/types/Adresse";
-import { Treffen } from "@/types/Treffen";
-import { StatusMeldungJSON } from "@/types/common";
-import store, { addresses, treffen } from "@/store/store";
-import { Action } from "vuex-class";
-import { Route } from "vue-router";
+  import TreffenList from "@/components/TreffenList.vue";
+  import TreffenDetail from "@/components/TreffenDetail.vue";
+  import { Adresse, filterMap } from "@/types/Adresse";
+  import { Treffen } from "@/types/Treffen";
+  import { StatusMeldungJSON } from "@/types/common";
+  import store, { addresses, treffen } from "@/store/store";
+  import { Action } from "vuex-class";
+  import { Route } from "vue-router";
+  import { openOrDownloadPDF } from "@/remoteCalls";
 
-@Component({
+
+  @Component({
   components: { TreffenList, TreffenDetail }
 })
 export default class TreffenView extends Vue {
@@ -146,11 +148,9 @@ export default class TreffenView extends Vue {
   createPDFs() {
     const receiverIds = this.addresses.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
     this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs zum Download...` };
-    window.open(
-      `/createEinladungen?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(
-        JSON.stringify(receiverIds)
-      )}`
-    );
+    openOrDownloadPDF(`/createEinladungen?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(
+      JSON.stringify(receiverIds)
+    )}`);
   }
 }
 </script>

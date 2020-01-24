@@ -35,6 +35,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Treffen } from "@/types/Treffen";
 import { StatusMeldungJSON } from "@/types/common";
+import { openOrDownloadPDF } from "@/remoteCalls";
 
 @Component
 export default class TreffenDetail extends Vue {
@@ -52,7 +53,7 @@ export default class TreffenDetail extends Vue {
 
   createEmptyPDF() {
     this.transferStatus = { severity: "info", message: `Erzeuge PDF zum Download...` };
-    window.open("/createEmptyEinladung" + "?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)));
+    openOrDownloadPDF("/createEmptyEinladung" + "?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)));
   }
 }
 </script>
