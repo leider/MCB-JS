@@ -5,7 +5,7 @@ builder
   .build({
     targets: Platform.WINDOWS.createTarget(),
     config: {
-      appId: "mcb-js",
+      appId: "mcb-app",
       icon: "win/icon.png",
       productName: "MCB-APP",
       files: ["build", "server", "index.js"],
