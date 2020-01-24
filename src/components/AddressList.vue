@@ -1,7 +1,7 @@
 <template lang="pug">
   #address-list
     AddressListFilter
-    b-list-group(style="max-height:calc(100vh - 13rem);overflow-y: scroll")
+    b-list-group(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
       b-list-group-item.pt-1.pb-1( v-for="address in filteredAddresses", :key="address.id", :to="`/adressen/${address.id}`",
         :active="address.id === selectedAddress.id", :id="`item-address${address.id}`")
         i.fa-envelope(:class="envelopeClass(address)")
