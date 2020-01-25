@@ -5,14 +5,14 @@ builder
   .build({
     targets: Platform.MAC.createTarget(),
     config: {
-      asar: true,
       appId: "mcb-js",
+      icon: "mac/icon.png",
       productName: "MCB-APP",
       files: ["build", "server", "index.js"],
       mac: {
         artifactName: "${productName}.${ext}",
         electronLanguages: "de",
-        target: "zip"
+        target: "dir"
       }
     }
   })

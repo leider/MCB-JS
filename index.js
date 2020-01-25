@@ -12,8 +12,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 980,
-    autoHideMenuBar: true,
-    useContentSize: true
+    autoHideMenuBar: true
   });
   mainWindow.loadURL("http://localhost:8080/");
   mainWindow.focus();

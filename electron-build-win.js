@@ -11,7 +11,7 @@ builder
       files: ["build", "server", "index.js"],
       win: {
         artifactName: "${productName}.${ext}",
-        target: "portable"
+        target: "dir"
       }
     }
   })

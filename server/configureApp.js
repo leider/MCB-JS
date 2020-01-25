@@ -17,6 +17,10 @@ module.exports = function configure(app) {
     };
   }
 
+  app.get("/help", (req, res) => {
+    res.render("help");
+  });
+
   app.get("/addresses.json", (req, res) => {
     dataAccess.allAddresses(standardCallback(res));
   });

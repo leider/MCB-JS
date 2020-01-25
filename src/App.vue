@@ -6,6 +6,12 @@
         b-navbar-nav
           b-nav-item(to="/adressen", active-class="active") Adressen
           b-nav-item(to="/treffen", active-class="active") Treffen
+
+        b-navbar-nav.ml-auto
+          b-nav-form
+            b-button(href="/help", target="blank")
+              i.far.fa-question-circle
+              | #{' '} Hilfe
     .container-fluid
       .row
         .col-12(style="padding-top: 64px")
