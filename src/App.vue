@@ -9,7 +9,7 @@
 
         b-navbar-nav.ml-auto
           b-nav-form
-            b-button(href="/help", target="blank")
+            b-button(href="/help.html", target="blank")
               i.far.fa-question-circle
               | #{' '} Hilfe
     .container-fluid

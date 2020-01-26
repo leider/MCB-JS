@@ -30,6 +30,7 @@ function sendEmail(address, aktuellesTreffen, callback) {
   };
 
   const attachedPDF = pug.renderFile(filename, { mcblogo, background, aktuellesTreffen, datum });
+  const to = process.env.NODE_ENV === "production" ? address.email : "";
 
   puppeteerPrinter.generatePdfAsBuffer(printoptions, attachedPDF, (err, pdf) => {
     if (err) {
@@ -37,7 +38,7 @@ function sendEmail(address, aktuellesTreffen, callback) {
     }
     const transportObject = {
       from: `"${senderName}" <${senderAddress}>`,
-      to: address.email,
+      to: to,
       bcc: senderAddress,
       replyTo: senderAddress,
       subject: `Einladung zum ${aktuellesTreffen.beschreibung}`,
@@ -57,7 +58,7 @@ function sendEmail(address, aktuellesTreffen, callback) {
 }
 
 function sendEinladungen(addresses, aktuellesTreffen, callback) {
-  async.each(
+  async.eachSeries(
     addresses,
     (a, cb) => {
       sendEmail(a, aktuellesTreffen, cb);

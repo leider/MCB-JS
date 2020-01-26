@@ -1,12 +1,13 @@
 module.exports = function configure(app) {
   const path = require("path");
   const bodyparser = require("body-parser");
-
+  const history = require("connect-history-api-fallback");
   const dataAccess = require("./dataAccess");
 
   app.set("views", path.join(__dirname, "/views"));
   app.set("view engine", "pug");
   app.use(bodyparser.json());
+  app.use(history());
 
   function standardCallback(res) {
     return (err, json) => {
@@ -17,7 +18,7 @@ module.exports = function configure(app) {
     };
   }
 
-  app.get("/help", (req, res) => {
+  app.get("/help.html", (req, res) => {
     res.render("help");
   });
 

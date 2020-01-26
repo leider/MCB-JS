@@ -46,19 +46,19 @@ app.post("/sendEmails", (req, res) => {
   });
 });
 
-app.get("/preview", (req, res) => {
+app.get("/preview.pdf", (req, res) => {
   const aktuellesTreffen = JSON.parse(req.query.treffen);
   const datum = displayDate(aktuellesTreffen);
   res.render("einladungPreview", { background, mcblogo, aktuellesTreffen, datum });
 });
 
-app.get("/createEmptyEinladung", (req, res, next) => {
+app.get("/emptyEinladung.pdf", (req, res, next) => {
   const aktuellesTreffen = JSON.parse(req.query.treffen);
   const datum = displayDate(aktuellesTreffen);
   app.render("einladung", { background, mcblogo, aktuellesTreffen, datum }, puppeteerPrinter.generatePdf(printoptions, "einladung.pdf", res, next));
 });
 
-app.get("/createEinladungen", (req, res, next) => {
+app.get("/einladungen.pdf", (req, res, next) => {
   const laender = {
     D: "Deutschland",
     F: "Frankreich",
