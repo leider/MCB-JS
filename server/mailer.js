@@ -15,56 +15,51 @@ const transportOptions = config["transport-options"];
 
 const mailer = require("nodemailer").createTransport(transportOptions);
 
-function sendEmail(address, aktuellesTreffen, callback) {
+const printoptions = {
+  format: "A4",
+  landscape: false,
+  margin: { top: "0mm", bottom: "0mm", left: "0mm", right: "0mm" }
+};
+const filename = path.join(__dirname, "views/einladung.pug");
+
+function sendEmail(address, aktuellesTreffen, pdf, datum, callback) {
+  const renderingOptions = { mcblogo, background, name: address.vorname, aktuellesTreffen, datum };
+  const renderedMail = pug.renderFile(filename, renderingOptions);
+
+  const transportObject = {
+    from: `"${senderName}" <${senderAddress}>`,
+    to: process.env.NODE_ENV === "production" ? address.email : "",
+    bcc: senderAddress,
+    replyTo: senderAddress,
+    subject: `Einladung zum ${aktuellesTreffen.beschreibung}`,
+    html: renderedMail,
+    attachments: [
+      {
+        filename: "einladung.pdf",
+        content: pdf
+      }
+    ]
+  };
+
+  mailer.sendMail(transportObject, callback);
+}
+
+function sendEinladungen(addresses, aktuellesTreffen, callback) {
   const datum = `${dateUtil.toLocaleDate(new Date(aktuellesTreffen.ersterTag))} bis ${dateUtil.toLocaleDate(
     new Date(aktuellesTreffen.letzterTag)
   )}`;
 
-  const renderingOptions = { mcblogo, background, name: address.vorname, aktuellesTreffen, datum };
-  const filename = path.join(__dirname, "views/einladung.pug");
-
-  const printoptions = {
-    format: "A4",
-    landscape: false,
-    margin: { top: "0mm", bottom: "0mm", left: "0mm", right: "0mm" }
-  };
-
   const attachedPDF = pug.renderFile(filename, { mcblogo, background, aktuellesTreffen, datum });
-  const to = process.env.NODE_ENV === "production" ? address.email : "";
 
-  puppeteerPrinter.generatePdfAsBuffer(printoptions, attachedPDF, (err, pdf) => {
-    if (err) {
-      return callback(err);
-    }
-    const transportObject = {
-      from: `"${senderName}" <${senderAddress}>`,
-      to: to,
-      bcc: senderAddress,
-      replyTo: senderAddress,
-      subject: `Einladung zum ${aktuellesTreffen.beschreibung}`,
-      html: pug.renderFile(filename, renderingOptions),
-      attachments: [
-        {
-          filename: "einladung.pdf",
-          content: pdf
-        }
-      ]
-    };
-
-    mailer.sendMail(transportObject, err1 => {
-      callback(err1);
-    });
+  puppeteerPrinter.generatePdfAsBuffer(printoptions, attachedPDF, pdf => {
+    async.each(
+      addresses,
+      (a, cb) => {
+        sendEmail(a, aktuellesTreffen, pdf, datum, cb);
+      },
+      callback
+    );
   });
-}
-
-function sendEinladungen(addresses, aktuellesTreffen, callback) {
-  async.eachSeries(
-    addresses,
-    (a, cb) => {
-      sendEmail(a, aktuellesTreffen, cb);
-    },
-    callback
-  );
 }
 
 module.exports = sendEinladungen;

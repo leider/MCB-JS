@@ -33,7 +33,7 @@ module.exports = {
   generatePdfAsBuffer: function generatePdfAsBuffer(options, html, callback) {
     (async () => {
       const pdf = await renderInBrowser(options, html);
-      callback(null, pdf);
+      callback(pdf);
     })();
   }
 };

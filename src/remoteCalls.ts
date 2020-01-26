@@ -17,11 +17,14 @@ function postAndReceive(responseCallback: any, url: string, data: any, callback:
   })
     .then(response => {
       if (!response.ok) {
-        throw new Error(<any>response);
+        throw Error(response.statusText);
       }
       return responseCallback(response);
     })
-    .then(callback);
+    .then(callback)
+    .catch(
+      err => callback({ severity: "error", message: err.toString() })
+    );
 }
 
 export function postAndReceiveJSON(url: string, data: any, callback: any) {
@@ -32,7 +35,7 @@ export function getJson(url: string, callback: any) {
   fetch(url)
     .then(response => {
       if (!response.ok) {
-        throw new Error(<any>response);
+        throw Error(<any>response);
       }
       return response.json();
     })
