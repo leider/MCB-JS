@@ -10,6 +10,7 @@ exit
 :G
 cls
 taskkill /IM MCB-APP.exe
+del package-lock.json
 git pull
 call npm install
 call npm run-script build
