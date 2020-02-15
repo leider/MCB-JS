@@ -105,7 +105,8 @@ export default class AddressesView extends Vue {
   }
 
   onNew() {
-    this.address = Adresse.emptyAddress();
+    const aktTreffen = this.address.aktuellesTreffen;
+    this.address = Adresse.emptyAddress(aktTreffen);
     this.selectAddress(this.address);
   }
 }

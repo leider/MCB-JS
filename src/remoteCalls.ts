@@ -22,9 +22,7 @@ function postAndReceive(responseCallback: any, url: string, data: any, callback:
       return responseCallback(response);
     })
     .then(callback)
-    .catch(
-      err => callback({ severity: "error", message: err.toString() })
-    );
+    .catch(err => callback({ severity: "error", message: err.toString() }));
 }
 
 export function postAndReceiveJSON(url: string, data: any, callback: any) {

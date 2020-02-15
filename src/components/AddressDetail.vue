@@ -1,5 +1,5 @@
 <template lang="pug">
-  #address-detail(style="max-height:calc(100vh - 7rem);overflow-y: scroll")
+  #address-detail(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
     alert-box(v-model="transferStatus")
     .row
       .col-12
@@ -12,8 +12,8 @@
               .col-4.align-self-end
                 h5(v-if="address.meldung") {{address.anzahlMeldung}} Meldung, {{address.samstag}} Sa, {{address.sonntag}} So
               .col-4
-                mcb-button.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...")
-                mcb-button.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...")
+                mcb-button.btn-success.float-right(v-if="address.meldung", v-b-modal.meldung-modal, text="Ist gemeldet ...", :disabled="!address.isValid()")
+                mcb-button.btn-danger.float-right(v-if="!address.meldung", v-b-modal.meldung-modal, text="Meldung ...", :disabled="!address.isValid()")
                 b-modal#meldung-modal(@ok="handleMeldungOk", @show="meldungModalOpened", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Speichern")
                   template(v-slot:modal-header)
                     h3 Meldung

@@ -70,6 +70,9 @@ export default <Module<any, any>>{
     },
 
     saveAddress({ state, commit, rootState }, address: Adresse) {
+      if (!address.isValid()) {
+        return;
+      }
       postAndReceiveJSON("/saveAddress", address.toJSON(), (res: any) => {
         rootState.aktuellesTreffen;
         commit("setAddresses", { addresses: res.data, aktuellesTreffen: rootState.treffen.aktuellesTreffen });

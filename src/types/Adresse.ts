@@ -186,8 +186,8 @@ export class Adresse {
     );
   }
 
-  static emptyAddress() {
-    return Adresse.fromJSON(<AdresseJSON>{
+  static emptyAddress(aktuellesTreffen?: Treffen) {
+    const adresse = Adresse.fromJSON(<AdresseJSON>{
       id: 0,
       land: "D",
       name: "",
@@ -201,6 +201,10 @@ export class Adresse {
       fehlergrund: "Empty",
       besuche: <BesuchJSON[]>[]
     });
+    if (aktuellesTreffen) {
+      adresse.aktuellesTreffenFetcher = () => aktuellesTreffen;
+    }
+    return adresse;
   }
 
   get aktuellesTreffen() {
