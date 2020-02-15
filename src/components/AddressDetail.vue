@@ -4,8 +4,8 @@
     .row
       .col-12
         .card.mb-3
-          h4.card-header Aktuelles Treffen
-          .card-body.py-1
+          h4.card-header.py-1.px-2 Aktuelles Treffen
+          .card-body.p-1
             .row
               .col-4.align-self-end
                 h5.form-text(v-if="address.meldung") Zu zahlen: {{ address.gesamtPreis }} €
@@ -32,8 +32,8 @@
     .row
       .col-12
         .card.mb-3
-          h4.card-header Allgemein
-          .card-body.pb-0
+          h4.card-header.py-1.px-2 Allgemein
+          .card-body.p-1
             .row
               .col-6
                 mcb-input(label="Vorname", name="vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
@@ -54,17 +54,17 @@
     .row
       .col-6
         .card(:class="{'text-danger border-danger': address.hatEmailFehler()}")
-          h4.card-header E-Mail
+          h4.card-header.py-1.px-2 E-Mail
             mcb-button.btn-sm.float-right(v-if="!address.hatEmailFehler()", @click="sendEmail", text="Einladung direkt...", icon="far fa-paper-plane")
-          .card-body.pb-1
+          .card-body.p-1
             .row
               .col-12
                 mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
                 mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
 
         .card
-          h4.card-header Fahrzeuge
-          .card-body.pb-0
+          h4.card-header.py-1.px-2 Fahrzeuge
+          .card-body.p-1
             .row
               .col-6
                 mcb-checkbox(label="fährt Solo", name="solo", v-model="address.solo", inline="true")
@@ -72,7 +72,7 @@
                 mcb-checkbox(label="fährt Gespann", name="gespann", v-model="address.gespann", inline="true")
       .col-6
         .card
-          h4.card-header Besuchte Treffen
+          h4.card-header.py-1.px-2 Besuchte Treffen
           .list-group.list-group-flush
             .list-group-item.pt-1.pb-1(v-for="t in address.besuche", :key="t.name") {{ t.name }}
 </template>

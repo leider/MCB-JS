@@ -70,6 +70,8 @@ $label-margin-bottom: 0rem;
 $input-disabled-bg: #f8f9fa !default;
 $input-color: #212529 !default;
 
+$btn-disabled-opacity: 0.25;
+
 @import "~bootstrap/scss/bootstrap.scss";
 @import "~bootstrap-vue/src/index.scss";
 

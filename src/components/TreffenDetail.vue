@@ -4,8 +4,8 @@
     .row
       .col-12
         .card.mb-2
-          h4.card-header Allgemein
-          .card-body
+          h4.card-header.py-1.px-2 Allgemein
+          .card-body.p-1
             .row
               .col-3
                 mcb-input(label="Name", name="name", v-model="treffen.name", required)
@@ -23,9 +23,9 @@
                 mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
               .col-3
                 mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
-          h4.card-header E-Mail Vorschau
+          h4.card-header.py-1.px-2 E-Mail Vorschau
             mcb-button.btn-sm.float-right(@click="createEmptyPDF", text="PDF Vorschau", icon="far fa-file-pdf")
-          .card-body
+          .card-body.p-1
             .row
               .col-12
                 div(v-html="preview")
