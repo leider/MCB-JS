@@ -21,6 +21,7 @@
     "puppeteer": "2.1.1"
   },
   "devDependencies": {
+    "@electron/typescript-definitions": "8.6.6",
     "@fortawesome/fontawesome-free": "5.12.1",
     "@prettier/plugin-pug": "1.1.8",
     "@typescript-eslint/eslint-plugin": "2.19.2",
