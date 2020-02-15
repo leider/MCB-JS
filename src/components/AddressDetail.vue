@@ -1,5 +1,5 @@
 <template lang="pug">
-  #address-detail(style="max-height:calc(100vh - 10rem);overflow-y: scroll")
+  #address-detail(style="max-height:calc(100vh - 10rem);overflow-y: scroll;overflow-x: hidden")
     alert-box(v-model="transferStatus")
     .row
       .col-12
