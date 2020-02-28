@@ -1,7 +1,7 @@
 @echo off
 :start
 cls
-set /p answer=Wirklich updaten? Das dauert bestimmt 15 Minuten (J):
+set /p answer=Wirklich updaten? Das dauert bestimmt 5 Minuten (J):
 if %answer% == J goto G
 if %answer% == j goto G
 
