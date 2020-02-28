@@ -12,6 +12,6 @@ fecha.i18n = {
 
 module.exports = {
   toLocaleDate: date => {
-    return fecha.format(date, "Do MMM YYYY");
+    return fecha.format(date, "DD. MMM YYYY");
   }
 };
