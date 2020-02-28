@@ -320,7 +320,7 @@ export class Adresse {
   matchesSuchtext(suchtext: string) {
     const isInFieldAsLowerCase = (fieldname: string, text: string) => {
       // @ts-ignore
-      return (this[fieldname] as string)
+      return ((this[fieldname] || "") as string)
         .trim()
         .toLocaleLowerCase()
         .includes(text.trim().toLocaleLowerCase());
