@@ -327,7 +327,7 @@ export class Adresse {
     };
     return suchtext
       .split(" ")
-      .map(t => isInFieldAsLowerCase("name", t) || isInFieldAsLowerCase("vorname", t))
+      .map(t => isInFieldAsLowerCase("name", t) || isInFieldAsLowerCase("vorname", t)|| isInFieldAsLowerCase("email", t))
       .reduce((acc, curr) => acc && curr, true);
   }
 
