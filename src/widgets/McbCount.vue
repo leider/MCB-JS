@@ -1,12 +1,7 @@
 <template lang="pug">
   b-form-group
     mcb-label(:name="name", :label="label")
-    b-input-group
-      b-input-group-prepend
-        mcb-button(@click="decrease", icon="fas fa-minus")
-      b-form-input.text-right(:id="name", v-model="valueString", disabled, type="text")
-      b-input-group-append
-        mcb-button(@click="increase", icon="fas fa-plus")
+    b-form-spinbutton(:id="name", :valuel="value", @input="$emit('input', $event)", locale="de", min="0")
 </template>
 
 <script lang="ts">
