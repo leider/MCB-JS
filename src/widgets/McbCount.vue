@@ -1,7 +1,6 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="$id('Count')", :label="label")
-    b-form-spinbutton(:id="$id('Count')", :valuel="value", @input="$emit('input', $event)", locale="de", min="0")
+  b-form-group(:label-for="$id('Count')", :label="label")
+    b-form-spinbutton(:id="$id('Count')", :value="value", @input="$emit('input', $event)", locale="de", min="0")
 </template>
 
 <script lang="ts">

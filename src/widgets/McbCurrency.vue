@@ -1,6 +1,5 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="$id('Currency')", :label="label")
+  b-form-group(:label-for="$id('Currency')", :label="label")
     b-input-group
       b-form-input.text-right(:id="$id('Currency')", v-model="valueString",
         :placeholder="placeholder", :required="required",

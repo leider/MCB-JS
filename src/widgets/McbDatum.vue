@@ -1,6 +1,5 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="$id('Datum')", :label="label")
+  b-form-group(:label-for="$id('Datum')", :label="label")
     vuejs-datepicker(v-model="date", :id="$id('Datum')", :language="de", format="d. MMM. yyyy", monday-first, bootstrap-styling)
 </template>
 

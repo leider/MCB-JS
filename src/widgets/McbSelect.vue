@@ -1,6 +1,5 @@
 <template lang="pug">
-  b-form-group
-    mcb-label(:name="$id('Select')", :label="label")
+  b-form-group(:label-for="$id('Select')", :label="label")
     b-form-select(:options="options", :id="$id('Select')", v-model="selected")
 </template>
 
