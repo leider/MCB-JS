@@ -3,13 +3,15 @@ import store from "./store/store";
 import Vue from "vue";
 
 import BootstrapVue from "bootstrap-vue";
+Vue.use(BootstrapVue);
 
 import McbWidgets from "@/widgets/McbWidgets";
+Vue.use(McbWidgets);
+
+import UniqueId from "vue-unique-id";
+Vue.use(UniqueId);
 
 import routing from "./routing";
-
-Vue.use(BootstrapVue);
-Vue.use(McbWidgets);
 
 // Vue.config.productionTip = false;
 

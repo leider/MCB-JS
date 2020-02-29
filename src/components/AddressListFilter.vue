@@ -1,9 +1,9 @@
 <template lang="pug">
   .row
     .col-5
-      mcb-input(name="suche", v-model="suchtext", placeholder="Suche nach ...")
+      mcb-input(v-model="suchtext", placeholder="Suche nach ...")
     .col-5
-      mcb-select(name="suche", v-model="activeFilter", :options="alleFilter")
+      mcb-select(v-model="activeFilter", :options="alleFilter")
     .col-2
       b.form-text.text-right {{filteredAddresses.length}}
 </template>

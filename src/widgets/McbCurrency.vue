@@ -1,8 +1,8 @@
 <template lang="pug">
   b-form-group
-    mcb-label(:name="name", :label="label")
+    mcb-label(:name="$id('Currency')", :label="label")
     b-input-group
-      b-form-input.text-right(:id="name", v-model="valueString",
+      b-form-input.text-right(:id="$id('Currency')", v-model="valueString",
         :placeholder="placeholder", :required="required",
         :disabled="disabled", @blur="focusLost",
         step=0.01, :state="valid", type="text")
@@ -16,7 +16,6 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 @Component
 export default class McbCurrency extends Vue {
   @Prop() value!: number;
-  @Prop() readonly name!: string;
   @Prop() readonly label!: string;
   @Prop() readonly required!: boolean;
   @Prop() readonly disabled!: boolean;

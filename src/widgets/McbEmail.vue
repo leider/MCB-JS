@@ -1,7 +1,7 @@
 <template lang="pug">
   b-form-group
-    mcb-label(:name="name", :label="label")
-    b-form-input( :id="name", :value="value", :placeholder="placeholder", @input="$emit('input', $event)",
+    mcb-label(:name="$id('Email')", :label="label")
+    b-form-input( :id="$id('Email')", :value="value", :placeholder="placeholder", @input="$emit('input', $event)",
       :state="valid", type="email", ref="widget" )
 </template>
 
@@ -11,7 +11,6 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 @Component
 export default class McbEmail extends Vue {
   @Prop() value!: string;
-  @Prop() readonly name!: string;
   @Prop() readonly label!: string;
   @Prop() readonly placeholder!: string;
   valid: boolean | null = null;

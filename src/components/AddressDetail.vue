@@ -24,11 +24,11 @@
                       h5 Frühstück
                   .row
                     .col-4
-                      mcb-count(:label="aktuellesTreffen.meldungLabel", name="anzahlMeldung", v-model="address.anzahlMeldung")
+                      mcb-count(:label="aktuellesTreffen.meldungLabel", v-model="address.anzahlMeldung")
                     .col-4
-                      mcb-count(:label="aktuellesTreffen.samstagLabel", name="samstag", v-model="address.samstag")
+                      mcb-count(:label="aktuellesTreffen.samstagLabel", v-model="address.samstag")
                     .col-4
-                      mcb-count(:label="aktuellesTreffen.sonntagLabel", name="sonntag", v-model="address.sonntag")
+                      mcb-count(:label="aktuellesTreffen.sonntagLabel", v-model="address.sonntag")
     .row
       .col-12
         .card.mb-3
@@ -36,21 +36,21 @@
           .card-body.p-1
             .row
               .col-6
-                mcb-input(label="Vorname", name="vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
+                mcb-input(label="Vorname", v-model="address.vorname", placeholder="Vorname des Besuchers", required)
               .col-6
-                mcb-input(label="Name", name="name", v-model="address.name", placeholder="Name des Besuchers", required)
+                mcb-input(label="Name", v-model="address.name", placeholder="Name des Besuchers", required)
             .row
               .col-8
-                mcb-input(label="Straße", name="strasse", v-model="address.strasse")
+                mcb-input(label="Straße", v-model="address.strasse")
               .col-4
-                mcb-checkbox(label="ist Mitglied", name="mitglied", v-model="address.mitglied")
+                mcb-checkbox(label="ist Mitglied", v-model="address.mitglied")
             .row
               .col-2
-                mcb-select(label="Land", name="land", v-model="address.land", :options="address.laender")
+                mcb-select(label="Land", v-model="address.land", :options="address.laender")
               .col-2
-                mcb-input(label="Postleitzahl", name="plz", v-model="address.plz")
+                mcb-input(label="Postleitzahl", v-model="address.plz")
               .col-8
-                mcb-input(label="Ort", name="ort", v-model="address.ort")
+                mcb-input(label="Ort", v-model="address.ort")
     .row
       .col-6
         .card(:class="{'text-danger border-danger': address.hatEmailFehler()}")
@@ -59,17 +59,17 @@
           .card-body.p-1
             .row
               .col-12
-                mcb-email(label="Adresse", name="email", v-model="address.email", placeholder="E-Mail Adresse")
-                mcb-select(label="Fehlergrund", name="fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
+                mcb-email(label="Adresse", v-model="address.email", placeholder="E-Mail Adresse")
+                mcb-select(label="Fehlergrund", v-model="address.fehlergrund", :options="address.fehlergruende")
 
         .card
           h4.card-header.py-1.px-2 Fahrzeuge
           .card-body.p-1
             .row
               .col-6
-                mcb-checkbox(label="fährt Solo", name="solo", v-model="address.solo", inline="true")
+                mcb-checkbox(label="fährt Solo", v-model="address.solo", inline="true")
               .col-6
-                mcb-checkbox(label="fährt Gespann", name="gespann", v-model="address.gespann", inline="true")
+                mcb-checkbox(label="fährt Gespann", v-model="address.gespann", inline="true")
       .col-6
         .card
           h4.card-header.py-1.px-2 Besuchte Treffen

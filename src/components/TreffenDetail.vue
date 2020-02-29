@@ -8,21 +8,21 @@
           .card-body.p-1
             .row
               .col-3
-                mcb-input(label="Name", name="name", v-model="treffen.name", required)
+                mcb-input(label="Name", v-model="treffen.name", required)
               .col-6
-                mcb-input(label="Beschreibung", name="beschreibung", v-model="treffen.beschreibung", required)
+                mcb-input(label="Beschreibung", v-model="treffen.beschreibung", required)
               .col-3
-                mcb-checkbox(label="ist Gespann", name="gespann", v-model="treffen.gespann")
+                mcb-checkbox(label="ist Gespann", v-model="treffen.gespann")
 
             .row
               .col-3
-                mcb-datum(label="Erster Tag", name="ersterTag", v-model="treffen.start")
+                mcb-datum(label="Erster Tag", v-model="treffen.start")
               .col-3
-                mcb-datum(label="Letzter Tag", name="letzterTag", v-model="treffen.ende")
+                mcb-datum(label="Letzter Tag", v-model="treffen.ende")
               .col-3
-                mcb-currency(label="Preis Meldung", name="preisMeldung", v-model="treffen.preisMeldung")
+                mcb-currency(label="Preis Meldung", v-model="treffen.preisMeldung")
               .col-3
-                mcb-currency(label="Preis Frühstück", name="preisFruehstueck", v-model="treffen.preisFruehstueck")
+                mcb-currency(label="Preis Frühstück", v-model="treffen.preisFruehstueck")
           h4.card-header.py-1.px-2 E-Mail Vorschau
             mcb-button.btn-sm.float-right(@click="createEmptyPDF", text="PDF Vorschau", icon="far fa-file-pdf")
           .card-body.p-1
