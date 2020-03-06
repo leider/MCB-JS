@@ -15,7 +15,10 @@ export default new Vuex.Store({
     addresses: addressModule,
     treffen: treffenModule
   },
-  state: {},
+  state: {
+    addresses: addressModule.state,
+    treffen: treffenModule.state
+  },
 
   mutations: {},
 

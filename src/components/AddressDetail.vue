@@ -4,7 +4,9 @@
     .row
       .col-12
         .card.mb-3
-          h4.card-header.py-1.px-2 Aktuelles Treffen
+          .card-header.py-1.px-2
+            h4 Aktuelles Treffen ({{aktuellesTreffen.name}})
+              small.float-right(v-if="address.meldung") Zum Abmelden im Dialog die Anzahl Meldungen wieder auf 0 setzen
           .card-body.p-1
             .row
               .col-4.align-self-end

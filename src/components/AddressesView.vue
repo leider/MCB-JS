@@ -5,7 +5,7 @@
         .page-header
           h2 Adressen
             form-buttons(:neu="onNew", :speichern="onSave", :loeschen="onDelete", :reset="onReset", :changed="addressDirty", :valid="address.isValid()")
-          h4.float-right(v-if="aktuelleZahlen.anzahl") {{aktuelleZahlen.anzahl}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Samstag, {{aktuelleZahlen.So}} Sonntag
+          h4.float-right {{aktuelleZahlen.anzahl || "keine"}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Sa, {{aktuelleZahlen.So}} So
 
     .row
       nav.col-md-3

@@ -1,28 +1,21 @@
 <template lang="pug">
   b-form-group(:label-for="$id('Datum')", :label="label")
-    vuejs-datepicker(v-model="date", :id="$id('Datum')", :language="de", format="d. MMM. yyyy", monday-first, bootstrap-styling)
+    b-form-datepicker(v-model="date", :id="$id('Datum')", locale="de", start-weekday="1")
 </template>
 
 <script lang="ts">
-import VuejsDatepicker from "vuejs-datepicker";
-import { de } from "vuejs-datepicker/dist/locale";
-
 import { Component, Vue, Prop } from "vue-property-decorator";
 
-@Component({
-  components: { VuejsDatepicker }
-})
+@Component({})
 export default class McbDatum extends Vue {
   @Prop() value!: Date;
   @Prop() readonly label!: string;
 
-  de: any = de;
-
   get date() {
-    return this.value;
+    return this.value.toISOString().substr(0, 10);
   }
   set date(val) {
-    this.$emit("input", val);
+    this.$emit("input", new Date(val));
   }
 }
 </script>

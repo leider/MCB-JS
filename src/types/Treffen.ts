@@ -36,7 +36,7 @@ export class Treffen {
     this.name = name;
     this.preisFruehstueck = preisFruehstueck;
     this.preisMeldung = preisMeldung;
-    this.gespann = !!gespann;
+    this.gespann = gespann;
   }
 
   static fromJSON(t: TreffenJSON) {
@@ -48,7 +48,12 @@ export class Treffen {
   }
 
   set start(date: Date) {
+    const diff = this.ende.getTime() - this.start.getTime();
+    if (this.ersterTag === date.toISOString().substr(0, 10)) {
+      return;
+    }
     this.ersterTag = date.toISOString().substr(0, 10);
+    this.ende = new Date(this.start.getTime() + diff);
   }
 
   get ende() {
