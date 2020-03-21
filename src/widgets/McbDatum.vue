@@ -8,11 +8,11 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component({})
 export default class McbDatum extends Vue {
-  @Prop() value!: Date;
-  @Prop() readonly label!: string;
+  @Prop() value?: Date;
+  @Prop() readonly label?: string;
 
   get date() {
-    return this.value.toISOString().substr(0, 10);
+    return this.value!.toISOString().substr(0, 10);
   }
   set date(val) {
     this.$emit("input", new Date(val));

@@ -13,8 +13,8 @@ import { treffen } from "@/store/store";
 
 @Component
 export default class TreffenList extends Vue {
-  @treffen.State treffen!: Treffen[];
-  @treffen.State selectedTreffen!: Treffen;
+  @treffen.State treffen?: Treffen[];
+  @treffen.State selectedTreffen?: Treffen;
 
   alsDatum(isoString: string) {
     return new Date(isoString).toLocaleDateString();

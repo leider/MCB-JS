@@ -15,8 +15,8 @@ import { addresses } from "@/store/store";
 
 @Component
 export default class AddressListFilter extends Vue {
-  @addresses.Action setFilter!: any;
-  @addresses.Getter filteredAddresses!: Adresse[];
+  @addresses.Action setFilter?: any;
+  @addresses.Getter filteredAddresses?: Adresse[];
   private suchtext: string = "";
   private activeFilter: string = "Alle";
 

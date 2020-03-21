@@ -23,14 +23,14 @@ import AddressListFilter from "@/components/AddressListFilter.vue";
   components: { AddressListFilter }
 })
 export default class AddressList extends Vue {
-  @addresses.State addresses!: Adresse[];
-  @addresses.State selectedAddress!: Adresse;
-  @addresses.Getter filteredAddresses!: Adresse[];
+  @addresses.State addresses?: Adresse[];
+  @addresses.State selectedAddress?: Adresse;
+  @addresses.Getter filteredAddresses?: Adresse[];
 
   @Watch("filteredAddresses")
   filterChanged() {
     this.$nextTick(() => {
-      const elementById = document.getElementById(`item-address${this.selectedAddress.id}`);
+      const elementById = document.getElementById(`item-address${this.selectedAddress!.id}`);
       if (elementById) {
         elementById.scrollIntoView({ block: "start" });
       }

@@ -9,9 +9,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbCheckbox extends Vue {
-  @Prop() value!: boolean;
-  @Prop() readonly label!: string;
-  @Prop() readonly inline!: boolean;
+  @Prop() value?: boolean;
+  @Prop() readonly label?: string;
+  @Prop() readonly inline?: boolean;
 }
 </script>
 

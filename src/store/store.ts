@@ -23,8 +23,12 @@ export default new Vuex.Store({
   mutations: {},
 
   actions: {
-    sendEmails({ state }, { receiverIds, callback }) {
-      postAndReceiveJSON("/sendEmails", { receiverIds, aktuellesTreffen: state.treffen.aktuellesTreffen.toJSON() }, callback);
+    sendInvitations({ state }, { receiverIds, callback }) {
+      postAndReceiveJSON("/sendInvitations", { receiverIds, aktuellesTreffen: state.treffen.aktuellesTreffen.toJSON() }, callback);
+    },
+
+    sendEmails({}, { receiverIds, messageText, subject, callback }) {
+      postAndReceiveJSON("/sendEmails", { receiverIds, messageText, subject }, callback);
     },
 
     routeChanged({ dispatch }, route: Route) {

@@ -14,11 +14,11 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class McbCurrency extends Vue {
-  @Prop() value!: number;
-  @Prop() readonly label!: string;
-  @Prop() readonly required!: boolean;
-  @Prop() readonly disabled!: boolean;
-  @Prop() readonly placeholder!: string;
+  @Prop() value?: number;
+  @Prop() readonly label?: string;
+  @Prop() readonly required?: boolean;
+  @Prop() readonly disabled?: boolean;
+  @Prop() readonly placeholder?: string;
   valid: boolean | null = null;
   valueString: string = "";
 

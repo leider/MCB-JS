@@ -8,9 +8,9 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbSelect extends Vue {
-  @Prop() value!: string;
-  @Prop() readonly label!: string;
-  @Prop() readonly options!: string[];
+  @Prop() value?: string;
+  @Prop() readonly label?: string;
+  @Prop() readonly options?: string[];
 
   get selected() {
     return this.value;

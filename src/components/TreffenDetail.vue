@@ -39,7 +39,7 @@ import { openOrDownloadPDF } from "@/remoteCalls";
 
 @Component
 export default class TreffenDetail extends Vue {
-  @Prop() treffen!: Treffen;
+  @Prop() treffen?: Treffen;
 
   preview: string = "";
   private transferStatus: StatusMeldungJSON | null = null;

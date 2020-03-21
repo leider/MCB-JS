@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const sendEinladungen = require("./mailer");
+const mailer = require("./mailer");
 const dateUtil = require("./dateUtil");
 const dataAccess = require("./dataAccess");
 const puppeteerPrinter = require("./puppeteerPrinter");
@@ -31,13 +31,28 @@ function addressesWithIds(receiverIds, callback) {
   });
 }
 
-app.post("/sendEmails", (req, res) => {
+app.post("/sendInvitations", (req, res) => {
   const { receiverIds, aktuellesTreffen } = req.body;
   addressesWithIds(receiverIds, (err, addresses) => {
     if (err) {
       return res.status(500).send(err);
     }
-    sendEinladungen(addresses, aktuellesTreffen, err1 => {
+    mailer.sendEinladungen(addresses, aktuellesTreffen, err1 => {
+      if (err1) {
+        return res.status(500).send(err1);
+      }
+      res.status(200).send({ severity: "info", message: `${addresses.length} E-Mails verschickt` });
+    });
+  });
+});
+
+app.post("/sendEmails", (req, res) => {
+  const { receiverIds, messageText, subject } = req.body;
+  addressesWithIds(receiverIds, (err, addresses) => {
+    if (err) {
+      return res.status(500).send(err);
+    }
+    mailer.sendFreeEmails(addresses, messageText, subject, err1 => {
       if (err1) {
         return res.status(500).send(err1);
       }
@@ -55,7 +70,11 @@ app.get("/preview.pdf", (req, res) => {
 app.get("/emptyEinladung.pdf", (req, res, next) => {
   const aktuellesTreffen = JSON.parse(req.query.treffen);
   const datum = displayDate(aktuellesTreffen);
-  app.render("einladung", { background, mcblogo, aktuellesTreffen, datum }, puppeteerPrinter.generatePdf(printoptions, "einladung.pdf", res, next));
+  app.render(
+    "einladung",
+    { background, mcblogo, aktuellesTreffen, datum },
+    puppeteerPrinter.generatePdf(printoptions, "einladung.pdf", res, next)
+  );
 });
 
 app.get("/einladungen.pdf", (req, res, next) => {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled")
+  b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled", :size="size")
     i(v-if="icon", :class="icon")
     | #{' '} {{text}}
 
@@ -10,11 +10,11 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class McbButton extends Vue {
-  @Prop() readonly text!: string;
-  @Prop() readonly icon!: string[];
-  @Prop() readonly size!: string;
-  @Prop() readonly variant!: string;
-  @Prop() readonly disabled!: boolean;
+  @Prop() readonly text?: string;
+  @Prop() readonly icon?: string[];
+  @Prop() readonly size?: string;
+  @Prop() readonly variant?: string;
+  @Prop() readonly disabled?: boolean;
 
   get variantClass() {
     const translate = {

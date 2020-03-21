@@ -62,4 +62,21 @@ function sendEinladungen(addresses, aktuellesTreffen, callback) {
   });
 }
 
-module.exports = sendEinladungen;
+function sendFreeEmails(addresses, messageText, subject, callback) {
+  //const renderingOptions = { mcblogo, background, name: address.vorname, aktuellesTreffen, datum };
+  //const renderedMail = pug.renderFile(filename, renderingOptions);
+
+  const transportObject = {
+    from: `"${senderName}" <${senderAddress}>`,
+    to: "",
+    bcc: process.env.NODE_ENV === "production" ? addresses.map(a => a.email) : senderAddress,
+    replyTo: senderAddress,
+    subject: subject,
+    text: messageText,
+    html: messageText
+  };
+
+  mailer.sendMail(transportObject, callback);
+}
+
+module.exports = { sendEinladungen, sendFreeEmails };

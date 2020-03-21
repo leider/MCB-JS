@@ -9,10 +9,10 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 
 @Component
 export default class McbInput extends Vue {
-  @Prop() value!: string;
-  @Prop() readonly label!: string;
-  @Prop() readonly required!: boolean;
-  @Prop() readonly placeholder!: string;
+  @Prop() value?: string;
+  @Prop() readonly label?: string;
+  @Prop() readonly required?: boolean;
+  @Prop() readonly placeholder?: string;
   valid: boolean | null = null;
 
   @Watch("value")

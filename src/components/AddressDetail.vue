@@ -89,11 +89,11 @@ import { Action } from "vuex-class";
 
 @Component
 export default class AddressDetail extends Vue {
-  @Prop() address!: Adresse;
-  @treffen.State aktuellesTreffen!: Treffen;
+  @Prop() address?: Adresse;
+  @treffen.State aktuellesTreffen?: Treffen;
 
   @addresses.Action saveAddress: any;
-  @Action sendEmails: any;
+  @Action sendInvitations: any;
 
   private transferStatus: StatusMeldungJSON | null = null;
 
@@ -102,13 +102,13 @@ export default class AddressDetail extends Vue {
   }
 
   meldungModalOpened() {
-    this.address.meldung = true;
+    this.address!.meldung = true;
   }
 
   sendEmail() {
-    const receiverIds = [this.address.id];
+    const receiverIds = [this.address!.id];
     this.$bvModal
-      .msgBoxConfirm(`Willst Du wirklich eine Einladung an ${this.address.vorname} verschicken?`, {
+      .msgBoxConfirm(`Willst Du wirklich eine Einladung an ${this.address!.vorname} verschicken?`, {
         okVariant: "success",
         cancelTitle: "Nein",
         okTitle: "Ja",
@@ -117,7 +117,7 @@ export default class AddressDetail extends Vue {
       .then(yesNo => {
         if (yesNo) {
           const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
-          this.sendEmails({ receiverIds, callback });
+          this.sendInvitations({ receiverIds, callback });
         }
       });
   }

@@ -34,16 +34,16 @@ import { openOrDownloadPDF } from "@/remoteCalls";
   components: { TreffenList, TreffenDetail }
 })
 export default class TreffenView extends Vue {
-  @addresses.State addresses!: Adresse[];
-  @treffen.State treffen!: Treffen[];
-  @treffen.State aktuellesTreffen!: Treffen;
-  @treffen.State selectedTreffen!: Treffen;
+  @addresses.State addresses?: Adresse[];
+  @treffen.State treffen?: Treffen[];
+  @treffen.State aktuellesTreffen?: Treffen;
+  @treffen.State selectedTreffen?: Treffen;
 
   @treffen.Action selectTreffen: any;
   @treffen.Action saveTreffen: any;
   @treffen.Action deleteTreffen: any;
 
-  @Action sendEmails: any;
+  @Action sendInvitations: any;
 
   private treffenDirty = false;
   private transferStatus: StatusMeldungJSON | null = null;
@@ -51,12 +51,12 @@ export default class TreffenView extends Vue {
 
   @Watch("selectedTreffen")
   initModel() {
-    this.treff = this.selectedTreffen.copy();
+    this.treff = this.selectedTreffen!.copy();
   }
 
   @Watch("treff", { deep: true })
   somethingChanged() {
-    this.treffenDirty = JSON.stringify(this.selectedTreffen.toJSON()) !== JSON.stringify(this.treff.toJSON());
+    this.treffenDirty = JSON.stringify(this.selectedTreffen!.toJSON()) !== JSON.stringify(this.treff.toJSON());
   }
 
   mounted() {
@@ -127,7 +127,7 @@ export default class TreffenView extends Vue {
   }
 
   prepareSendEmails() {
-    const receiverIds = this.addresses.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
+    const receiverIds = this.addresses!.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
     this.$bvModal
       .msgBoxConfirm(`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`, {
         okVariant: "danger",
@@ -139,13 +139,13 @@ export default class TreffenView extends Vue {
         if (yesNo) {
           this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
           const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
-          this.sendEmails({ receiverIds, callback: callback });
+          this.sendInvitations({ receiverIds, callback: callback });
         }
       });
   }
 
   createPDFs() {
-    const receiverIds = this.addresses.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
+    const receiverIds = this.addresses!.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
     this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs zum Download...` };
     openOrDownloadPDF(
       `/einladungen.pdf?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(

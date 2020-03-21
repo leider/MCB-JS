@@ -28,7 +28,7 @@ Component.registerHooks(["beforeRouteEnter", "beforeRouteLeave", "beforeRouteUpd
 
 @Component
 export default class App extends Vue {
-  @addresses.State addresses!: Adresse[];
+  @addresses.State addresses?: Adresse[];
   @treffen.Action getAllTreffen: any;
   @addresses.Action getAllAddresses: any;
   @Action routeChanged: any;

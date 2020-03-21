@@ -8,8 +8,8 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class McbCount extends Vue {
-  @Prop() value!: number;
-  @Prop() readonly label!: string;
+  @Prop() value?: number;
+  @Prop() readonly label?: string;
 }
 </script>
 

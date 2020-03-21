@@ -9,9 +9,9 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class McbEmail extends Vue {
-  @Prop() value!: string;
-  @Prop() readonly label!: string;
-  @Prop() readonly placeholder!: string;
+  @Prop() value?: string;
+  @Prop() readonly label?: string;
+  @Prop() readonly placeholder?: string;
   valid: boolean | null = null;
 
   @Watch("value")
