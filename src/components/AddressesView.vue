@@ -15,7 +15,7 @@
                 .col-12
                   mcb-input(label="Subject", v-model="subject", placeholder="Hier das Subject angeben")
                   b-form-group(label-for="emailText", label="Text")
-                    b-form-textarea(id="emailText", v-model="emailText", rows="10")
+                    mcb-markdown(id="emailText", v-model="emailText", theme="primary")
 
     .row
       nav.col-md-3
@@ -35,8 +35,9 @@ import { Adresse } from "@/types/Adresse";
 import { Route } from "vue-router";
 import { Action } from "vuex-class";
 import McbInput from "@/widgets/McbInput.vue";
+import McbMarkdown from "@/widgets/McbMarkdown.vue";
 
-@Component({ components: { McbInput, AddressDetail, AddressList } })
+@Component({ components: { McbMarkdown, McbInput, AddressDetail, AddressList } })
 export default class AddressesView extends Vue {
   @addresses.State aktuelleZahlen?: AktuelleZahlenJSON;
   @addresses.State selectedAddress?: Adresse;
@@ -134,6 +135,8 @@ export default class AddressesView extends Vue {
     this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
     const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
     this.sendEmails({ receiverIds, messageText: this.emailText, subject: this.subject, callback: callback });
+    this.emailText = "";
+    this.subject = "";
   }
 }
 </script>

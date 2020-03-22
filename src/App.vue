@@ -76,6 +76,7 @@ $btn-disabled-opacity: 0.25;
 @import "~bootstrap-vue/src/index.scss";
 
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "markdown";
 .custom-check {
   padding-top: $font-size-base * 2;
 }

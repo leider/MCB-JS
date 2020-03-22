@@ -30,9 +30,16 @@ module.exports = {
     };
   },
 
-  generatePdfAsBuffer: function generatePdfAsBuffer(options, html, callback) {
+  generatePdfAsBuffer: function generatePdfAsBuffer(html, callback) {
+    const printoptions = {
+      format: "A4",
+      landscape: false,
+      margin: { top: "0mm", bottom: "0mm", left: "0mm", right: "0mm" }
+    };
+
+
     (async () => {
-      const pdf = await renderInBrowser(options, html);
+      const pdf = await renderInBrowser(printoptions, html);
       callback(pdf);
     })();
   }
