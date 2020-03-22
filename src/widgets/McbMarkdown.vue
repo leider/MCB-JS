@@ -22,14 +22,38 @@ interface EditorConfiguration {
   fullScreen?: boolean;
 }
 
+interface Button {
+  cmd: string;
+  ico: string;
+  title: string;
+  hotkey?: string;
+  ready?: boolean;
+}
+
+function defaultButtons(): { [key: string]: Button } {
+  return {
+    undo: { cmd: "undo", ico: "fas far fa-undo", title: "Undo", hotkey: "Ctrl-Z" },
+    redo: { cmd: "redo", ico: "fas far fa-redo", title: "Redo", hotkey: "Ctrl-Y" },
+    bullist: { cmd: "bullist", ico: "fas far fa-list-ul", title: "Liste" },
+    numlist: { cmd: "numlist", ico: "fas far fa-list-ol", title: "Aufzählung" },
+    bold: { cmd: "bold", ico: "fas far fa-bold", title: "Fett", hotkey: "Ctrl-B" },
+    italic: { cmd: "italic", ico: "fas far fa-italic", title: "Kursiv", hotkey: "Ctrl-I" },
+    strikethrough: { cmd: "strikethrough", ico: "fas far fa-strikethrough", title: "durchgestrichen" },
+    heading: { cmd: "heading", ico: "fas far fa-heading", title: "Überschrift", hotkey: "Ctrl-H" },
+    code: { cmd: "code", ico: "fas far fa-code", title: "Code", hotkey: "Ctrl-X" },
+    quote: { cmd: "quote", ico: "fas far fa-quote-left", title: "Zitat", hotkey: "Ctrl-Q" },
+    link: { cmd: "link", ico: "fas far fa-link", title: "Link", hotkey: "Ctrl-K" },
+    image: { cmd: "image", ico: "fas far fa-image", title: "Bild", hotkey: "Ctrl-P" },
+    fullscreen: { cmd: "fullscreen", ico: "fas far fa-expand", title: "Vollbild", hotkey: "F11", ready: true },
+    preview: { cmd: "preview", ico: "fas far fa-eye", title: "Vorschau", hotkey: "Ctrl-P", ready: true },
+  };
+}
+
 @Component
 export default class McbMarkdown extends Vue {
   @Prop({
     type: String,
-    default: () =>
-      `v-md-editor-${Math.random()
-        .toString(16)
-        .substr(2, 9)}`
+    default: () => `v-md-editor-${Math.random().toString(16).substr(2, 9)}`,
   })
   readonly id?: string;
   @Prop(String) css?: string;
@@ -37,42 +61,25 @@ export default class McbMarkdown extends Vue {
   @Prop({ type: [String], default: "300px" }) readonly height?: string;
   @Prop({
     type: String,
-    default: "redo undo | bold italic strikethrough heading | image link | numlist bullist code quote | preview fullscreen"
+    default: "redo undo | bold italic strikethrough heading | image link | numlist bullist code quote | preview fullscreen",
   })
   readonly toolbar?: string;
   @Prop({ type: String, default: "" }) readonly placeholder?: string;
   @Prop(Object) readonly extend?: object;
   @Prop({
     type: Object,
-    default: function() {
-      return {
-        undo: { cmd: "undo", ico: "fas far fa-undo", title: "Undo", hotkey: "Ctrl-Z" },
-        redo: { cmd: "redo", ico: "fas far fa-redo", title: "Redo", hotkey: "Ctrl-Y" },
-        bullist: { cmd: "bullist", ico: "fas far fa-list-ul", title: "Liste" },
-        numlist: { cmd: "numlist", ico: "fas far fa-list-ol", title: "Aufzählung" },
-        bold: { title: "Fett", ico: "fas far fa-bold", cmd: "bold", hotkey: "Ctrl-B" },
-        italic: { title: "Kursiv", ico: "fas far fa-italic", cmd: "italic", hotkey: "Ctrl-I" },
-        strikethrough: { cmd: "strikethrough", ico: "fas far fa-strikethrough", title: "durchgestrichen" },
-        heading: { title: "Überschrift", ico: "fas far fa-heading", cmd: "heading", hotkey: "Ctrl-H" },
-        code: { title: "Code", ico: "fas far fa-code", cmd: "code", hotkey: "Ctrl-X" },
-        quote: { title: "Zitat", ico: "fas far fa-quote-left", cmd: "quote", hotkey: "Ctrl-Q" },
-        link: { title: "Link", ico: "fas far fa-link", cmd: "link", hotkey: "Ctrl-K" },
-        image: { title: "Bild", ico: "fas far fa-image", cmd: "image", hotkey: "Ctrl-P" },
-        fullscreen: { cmd: "fullscreen", ico: "fas far fa-expand", title: "Vollbild", hotkey: "F11", ready: true },
-        preview: { cmd: "preview", ico: "fas far fa-eye", title: "Vorschau", hotkey: "Ctrl-P", ready: true }
-      };
-    }
+    default: defaultButtons,
   })
-  readonly buttons?: object;
+  readonly buttons?: { [key: string]: Button };
   @Prop({ type: String, default: "outline-secondary" }) readonly theme?: string;
   @Prop({ type: String, default: "", required: false }) readonly value?: string;
   @Prop({
     type: Object,
     default: () => {
       return { lineWrapping: true };
-    }
+    },
   })
-  readonly options?: object;
+  readonly options?: EditorConfiguration;
   private editor?: EditorFromTextArea;
   private preview = false;
   private fullScreen = false;
@@ -83,7 +90,7 @@ export default class McbMarkdown extends Vue {
   get styles() {
     return {
       width: !/^\d+$/.test(this.width || "") ? this.width : `${this.width}px`,
-      height: !/^\d+$/.test(this.height || "") ? this.height : `${this.height}px`
+      height: !/^\d+$/.test(this.height || "") ? this.height : `${this.height}px`,
     };
   }
 
@@ -95,19 +102,11 @@ export default class McbMarkdown extends Vue {
   }
 
   isEmpty(s?: string | null) {
-    return s === null || s === undefined ? true : /^[\s\xa0]*$/.test(s);
+    return !s || /^[\s\xa0]*$/.test(s);
   }
 
-  isUrl(s: string | null) {
-    return this.isEmpty(s) ? false : s!.match(/((http(s)?):\/\/[\w\.\/\-=?#]+)/gi);
-  }
-
-  format() {
-    let a = arguments[0];
-    for (let i = 1; i <= arguments.length; i++) {
-      a = a.replace(/%[a-z]/, arguments[i]);
-    }
-    return a; // Make chainable
+  isUrl(s?: string | null) {
+    return !this.isEmpty(s) && /((http(s)?):\/\/\w+)/gi.test(s!);
   }
 
   _toggleBlock(type: string, start: string, end?: string) {
@@ -126,23 +125,13 @@ export default class McbMarkdown extends Vue {
         start = start.replace(/(\*\*|__)(?![\s\S]*(\*\*|__))/, "");
         end = end.replace(/(\*\*|__)/, "");
       } else if (type === "italic") {
-        start = start.replace(/(\*|_)(?![\s\S]*(\*|_))/, "");
-        end = end.replace(/(\*|_)/, "");
+        start = start.replace(/([*_])(?![\s\S]*([*_]))/, "");
+        end = end.replace(/([*_])/, "");
       } else if (type === "strikethrough") {
         start = start.replace(/(\*\*|~~)(?![\s\S]*(\*\*|~~))/, "");
         end = end.replace(/(\*\*|~~)/, "");
       }
-      ed.replaceRange(
-        start + end,
-        {
-          line: startPoint.line,
-          ch: 0
-        },
-        {
-          line: startPoint.line,
-          ch: 99999999999999
-        }
-      );
+      ed.replaceRange(start + end, { line: startPoint.line, ch: 0 }, { line: startPoint.line, ch: 99999999999999 });
 
       if (type === "bold" || type === "strikethrough") {
         startPoint.ch -= 2;
@@ -172,7 +161,7 @@ export default class McbMarkdown extends Vue {
       endPoint.ch = startPoint.ch + text.length;
     }
 
-    // ed.setSelection(startPoint, endPoint);
+    ed.setSelection(startPoint, endPoint);
   }
 
   _toggleLine(name: string) {
@@ -181,79 +170,45 @@ export default class McbMarkdown extends Vue {
     const startPoint = ed.getCursor("start");
     const endPoint = ed.getCursor("end");
     const repl: { [key: string]: RegExp } = {
-      quote: /^(\s*)\>\s+/,
-      bullist: /^(\s*)(\*|\-|\+)\s+/,
-      numlist: /^(\s*)\d+\.\s+/
+      quote: /^(\s*)>\s+/,
+      bullist: /^(\s*)([*\-+])\s+/,
+      numlist: /^(\s*)\d+\.\s+/,
     };
     const map: { [key: string]: string } = {
       quote: "> ",
       bullist: "* ",
-      numlist: "1. "
+      numlist: "1. ",
     };
     for (let i = startPoint.line; i <= endPoint.line; i++) {
-      (function(i) {
-        let text = ed.getLine(i);
-        if (stat[name]) {
-          text = text.replace(repl[name], "$1");
-        } else {
-          text = map[name] + text;
-        }
-        ed.replaceRange(
-          text,
-          {
-            line: i,
-            ch: 0
-          },
-          {
-            line: i,
-            ch: 99999999999999
-          }
-        );
-      })(i);
+      const text = stat[name] ? ed.getLine(i).replace(repl[name], "$1") : map[name] + ed.getLine(i);
+      ed.replaceRange(text, { line: i, ch: 0 }, { line: i, ch: 99999999999999 });
     }
   }
 
-  state(pos?: CodeMirror.Position) {
-    pos = pos || this.editor!.getCursor("start");
-    const stat = this.editor!.getTokenAt(pos);
+  state() {
+    const editorFromTextArea = this.editor!;
+    const pos = editorFromTextArea.getCursor("start");
+    const stat = editorFromTextArea.getTokenAt(pos);
     if (!stat.type) return {};
 
-    const types = stat.type.split(" ");
-
-    // console.log(types);
-
-    let ret: any = {},
-      data,
-      text;
-    for (let i = 0; i < types.length; i++) {
-      data = types[i];
-      if (data === "strong") {
-        ret.bold = true;
-      } else if (data === "variable-2") {
-        text = this.editor!.getLine(pos.line);
-        if (/^\s*\d+\.\s/.test(text)) {
-          ret["numlist"] = true;
-        } else {
-          ret["bullist"] = true;
-        }
-      } else if (data === "atom") {
-        ret.quote = true;
-      } else if (data === "em") {
-        ret.italic = true;
-      } else if (data === "quote") {
-        ret.quote = true;
-      } else if (data === "strikethrough") {
-        ret.strikethrough = true;
-      } else if (data === "comment") {
-        ret.code = true;
-      } else if (data === "link" || data === "url") {
-        ret.link = true;
-      } else if (data === "image") {
-        ret.image = true;
-      } else if (data.match(/^header(\-[1-6])?$/)) {
-        ret[data.replace("header", "heading")] = true;
-      }
+    function tag(format: string): string | undefined {
+      if (format === "strong") return "bold";
+      if (format === "variable-2") return /^\s*\d+\.\s/.test(editorFromTextArea.getLine(pos!.line)) ? "numlist" : "bullist";
+      if (format === "atom") return "quote";
+      if (format === "em") return "italic";
+      if (format === "quote") return "quote";
+      if (format === "strikethrough") return "strikethrough";
+      if (format === "comment") return "code";
+      if (format === "link" || format === "url") return "link";
+      if (format === "image") return "image";
+      if (format.match(/^header(-[1-6])?$/)) return 'format.replace("header", "heading")';
     }
+    const ret: any = {};
+    stat.type
+      .split(" ")
+      .map(tag)
+      .filter((each) => !!each)
+      .forEach((tag) => (ret[tag!] = true));
     return ret;
   }
 
@@ -266,7 +221,7 @@ export default class McbMarkdown extends Vue {
     const startPoint = ed.getCursor("start");
     const endPoint = ed.getCursor("end");
     if (val) {
-      Object.keys(val).forEach(key => {
+      Object.keys(val).forEach((key) => {
         start = start.replace("#" + key + "#", val[key]);
         end = end.replace("#" + key + "#", val[key]);
       });
@@ -371,42 +326,31 @@ export default class McbMarkdown extends Vue {
     }
   }
 
-  build() {
+  mounted() {
     if (this.__rendered) return;
     const buttons: any = Object.assign({}, this.buttons, this.extend);
-    const shortcuts: any = {};
-
-    this.toolbar!.split("|").forEach(t => {
-      const group: object[] = [];
-      t.toLowerCase()
+    this.toolbars = this.toolbar!.split("|").map((groupDef) =>
+      groupDef
+        .toLowerCase()
         .split(/(\s)/)
-        .forEach(b => {
-          if (!this.isEmpty(b)) {
-            const btn = buttons[b];
-            if (!this.isEmpty(btn.hotkey)) {
-              shortcuts[btn.hotkey] = () => this.command(btn.cmd);
-            }
-            group.push(btn);
-          }
-        });
+        .filter((name) => !this.isEmpty(name))
+        .map((name) => buttons[name])
+    );
+    const shortcuts: any = {};
+    this.toolbars.forEach((group) =>
+      group
+        .filter((button: any) => !this.isEmpty(button.hotkey))
+        .forEach((button: any) => (shortcuts[button.hotkey] = () => this.command(button.cmd)))
+    );
 
-      if (group.length > 0) this.toolbars.push(group);
-    });
-
-    const o = Object.assign({ mode: "markdown", extraKeys: shortcuts }, this.options);
+    const o = Object.assign({ mode: { name: "markdown", strikethrough: true }, extraKeys: shortcuts }, this.options);
 
     const ed = (this.editor = CodeMirror.fromTextArea(document.getElementById(this.id!) as HTMLTextAreaElement, o));
     ed.setValue(this.value!);
     ed.setSize(this.width, this.height);
-    ed.on("change", ed => {
-      this.$emit("input", ed.getValue());
-    });
+    ed.on("change", (ed) => this.$emit("input", ed.getValue()));
 
     this.__rendered = true;
-  }
-
-  mounted() {
-    this.build();
   }
 
   destroy() {
