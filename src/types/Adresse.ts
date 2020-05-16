@@ -64,7 +64,7 @@ class Fehlergruende extends MapWrapper {
         ["Empty", ""],
         ["NotFound", "Empfänger existiert nicht"],
         ["MailboxFull", "Mailbox voll"],
-        ["Spam", "Email aus Spamgründen nicht akzeptiert"]
+        ["Spam", "Email aus Spamgründen nicht akzeptiert"],
       ])
     );
   }
@@ -95,7 +95,7 @@ class Laender extends MapWrapper {
         ["N", "Norwegen"],
         ["P", "Portugal"],
         ["PL", "Polen"],
-        ["S", "Schweden"]
+        ["S", "Schweden"],
       ])
     );
   }
@@ -114,7 +114,7 @@ export const filterMap: { [key: string]: any } = {
   "Einladungen E-Mail": () => (a: Adresse) => a.sollEmailEinladungErhalten(),
   "Einladungen Brief": () => (a: Adresse) => a.sollPostEinladungErhalten(),
   "keine Einladungen": () => (a: Adresse) => !a.sollEinladungErhalten(),
-  Mitglieder: () => (a: Adresse) => a.mitglied
+  Mitglieder: () => (a: Adresse) => a.mitglied,
 };
 
 export class Adresse {
@@ -163,7 +163,7 @@ export class Adresse {
     this.ort = ort;
     this.plz = plz;
     this.strasse = strasse;
-    this.besuche = besuche.map(b => Besuch.fromJSON(b)).sort((a, b) => (a.datum < b.datum ? 1 : -1));
+    this.besuche = besuche.map((b) => Besuch.fromJSON(b)).sort((a, b) => (a.datum < b.datum ? 1 : -1));
     this.aktuellesTreffenFetcher = () => Treffen.emptyTreffen();
   }
 
@@ -199,7 +199,7 @@ export class Adresse {
       geburtstag: null,
       email: "",
       fehlergrund: "Empty",
-      besuche: <BesuchJSON[]>[]
+      besuche: <BesuchJSON[]>[],
     });
     if (aktuellesTreffen) {
       adresse.aktuellesTreffenFetcher = () => aktuellesTreffen;
@@ -224,7 +224,7 @@ export class Adresse {
   }
 
   get meldung() {
-    return this.besuche.map(b => b.name).includes(this.aktuellesTreffen.name);
+    return this.besuche.map((b) => b.name).includes(this.aktuellesTreffen.name);
   }
 
   set meldung(yesNo) {
@@ -287,12 +287,12 @@ export class Adresse {
   }
 
   toJSON(): AdresseJSON {
-    return { ...this, besuche: this.besuche.map(b => b.toJSON()) };
+    return { ...this, besuche: this.besuche.map((b) => b.toJSON()) };
   }
 
   aktBesuch() {
     return (
-      this.besuche.find(b => b.name === this.aktuellesTreffen.name) ||
+      this.besuche.find((b) => b.name === this.aktuellesTreffen.name) ||
       new Besuch(0, 0, this.aktuellesTreffen.beschreibung, this.aktuellesTreffen.ersterTag, this.aktuellesTreffen.name, 0)
     );
   }
@@ -314,20 +314,17 @@ export class Adresse {
       return false;
     }
     const date = this.aktuellesTreffen.start;
-    return this.besuche.some(b => date.getFullYear() - new Date(b.datum).getFullYear() < 5);
+    return this.besuche.some((b) => date.getFullYear() - new Date(b.datum).getFullYear() < 5);
   }
 
   matchesSuchtext(suchtext: string) {
     const isInFieldAsLowerCase = (fieldname: string, text: string) => {
       // @ts-ignore
-      return ((this[fieldname] || "") as string)
-        .trim()
-        .toLocaleLowerCase()
-        .includes(text.trim().toLocaleLowerCase());
+      return ((this[fieldname] || "") as string).trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase());
     };
     return suchtext
       .split(" ")
-      .map(t => isInFieldAsLowerCase("name", t) || isInFieldAsLowerCase("vorname", t) || isInFieldAsLowerCase("email", t))
+      .map((t) => isInFieldAsLowerCase("name", t) || isInFieldAsLowerCase("vorname", t) || isInFieldAsLowerCase("email", t))
       .reduce((acc, curr) => acc && curr, true);
   }
 

@@ -13,11 +13,11 @@ export default new Vuex.Store({
   strict: true,
   modules: {
     addresses: addressModule,
-    treffen: treffenModule
+    treffen: treffenModule,
   },
   state: {
     addresses: addressModule.state,
-    treffen: treffenModule.state
+    treffen: treffenModule.state,
   },
 
   mutations: {},
@@ -38,8 +38,8 @@ export default new Vuex.Store({
       if (route.path.startsWith("/treffen")) {
         return dispatch("treffen/routeChanged", route.params.id);
       }
-    }
-  }
+    },
+  },
 });
 
 export const addresses = namespace("addresses");

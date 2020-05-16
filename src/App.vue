@@ -53,7 +53,7 @@ export default class App extends Vue {
 <style lang="scss">
 $theme-colors: (
   "primary": #337ab7,
-  "warning": #ebb847
+  "warning": #ebb847,
 );
 
 $font-family-sans-serif: "Montserrat", Helvetica, Arial, sans-serif;

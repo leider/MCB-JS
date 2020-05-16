@@ -31,7 +31,7 @@ import { Route } from "vue-router";
 import { openOrDownloadPDF } from "@/remoteCalls";
 
 @Component({
-  components: { TreffenList, TreffenDetail }
+  components: { TreffenList, TreffenDetail },
 })
 export default class TreffenView extends Vue {
   @addresses.State addresses?: Adresse[];
@@ -85,7 +85,7 @@ export default class TreffenView extends Vue {
       return this.$bvModal.msgBoxOk("Du musst das aktuelle Treffen erst Speichern oder Abbrechen!", {
         okVariant: "success",
         okTitle: "Ach so...",
-        centered: true
+        centered: true,
       });
     }
     next();
@@ -106,9 +106,9 @@ export default class TreffenView extends Vue {
         okVariant: "danger",
         cancelTitle: "Nein",
         okTitle: "Ja",
-        centered: true
+        centered: true,
       })
-      .then(yesNo => {
+      .then((yesNo) => {
         if (yesNo) {
           this.deleteTreffen(this.treff);
         }
@@ -127,15 +127,15 @@ export default class TreffenView extends Vue {
   }
 
   prepareSendEmails() {
-    const receiverIds = this.addresses!.filter(filterMap["Einladungen E-Mail"]()).map(a => a.id);
+    const receiverIds = this.addresses!.filter(filterMap["Einladungen E-Mail"]()).map((a) => a.id);
     this.$bvModal
       .msgBoxConfirm(`Willst Du wirklich ${receiverIds.length} E-Mails verschicken?`, {
         okVariant: "danger",
         cancelTitle: "Nein",
         okTitle: "Ja",
-        centered: true
+        centered: true,
       })
-      .then(yesNo => {
+      .then((yesNo) => {
         if (yesNo) {
           this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
           const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
@@ -145,7 +145,7 @@ export default class TreffenView extends Vue {
   }
 
   createPDFs() {
-    const receiverIds = this.addresses!.filter(filterMap["Einladungen Brief"]()).map(a => a.id);
+    const receiverIds = this.addresses!.filter(filterMap["Einladungen Brief"]()).map((a) => a.id);
     this.transferStatus = { severity: "info", message: `Erzeuge ${receiverIds.length} PDFs zum Download...` };
     openOrDownloadPDF(
       `/einladungen.pdf?treffen=${encodeURIComponent(JSON.stringify(this.aktuellesTreffen))}&receiverIds=${encodeURIComponent(

@@ -94,7 +94,7 @@ export default class AddressesView extends Vue {
       return this.$bvModal.msgBoxOk("Du musst die aktuelle Adresse erst Speichern oder Abbrechen!", {
         okVariant: "success",
         okTitle: "Ach so...",
-        centered: true
+        centered: true,
       });
     }
     next();
@@ -115,9 +115,9 @@ export default class AddressesView extends Vue {
         okVariant: "danger",
         cancelTitle: "Nein",
         okTitle: "Ja",
-        centered: true
+        centered: true,
       })
-      .then(yesNo => {
+      .then((yesNo) => {
         if (yesNo) {
           this.deleteAddress(this.address);
         }
@@ -131,7 +131,7 @@ export default class AddressesView extends Vue {
   }
 
   handleSendEmail() {
-    const receiverIds = this.filteredAddresses!.map(a => a.id);
+    const receiverIds = this.filteredAddresses!.map((a) => a.id);
     this.transferStatus = { severity: "info", message: `Verschicke ${receiverIds.length} E-Mails...` };
     const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
     this.sendEmails({ receiverIds, messageText: this.emailText, subject: this.subject, callback: callback });

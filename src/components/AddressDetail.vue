@@ -112,9 +112,9 @@ export default class AddressDetail extends Vue {
         okVariant: "success",
         cancelTitle: "Nein",
         okTitle: "Ja",
-        centered: true
+        centered: true,
       })
-      .then(yesNo => {
+      .then((yesNo) => {
         if (yesNo) {
           const callback = (status: StatusMeldungJSON) => (this.transferStatus = status);
           this.sendInvitations({ receiverIds, callback });

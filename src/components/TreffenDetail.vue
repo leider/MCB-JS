@@ -47,8 +47,8 @@ export default class TreffenDetail extends Vue {
   @Watch("treffen", { deep: true })
   somethingChanged() {
     fetch("/preview.pdf?treffen=" + encodeURIComponent(JSON.stringify(this.treffen)))
-      .then(response => response.text())
-      .then(text => (this.preview = text));
+      .then((response) => response.text())
+      .then((text) => (this.preview = text));
   }
 
   createEmptyPDF() {

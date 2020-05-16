@@ -5,7 +5,7 @@ import { Treffen, TreffenJSON } from "@/types/Treffen";
 import { getJson, postAndReceiveJSON } from "@/remoteCalls";
 
 function findForId(treffen: Treffen[], id: number, defaultReturn?: Treffen) {
-  return treffen.find(t => t.id === id) || defaultReturn;
+  return treffen.find((t) => t.id === id) || defaultReturn;
 }
 
 export default <Module<any, any>>{
@@ -15,7 +15,7 @@ export default <Module<any, any>>{
     treffen: <Treffen[]>[],
     selectedTreffen: Treffen.emptyTreffen(),
     treffenDirty: false,
-    aktuellesTreffen: Treffen.emptyTreffen()
+    aktuellesTreffen: Treffen.emptyTreffen(),
   },
 
   mutations: {
@@ -28,14 +28,14 @@ export default <Module<any, any>>{
         return treff.sort((a, b) => (a.ersterTag > b.ersterTag ? -1 : 1));
       }
 
-      const trObjs = treffen.map(t => Treffen.fromJSON(t));
+      const trObjs = treffen.map((t) => Treffen.fromJSON(t));
       state.treffen = sortiere(trObjs);
       state.aktuellesTreffen = state.treffen[0];
     },
 
     selectTreffen(state, treffen: Treffen) {
       state.selectedTreffen = treffen;
-    }
+    },
   },
 
   actions: {
@@ -78,6 +78,6 @@ export default <Module<any, any>>{
       if (treffen) {
         commit("selectTreffen", treffen);
       }
-    }
-  }
+    },
+  },
 };

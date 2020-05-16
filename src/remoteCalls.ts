@@ -8,21 +8,21 @@ function postAndReceive(responseCallback: any, url: string, data: any, callback:
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     redirect: "follow", // manual, *follow, error
     referrer: "no-referrer", // no-referrer, *client
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    body: JSON.stringify(data), // body data type must match "Content-Type" header
   })
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw Error(response.statusText);
       }
       return responseCallback(response);
     })
     .then(callback)
-    .catch(err => callback({ severity: "error", message: err.toString() }));
+    .catch((err) => callback({ severity: "error", message: err.toString() }));
 }
 
 export function postAndReceiveJSON(url: string, data: any, callback: any) {
@@ -31,7 +31,7 @@ export function postAndReceiveJSON(url: string, data: any, callback: any) {
 
 export function getJson(url: string, callback: any) {
   fetch(url)
-    .then(response => {
+    .then((response) => {
       if (!response.ok) {
         throw Error(<any>response);
       }

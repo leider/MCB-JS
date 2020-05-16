@@ -27,7 +27,7 @@ export default class McbCurrency extends Vue {
     this.valueString = new Intl.NumberFormat("de-DE", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-      useGrouping: false
+      useGrouping: false,
     }).format(this.value || 0);
   }
 

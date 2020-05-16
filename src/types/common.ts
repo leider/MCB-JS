@@ -6,7 +6,7 @@ export class MapWrapper {
   }
 
   getForSelectbox() {
-    return this.keys().map(k => {
+    return this.keys().map((k) => {
       return { value: k, text: this.map.get(k) };
     });
   }

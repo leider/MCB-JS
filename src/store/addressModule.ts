@@ -7,7 +7,7 @@ import { AktuelleZahlenJSON } from "@/types/common";
 import { getJson, postAndReceiveJSON } from "@/remoteCalls";
 
 function findForId(addresses: Adresse[], id: number, defaultReturn?: Adresse) {
-  return addresses.find(a => a.id === id) || defaultReturn;
+  return addresses.find((a) => a.id === id) || defaultReturn;
 }
 
 export default <Module<any, any>>{
@@ -17,7 +17,7 @@ export default <Module<any, any>>{
     addresses: <Adresse[]>[],
     selectedAddress: Adresse.emptyAddress(),
     aktuelleZahlen: <AktuelleZahlenJSON>{},
-    filter: () => () => true
+    filter: () => () => true,
   },
 
   mutations: {
@@ -25,7 +25,7 @@ export default <Module<any, any>>{
       function sortiere(addr: Adresse[]) {
         return addr.sort((a, b) => (a.name < b.name ? -1 : 1));
       }
-      const adrObjs = addresses.map(a => {
+      const adrObjs = addresses.map((a) => {
         const result = Adresse.fromJSON(a);
         result.aktuellesTreffenFetcher = () => aktuellesTreffen;
         return result;
@@ -33,13 +33,13 @@ export default <Module<any, any>>{
       state.addresses = sortiere(adrObjs);
 
       state.aktuelleZahlen = (state.addresses as Adresse[])
-        .filter(a => a.meldung)
+        .filter((a) => a.meldung)
         .reduce(
           (previous, a) => {
             return {
               Sa: previous.Sa + a.aktBesuch().Sa,
               So: previous.So + a.aktBesuch().So,
-              anzahl: previous.anzahl + a.aktBesuch().anzahl
+              anzahl: previous.anzahl + a.aktBesuch().anzahl,
             };
           },
           { Sa: 0, So: 0, anzahl: 0 }
@@ -52,7 +52,7 @@ export default <Module<any, any>>{
 
     setFilter(state, filter) {
       state.filter = filter;
-    }
+    },
   },
 
   actions: {
@@ -101,12 +101,12 @@ export default <Module<any, any>>{
 
     setFilter({ commit }, filter) {
       commit("setFilter", filter);
-    }
+    },
   },
 
   getters: {
     filteredAddresses(state) {
       return state.addresses.filter(state.filter());
-    }
-  }
+    },
+  },
 };

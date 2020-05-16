@@ -20,7 +20,7 @@ import { addresses } from "@/store/store";
 import AddressListFilter from "@/components/AddressListFilter.vue";
 
 @Component({
-  components: { AddressListFilter }
+  components: { AddressListFilter },
 })
 export default class AddressList extends Vue {
   @addresses.State addresses?: Adresse[];

@@ -22,7 +22,7 @@ export default class McbButton extends Vue {
       light: "secondary",
       info: "success",
       warning: "warning",
-      error: "danger"
+      error: "danger",
     };
     return (translate as any)[this.variant || "standard"];
   }
