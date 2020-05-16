@@ -17,10 +17,10 @@
     "connect-history-api-fallback": "1.6.0",
     "express": "4.17.1",
     "fecha": "4.2.0",
-    "marked": "0.8.2",
+    "marked": "1.0.0",
     "nodemailer": "6.4.6",
     "pug": "^2.0.4",
-    "puppeteer": "2.1.1"
+    "puppeteer": "3.0.4"
   },
   "devDependencies": {
     "@electron/typescript-definitions": "8.7.4",
@@ -50,7 +50,7 @@
     "eslint": "7.0.0",
     "eslint-plugin-prettier": "3.1.3",
     "eslint-plugin-vue": "6.2.2",
-    "fibers": "4.0.2",
+    "fibers": "5.0.0",
     "jest": "26.0.1",
     "jest-serializer-vue": "2.0.2",
     "jest-transform-stub": "2.0.0",
