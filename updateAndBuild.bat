@@ -10,8 +10,8 @@ exit
 :G
 cls
 taskkill /IM MCB-APP.exe
-git checkout -- package-lock.json
 git pull
+git checkout -- package-lock.json
 call npm install
 call npm run-script build
 node electron-build-win
