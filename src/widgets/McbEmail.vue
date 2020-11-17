@@ -1,7 +1,14 @@
 <template lang="pug">
-  b-form-group(:label-for="$id('Email')", :label="label")
-    b-form-input( :id="$id('Email')", :value="value", :placeholder="placeholder", @input="$emit('input', $event)",
-      :state="valid", type="email", ref="widget" )
+b-form-group(:label-for="$id('Email')", :label="label")
+  b-form-input(
+    :id="$id('Email')",
+    :value="value",
+    :placeholder="placeholder",
+    @input="$emit('input', $event)",
+    :state="valid",
+    type="email",
+    ref="widget"
+  )
 </template>
 
 <script lang="ts">

@@ -1,6 +1,6 @@
 <template lang="pug">
-  b-form-group(:label-for="$id('Select')", :label="label")
-    b-form-select(:options="options", :id="$id('Select')", v-model="selected")
+b-form-group(:label-for="$id('Select')", :label="label")
+  b-form-select(:options="options", :id="$id('Select')", v-model="selected")
 </template>
 
 <script lang="ts">

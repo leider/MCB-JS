@@ -1,13 +1,19 @@
 <template lang="pug">
-  .v-md-container(:class="[css, { 'v-md-auto-resize': height === 'auto', 'v-md-fullscreen': fullScreen }]")
-    .v-md-toolbar(v-if="toolbars.length > 0")
-      .btn-group.mr-3(role="group" v-for="group in toolbars")
-        button(v-for="button in group", type="button", :title="button.title", :class="'btn btn-' + theme", @click="command(button.function, button.cmd)",
-          :disabled="preview && !button.ready")
-          i(:class="[button.ico]")
-    .v-md-wrapper(v-on:click="editor.focus()")
-      textarea.v-md-editor(:style="styles", :id="id", :placeholder="placeholder", rows="10")
-      .v-md-preview(v-if="preview", v-html="html")
+.v-md-container(:class="[css, { 'v-md-auto-resize': height === 'auto', 'v-md-fullscreen': fullScreen }]")
+  .v-md-toolbar(v-if="toolbars.length > 0")
+    .btn-group.mr-3(role="group", v-for="group in toolbars")
+      button(
+        v-for="button in group",
+        type="button",
+        :title="button.title",
+        :class="'btn btn-' + theme",
+        @click="command(button.function, button.cmd)",
+        :disabled="preview && !button.ready"
+      )
+        i(:class="[button.ico]")
+  .v-md-wrapper(v-on:click="editor.focus()")
+    textarea.v-md-editor(:style="styles", :id="id", :placeholder="placeholder", rows="10")
+    .v-md-preview(v-if="preview", v-html="html")
 </template>
 
 <script lang="ts">

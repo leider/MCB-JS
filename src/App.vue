@@ -1,21 +1,21 @@
 <template lang="pug">
-  #app
-    b-navbar(variant="primary", type="dark", fixed="top")
-      b-navbar-brand.col-md-3 MCB Touring e.V.
-      b-collapse#nav-collapse(is-nav)
-        b-navbar-nav
-          b-nav-item(to="/adressen", active-class="active") Adressen
-          b-nav-item(to="/treffen", active-class="active") Treffen
+#app
+  b-navbar(variant="primary", type="dark", fixed="top")
+    b-navbar-brand.col-md-3 MCB Touring e.V.
+    b-collapse#nav-collapse(is-nav)
+      b-navbar-nav
+        b-nav-item(to="/adressen", active-class="active") Adressen
+        b-nav-item(to="/treffen", active-class="active") Treffen
 
-        b-navbar-nav.ml-auto
-          b-nav-form
-            b-button(href="/help.html", target="blank")
-              i.far.fa-question-circle
-              | #{' '} Hilfe
-    .container-fluid
-      .row
-        .col-12(style="padding-top: 64px")
-          router-view
+      b-navbar-nav.ml-auto
+        b-nav-form
+          b-button(href="/help.html", target="blank")
+            i.far.fa-question-circle
+            | #{' '} Hilfe
+  .container-fluid
+    .row
+      .col-12(style="padding-top: 64px")
+        router-view
 </template>
 
 <script lang="ts">

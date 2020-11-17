@@ -1,20 +1,28 @@
 <template lang="pug">
-  div
-    alert-box(v-model="transferStatus")
-    .row
-      .col-12
-        .page-header
-          h2 Treffen
-            form-buttons(:neu="onNew", :speichern="onSave", :kopieren="onCopy" :loeschen="onDelete", :reset="onReset", :changed="treffenDirty", :valid="true")
-          b-button-toolbar.float-right
-            .btn-group.btn-group-sm
-              mcb-button(@click="prepareSendEmails", text="E-Mails...", icon="far fa-paper-plane")
-              mcb-button(@click="createPDFs", text="Briefe...", icon="fas fa-envelope-open-text")
-    .row
-      nav.col-md-3
-        TreffenList
-      main.col-md-9
-        TreffenDetail(ref="detail", :treffen="treff")
+div
+  alert-box(v-model="transferStatus")
+  .row
+    .col-12
+      .page-header
+        h2 Treffen
+          form-buttons(
+            :neu="onNew",
+            :speichern="onSave",
+            :kopieren="onCopy",
+            :loeschen="onDelete",
+            :reset="onReset",
+            :changed="treffenDirty",
+            :valid="true"
+          )
+        b-button-toolbar.float-right
+          .btn-group.btn-group-sm
+            mcb-button(@click="prepareSendEmails", text="E-Mails...", icon="far fa-paper-plane")
+            mcb-button(@click="createPDFs", text="Briefe...", icon="fas fa-envelope-open-text")
+  .row
+    nav.col-md-3
+      TreffenList
+    main.col-md-9
+      TreffenDetail(ref="detail", :treffen="treff")
 </template>
 
 <script lang="ts">

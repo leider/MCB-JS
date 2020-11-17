@@ -1,27 +1,42 @@
 <template lang="pug">
-  div
-    alert-box(v-model="transferStatus")
-    .row
-      .col-12
-        .page-header
-          h2 Adressen
-            form-buttons(:neu="onNew", :speichern="onSave", :loeschen="onDelete", :reset="onReset", :changed="addressDirty", :valid="address.isValid()")
-          h4.float-right {{aktuelleZahlen.anzahl || "keine"}} Meldungen - Frühstück: {{aktuelleZahlen.Sa}} Sa, {{aktuelleZahlen.So}} So #{""}
-            mcb-button(v-b-modal.mailer-modal, text="E-Mails an Auswahl schicken...", icon="far fa-paper-plane", size="sm")
-            b-modal#mailer-modal(@ok="handleSendEmail", size="lg", centered, no-close-on-backdrop, ok-variant="success", cancel-title="Zurück", ok-title="Mails Senden")
-              template(v-slot:modal-header)
-                h3 Mail verfassen
-              .row
-                .col-12
-                  mcb-input(label="Subject", v-model="subject", placeholder="Hier das Subject angeben")
-                  b-form-group(label-for="emailText", label="Text")
-                    mcb-markdown(id="emailText", v-model="emailText", theme="primary")
+div
+  alert-box(v-model="transferStatus")
+  .row
+    .col-12
+      .page-header
+        h2 Adressen
+          form-buttons(
+            :neu="onNew",
+            :speichern="onSave",
+            :loeschen="onDelete",
+            :reset="onReset",
+            :changed="addressDirty",
+            :valid="address.isValid()"
+          )
+        h4.float-right {{ aktuelleZahlen.anzahl || 'keine' }} Meldungen - Frühstück: {{ aktuelleZahlen.Sa }} Sa, {{ aktuelleZahlen.So }} So #{""}
+          mcb-button(v-b-modal.mailer-modal, text="E-Mails an Auswahl schicken...", icon="far fa-paper-plane", size="sm")
+          b-modal#mailer-modal(
+            @ok="handleSendEmail",
+            size="lg",
+            centered,
+            no-close-on-backdrop,
+            ok-variant="success",
+            cancel-title="Zurück",
+            ok-title="Mails Senden"
+          )
+            template(v-slot:modal-header)
+              h3 Mail verfassen
+            .row
+              .col-12
+                mcb-input(label="Subject", v-model="subject", placeholder="Hier das Subject angeben")
+                b-form-group(label-for="emailText", label="Text")
+                  mcb-markdown#emailText(v-model="emailText", theme="primary")
 
-    .row
-      nav.col-md-3
-        AddressList
-      main.col-md-9
-        AddressDetail(ref="detail", :address="address")
+  .row
+    nav.col-md-3
+      AddressList
+    main.col-md-9
+      AddressDetail(ref="detail", :address="address")
 </template>
 
 <script lang="ts">

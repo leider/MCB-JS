@@ -1,6 +1,6 @@
 <template lang="pug">
-  b-alert( :show="!!value", dismissible, :variant="alertVariant" )
-    p {{alertMessage}}
+b-alert(:show="!!value", dismissible, :variant="alertVariant")
+  p {{ alertMessage }}
 </template>
 
 <script lang="ts">

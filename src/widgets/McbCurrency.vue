@@ -1,12 +1,19 @@
 <template lang="pug">
-  b-form-group(:label-for="$id('Currency')", :label="label")
-    b-input-group
-      b-form-input.text-right(:id="$id('Currency')", v-model="valueString",
-        :placeholder="placeholder", :required="required",
-        :disabled="disabled", @blur="focusLost",
-        step=0.01, :state="valid", type="text")
-      b-input-group-append: b-input-group-text €
-      .invalid-feedback Bitte eine deutsche Zahl eingeben
+b-form-group(:label-for="$id('Currency')", :label="label")
+  b-input-group
+    b-form-input.text-right(
+      :id="$id('Currency')",
+      v-model="valueString",
+      :placeholder="placeholder",
+      :required="required",
+      :disabled="disabled",
+      @blur="focusLost",
+      step=0.01,
+      :state="valid",
+      type="text"
+    )
+    b-input-group-append: b-input-group-text €
+    .invalid-feedback Bitte eine deutsche Zahl eingeben
 </template>
 
 <script lang="ts">

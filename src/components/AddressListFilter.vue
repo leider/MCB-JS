@@ -1,11 +1,11 @@
 <template lang="pug">
-  .row
-    .col-5
-      mcb-input(v-model="suchtext", placeholder="Suche nach ...")
-    .col-5
-      mcb-select(v-model="activeFilter", :options="alleFilter")
-    .col-2
-      b.form-text.text-right {{filteredAddresses.length}}
+.row
+  .col-5
+    mcb-input(v-model="suchtext", placeholder="Suche nach ...")
+  .col-5
+    mcb-select(v-model="activeFilter", :options="alleFilter")
+  .col-2
+    b.form-text.text-right {{ filteredAddresses.length }}
 </template>
 
 <script lang="ts">

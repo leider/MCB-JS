@@ -1,6 +1,6 @@
 <template lang="pug">
-  b-form-group(:label-for="$id('Datum')", :label="label")
-    b-form-datepicker(v-model="date", :id="$id('Datum')", locale="de", start-weekday="1")
+b-form-group(:label-for="$id('Datum')", :label="label")
+  b-form-datepicker(v-model="date", :id="$id('Datum')", locale="de", start-weekday="1")
 </template>
 
 <script lang="ts">

@@ -1,8 +1,7 @@
 <template lang="pug">
-  b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled", :size="size")
-    i(v-if="icon", :class="icon")
-    | #{' '} {{text}}
-
+b-button(v-on="$listeners", :variant="variantClass", :disabled="disabled", :size="size")
+  i(v-if="icon", :class="icon")
+  | #{' '} {{ text }}
 </template>
 
 <script lang="ts">

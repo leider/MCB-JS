@@ -12,13 +12,14 @@ builder
       mac: {
         artifactName: "${productName}.${ext}",
         electronLanguages: "de",
-        target: "dir"
-      }
-    }
+        target: "dir",
+        asar: false,
+      },
+    },
   })
   .then(() => {
     // handle result
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error);
   });

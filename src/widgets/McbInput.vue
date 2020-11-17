@@ -1,7 +1,15 @@
 <template lang="pug">
-  b-form-group(:label-for="$id('Input')", :label="label")
-    b-form-input(:id="$id('Input')", :value="value", :placeholder="placeholder", :required="required", @input="$emit('input', $event)", :state="valid", type="text")
-    .invalid-feedback Muss ausgefüllt werden
+b-form-group(:label-for="$id('Input')", :label="label")
+  b-form-input(
+    :id="$id('Input')",
+    :value="value",
+    :placeholder="placeholder",
+    :required="required",
+    @input="$emit('input', $event)",
+    :state="valid",
+    type="text"
+  )
+  .invalid-feedback Muss ausgefüllt werden
 </template>
 
 <script lang="ts">
