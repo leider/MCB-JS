@@ -12,6 +12,7 @@ builder
       win: {
         artifactName: "${productName}.${ext}",
         target: "dir",
+        asar: false,
       },
     },
   })
