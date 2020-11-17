@@ -11,13 +11,14 @@ builder
       files: ["build", "server", "index.js"],
       win: {
         artifactName: "${productName}.${ext}",
-        target: "dir"
-      }
-    }
+        target: "dir",
+        asar: false,
+      },
+    },
   })
   .then(() => {
     // handle result
   })
-  .catch(error => {
+  .catch((error) => {
     console.log(error);
   });
