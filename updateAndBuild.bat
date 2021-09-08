@@ -12,6 +12,6 @@ cls
 taskkill /IM MCB-APP.exe
 git checkout -- package-lock.json
 git pull
-call npm install
+call npm ci
 call npm run-script build
 node electron-build-win
