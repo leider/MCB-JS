@@ -11,7 +11,7 @@
         b-nav-form
           b-button(href="/help.html", target="blank")
             i.far.fa-question-circle
-            | #{' '} Hilfe
+            | #{ ' ' } Hilfe
   .container-fluid
     .row
       .col-12(style="padding-top: 64px")

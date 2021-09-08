@@ -1,5 +1,5 @@
 <template lang="pug">
-#treffen-detail(style="max-height:calc(100vh - 10rem);overflow-y: scroll;overflow-x: hidden")
+#treffen-detail(style="max-height: calc(100vh - 10rem); overflow-y: scroll; overflow-x: hidden")
   alert-box(v-model="transferStatus", :seconds="10")
   .row
     .col-12

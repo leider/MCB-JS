@@ -1,12 +1,27 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import "jest";
 import { mount } from "@vue/test-utils";
-// @ts-ignore
+
 import McbMarkdown from "../src/widgets/McbMarkdown.vue";
 
 describe("McbMarkdown.vue", () => {
-  test("isEmpty recognizes emptiness", () => {
-    const markdown = mount(McbMarkdown, { attachToDocument: true }).vm as McbMarkdown;
+  let markdown: McbMarkdown;
 
+  beforeEach(() => {
+    const div = document.createElement("div");
+    div.id = "root";
+    document.body.appendChild(div);
+    markdown = mount(McbMarkdown, { attachTo: "#root" }).vm as McbMarkdown;
+  });
+
+  afterEach(() => {
+    markdown.destroy();
+  });
+
+  test("isEmpty recognizes emptiness", () => {
     expect(markdown.isEmpty()).toBe(true);
     expect(markdown.isEmpty(null)).toBe(true);
     expect(markdown.isEmpty("")).toBe(true);
@@ -18,8 +33,6 @@ describe("McbMarkdown.vue", () => {
   });
 
   test("isUrl recognizes urls", () => {
-    const markdown = mount(McbMarkdown, { attachToDocument: true }).vm as McbMarkdown;
-
     expect(markdown.isUrl()).toBe(false);
     expect(markdown.isUrl("")).toBe(false);
     expect(markdown.isUrl("http://")).toBe(false);

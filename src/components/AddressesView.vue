@@ -13,7 +13,7 @@ div
             :changed="addressDirty",
             :valid="address.isValid()"
           )
-        h4.float-right {{ aktuelleZahlen.anzahl || 'keine' }} Meldungen - Frühstück: {{ aktuelleZahlen.Sa }} Sa, {{ aktuelleZahlen.So }} So #{""}
+        h4.float-right {{ aktuelleZahlen.anzahl || 'keine' }} Meldungen - Frühstück: {{ aktuelleZahlen.Sa }} Sa, {{ aktuelleZahlen.So }} So #{ "" }
           mcb-button(v-b-modal.mailer-modal, text="E-Mails an Auswahl schicken...", icon="far fa-paper-plane", size="sm")
           b-modal#mailer-modal(
             @ok="handleSendEmail",
